@@ -4,7 +4,9 @@ import Link from "next/link";
 import { db, schema } from "@/db";
 import { LEVEL_LABEL, LEVEL_STYLE } from "@/lib/levelLabels";
 import { CLARITY, SMELL } from "@/lib/logInput";
+import { MAINTENANCE_LABEL } from "@/lib/maintenanceInput";
 import { LogForm, type Preset } from "./LogForm";
+import { MaintenanceForm } from "./MaintenanceForm";
 
 export const dynamic = "force-dynamic";
 
@@ -55,6 +57,14 @@ export default function LogPage() {
         .orderBy(desc(schema.dailyLog.loggedAt)).limit(8).all()
     : [];
 
+  const maintenance = facility
+    ? db.select().from(schema.maintenanceEvent).where(eq(schema.maintenanceEvent.facilityId, facility.id))
+        .orderBy(desc(schema.maintenanceEvent.eventDate), desc(schema.maintenanceEvent.id)).limit(5).all()
+    : [];
+  const lastPipe = maintenance.find((e) => e.eventType === "pipe_cleaning");
+  const daysSince = (ymd: string) =>
+    Math.round((Date.parse(`${new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10)}T00:00:00Z`) - Date.parse(`${ymd}T00:00:00Z`)) / 86_400_000);
+
   const levelByLog = new Map(
     recent.length
       ? db.select().from(schema.detection).where(inArray(schema.detection.dailyLogId, recent.map((l) => l.id))).all()
@@ -98,6 +108,26 @@ export default function LogPage() {
             </li>
           ))}
         </ul>
+      </section>
+
+      <section className="space-y-3 border-t pt-6">
+        <h2 className="text-sm font-bold text-stone-700">設備メンテナンスの記録</h2>
+        <p className="text-xs text-stone-500">
+          引湯管の清掃などの日付を残すと、AI湯守が「前回から何日か」を点検に使います。
+          {lastPipe ? `前回の引湯管の清掃：${lastPipe.eventDate}（${daysSince(lastPipe.eventDate)}日前）` : "引湯管の清掃の記録はまだありません。"}
+        </p>
+        <MaintenanceForm />
+        {maintenance.length > 0 && (
+          <ul className="divide-y rounded-lg border bg-white text-sm">
+            {maintenance.map((e) => (
+              <li key={e.id} className="p-3">
+                <span className="font-medium">{e.eventDate}</span>　{MAINTENANCE_LABEL[e.eventType]}
+                {e.vendor && <span className="text-stone-600">・{e.vendor}</span>}
+                {e.note && <div className="text-stone-500">{e.note}</div>}
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
     </main>
   );

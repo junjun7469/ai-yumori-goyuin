@@ -101,3 +101,16 @@ export const goyuin = sqliteTable("goyuin", {
   snapshot: text("snapshot", { mode: "json" }).$type<Record<string, unknown> | null>(), // 丸正のみ
   ...timestamps,
 });
+
+export const MAINTENANCE_TYPES = ["pipe_cleaning", "tank_cleaning", "inspection", "repair", "other"] as const;
+
+/** 設備メンテナンス記録（引湯管清掃など）。変化検知が「前回の清掃から何日か」を読む */
+export const maintenanceEvent = sqliteTable("maintenance_event", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  facilityId: integer("facility_id").notNull().references(() => facility.id),
+  eventType: text("event_type", { enum: MAINTENANCE_TYPES }).notNull(),
+  eventDate: text("event_date").notNull(), // YYYY-MM-DD
+  vendor: text("vendor").notNull().default(""), // 業者
+  note: text("note").notNull().default(""),
+  ...timestamps,
+});

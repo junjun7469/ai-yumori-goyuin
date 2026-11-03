@@ -29,6 +29,13 @@
       "when": 1793689971358,
       "tag": "0003_detection_confidence",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1793691241720,
+      "tag": "0004_maintenance_event",
+      "breakpoints": true
     }
   ]
 }

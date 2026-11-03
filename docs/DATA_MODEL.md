@@ -84,6 +84,17 @@ SQLite + Drizzle。全テーブルに `created_at`, `updated_at`。模擬デー�
 | body_md | text | Markdown |
 | model | text | |
 
+### maintenance_event（設備メンテナンス記録）
+
+| 列 | 型 | 説明 |
+| --- | --- | --- |
+| id | integer PK | |
+| facility_id | FK | |
+| event_type | text | `pipe_cleaning`（引湯管清掃）/ `tank_cleaning`（貯湯槽清掃）/ `inspection`（点検）/ `repair`（修理）/ `other` |
+| event_date | text | YYYY-MM-DD |
+| vendor | text | 業者（空でよい） |
+| note | text | メモ |
+
 ### goyuin（御湯印の所持）
 
 | 列 | 型 | 説明 |
