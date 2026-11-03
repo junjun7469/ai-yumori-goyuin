@@ -33,12 +33,12 @@
     },
     {
       "id": "S04",
-      "title": "濁りが2日続く（雨なし）",
+      "title": "濁りが2日続く（雨なし・濁り単独なので様子見）",
       "logs": [
         { "day": -1, "temp_chamber_c": 91.0, "temp_bath_c": null, "flow_l_per_min": 184.5, "clarity": "cloudy", "smell": "normal", "weather": "sunny" },
         { "day": 0, "temp_chamber_c": 91.2, "temp_bath_c": null, "flow_l_per_min": 185.7, "clarity": "cloudy", "smell": "normal", "weather": "sunny" }
       ],
-      "expect": { "level": "check", "reasons_include": ["濁"] }
+      "expect": { "level": "watch", "reasons_include": ["濁"] }
     },
     {
       "id": "S05",
@@ -113,7 +113,7 @@
         { "day": -1, "temp_chamber_c": 90.9, "temp_bath_c": 40.5, "flow_l_per_min": 183.0, "clarity": "clear", "smell": "normal", "weather": "snow" },
         { "day": 0, "temp_chamber_c": 90.7, "temp_bath_c": 37.8, "flow_l_per_min": 180.0, "clarity": "clear", "smell": "normal", "weather": "snow" }
       ],
-      "expect": { "level": "check", "reasons_include": ["38"] }
+      "expect": { "level": "check", "reasons_include": ["38"], "first_reason_includes": ["R3"] }
     },
     {
       "id": "S13",
@@ -141,12 +141,12 @@
     {
       "id": "S15",
       "origin": "field",
-      "title": "保温シート未実施の記録（冬季・来客前）",
+      "title": "保温シート未実施の記録（冬季・来客前。浴槽40.1℃は41℃未満で要確認）",
       "context": { "season": "winter" },
       "logs": [
         { "day": 0, "temp_chamber_c": 91.0, "temp_bath_c": 40.1, "flow_l_per_min": 185.0, "clarity": "clear", "smell": "normal", "weather": "sunny", "actions": "保温シートなし", "note": "朝の時点でシート未使用" }
       ],
-      "expect": { "level": "watch", "next_checks_include": ["保温シート"] }
+      "expect": { "level": "check", "next_checks_include": ["保温シート"] }
     },
     {
       "id": "S16",
@@ -156,7 +156,7 @@
         { "day": -1, "temp_chamber_c": 90.5, "temp_bath_c": 41.0, "flow_l_per_min": 170.0, "clarity": "clear", "smell": "normal", "weather": "sunny", "actions": "業者による引湯管清掃" },
         { "day": 0, "temp_chamber_c": 91.2, "temp_bath_c": 42.9, "flow_l_per_min": 186.0, "clarity": "slightly_cloudy", "smell": "normal", "weather": "sunny" }
       ],
-      "expect": { "level": "normal", "reasons_include": ["清掃"] }
+      "expect": { "level": "watch", "reasons_include": ["清掃"], "next_checks_include": ["メンテナンス"] }
     },
     {
       "id": "S17",
