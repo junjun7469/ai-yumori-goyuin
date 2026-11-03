@@ -3,7 +3,9 @@
 // level / reasons / next_checks / 説明 / confidence を構造化して返させる。
 // 湯守の判断を置き換えるものではない。結果は「要確認」「管理者の確認を」の言い回しにとどめる。
 import Anthropic from "@anthropic-ai/sdk";
+import { MAINTENANCE_LABEL } from "./maintenanceInput";
 import { DETECTION_EFFORT, DETECTION_MODEL } from "./models";
+import type { YumoriRule } from "./yumoriRules";
 
 export const LEVELS = ["normal", "watch", "check"] as const;
 export type Level = (typeof LEVELS)[number];
@@ -37,6 +39,8 @@ export type DetectionRun = {
   usage: { requests: number; input_tokens: number; output_tokens: number };
 };
 
+export type MaintenanceEventRecord = { type: string; date: string; vendor: string; note: string }; // date は YYYY-MM-DD
+
 /** 検知に必要なデータの取得口。本番は DB、eval は scenarios.json から実装する */
 export interface DetectionContext {
   facility: string;
@@ -44,6 +48,10 @@ export interface DetectionContext {
   baseline: { chamberTempC: number; flowLPerMin: number; raw: Record<string, unknown> };
   /** 対象の日誌を含む直近 days 日分、古い順 */
   getRecentLogs(days: number): LogRecord[];
+  /** 設備メンテナンス記録（引湯管清掃など）。新しい順でなくてよい */
+  getMaintenanceEvents(): MaintenanceEventRecord[];
+  /** この施設の湯守が定めた判断基準（data/yumori_rules.json） */
+  rules: YumoriRule[];
 }
 
 // ---- 基準と季節 ----------------------------------------------------------
@@ -98,13 +106,14 @@ export function missingPhrases(r: DetectionResult): string[] {
 
 // ---- プロンプト ----------------------------------------------------------
 
-export const SYSTEM_PROMPT = `あなたは熊本・杖立温泉の丸正旅館で、湯守を補助する「AI湯守」です。湯日誌が1件保存されるたびに、湯の状態に変化がないかを点検します。あなたの役目は変化を見つけて知らせることで、原因の断定や、湯守の判断を置き換えることではありません。
+const SYSTEM_PROMPT_HEAD = `あなたは熊本・杖立温泉の丸正旅館で、湯守を補助する「AI湯守」です。湯日誌が1件保存されるたびに、湯の状態に変化がないかを点検します。あなたの役目は変化を見つけて知らせることで、原因の断定や、湯守の判断を置き換えることではありません。
 
 # 手順
 1. get_baseline で分析書の基準値と判定の目安を読む。
 2. get_recent_logs（days=14）で直近の日誌を読む。数字の基準との差は計算済みなので、それを使う。
-3. 雨・雪など天候が関係していそうなときだけ get_weather を使う。
-4. 最後に必ず report_detection を1回呼んで結果を返す。ツールを使わずに文章だけで答えない。
+3. get_maintenance_events で設備メンテナンス記録（引湯管の清掃など）を読む。
+4. 雨・雪など天候が関係していそうなときだけ get_weather を使う。
+5. 最後に必ず report_detection を1回呼んで結果を返す。ツールを使わずに文章だけで答えない。
 
 # level の決め方（上から当てはまる最も重いものを選ぶ）
 check（要確認）:
@@ -123,15 +132,39 @@ normal（平常）: 上のどれにも当たらない。
 
 数字が未入力（null）の項目は「測っていない」だけで、異常ではない。その項目では判断しない。分析書の pH などの要確認事項は日次の判定には使わない。浴槽温度の目標は冬季のみ決まっていて、冬季以外は浴槽温度だけで check にしない。
 
-# 書き方
+`;
+
+const SYSTEM_PROMPT_TAIL = `# 書き方
 - reasons：根拠を短い日本語で。ツールで得た数字だけを引用し、推測の数字を作らない。check/watch では1つ以上。
 - next_checks：「湯守なら次に見ること」を具体的な行動で2〜4個。例）湯量が減っているとき：引湯管の詰まりの目視、貯湯槽の水位、共同泉源側の変化を組合に確認。浴槽温度が高い・低いとき：加水の量と加水バルブ、浴槽の循環・給湯の設定。濁り：配管・浴槽の清掃状況、直前の雨や作業。匂い：換気、配管、硫化水素臭の程度を複数人で確認。normal のときは空の配列でよい。
 - explanation_pro：湯守向け。専門用語を使ってよい。2〜4文。
 - explanation_guest：宿泊者向け。やさしい言葉で1〜2文。不安をあおらず、断定もしない。
 - confidence：判断の確からしさ（low / medium / high）。データが少ない、または欠けているときは low か medium。
 - check と watch のときは、reasons や説明に「要確認」と「管理者の確認を」という言い回しを入れる。
-- 次の語は使わない：効く、効き、効能、効果、治る、治す、治癒、安全、保証。医療的な効能や安全性を述べない。「異常」「危険」と断定しない。
+- 次の語は使わない：効く、効き、効能、効果、治る、治す、治癒、安全、保証。医療的な効能や安全性を述べない。「異常」「危険」と断定しない（湯守の判断基準の文言をそのまま引用する場合を除く）。
 - 丸正旅館の計測値は模擬データを含む。実測と断定しない。`;
+
+/** この施設の湯守が定めた判断基準を、現場由来を先にして渡す */
+export function rulesSection(rules: YumoriRule[]): string {
+  if (rules.length === 0) return "";
+  const ordered = [...rules].sort((a, b) => Number(b.origin === "field") - Number(a.origin === "field"));
+  const lines = ordered.map((r) => `- ${r.id}（${r.origin === "field" ? "現場由来" : "想定"}）：${r.rule}`);
+  return `# この施設の湯守が定めた判断基準
+次は、この施設の湯守が定めた判断基準です。一般論より優先してください。
+${lines.join("\n")}
+
+使い方：
+- 日誌やメンテナンス記録の事実が判断基準に当てはまるとき、reasons に「湯守の判断基準（R1）：…」の形で番号つきで引用し、その基準に沿って確認すべきことを next_checks に入れる。
+- 「現場由来」は湯守自身の経験で、最優先で引用する。「想定」は現場由来から派生させた想定なので、引用するときは「想定の基準」と添える。
+- 判断基準に反する事実は少なくとも watch。基準が「危険信号」のように明確な線を示している状態や、他の check 条件と重なる場合は check。
+- 引湯管の清掃時期は get_maintenance_events の days_ago で判断する（前回から約90日を超えていれば当たる）。記録が無いときは「記録なし」と書き、超過とは断定しない。
+
+`;
+}
+
+export function buildSystemPrompt(rules: YumoriRule[]): string {
+  return SYSTEM_PROMPT_HEAD + rulesSection(rules) + SYSTEM_PROMPT_TAIL;
+}
 
 // ---- ツール ------------------------------------------------------------
 
@@ -166,6 +199,12 @@ export const TOOLS: Anthropic.Tool[] = [
     },
   },
   {
+    name: "get_maintenance_events",
+    description: "設備メンテナンス記録（引湯管の清掃・点検・修理など）を新しい順で返す。各記録の days_ago は今回の日誌の日付からの経過日数。last_pipe_cleaning は前回の引湯管清掃（無ければ null）。",
+    strict: true,
+    input_schema: { type: "object", properties: { facility: { type: "string" } }, required: ["facility"], ...noExtra },
+  },
+  {
     name: "report_detection",
     description: "判定結果を報告する。最後に必ず1回だけ呼ぶ。",
     strict: true,
@@ -185,9 +224,9 @@ export const TOOLS: Anthropic.Tool[] = [
   },
 ];
 
-function runReadTool(ctx: DetectionContext, name: string, input: Record<string, unknown>): { content: string; isError?: boolean } {
+function runReadTool(ctx: DetectionContext, name: string, input: Record<string, unknown>, asOf: string): { content: string; isError?: boolean } {
   const facility = String(input.facility ?? ctx.facility);
-  if ((name === "get_baseline" || name === "get_recent_logs") && facility !== ctx.facility) {
+  if ((name === "get_baseline" || name === "get_recent_logs" || name === "get_maintenance_events") && facility !== ctx.facility) {
     return { content: `施設「${facility}」のデータはありません。対応しているのは「${ctx.facility}」のみです。`, isError: true };
   }
   if (name === "get_baseline") {
@@ -208,6 +247,15 @@ function runReadTool(ctx: DetectionContext, name: string, input: Record<string, 
     const days = Math.min(14, Math.max(1, Number(input.days) || 14));
     const logs = ctx.getRecentLogs(days);
     return { content: JSON.stringify({ days, count: logs.length, logs: logs.map((l, i) => logView(l, ctx.baseline, i === logs.length - 1)) }) };
+  }
+  if (name === "get_maintenance_events") {
+    const daysAgo = (d: string) => Math.round((Date.parse(`${asOf}T00:00:00Z`) - Date.parse(`${d}T00:00:00Z`)) / 86_400_000);
+    const events = [...ctx.getMaintenanceEvents()]
+      .filter((e) => e.date <= asOf) // 日誌の日付より後の記録は、その時点では存在しない
+      .sort((a, b) => b.date.localeCompare(a.date))
+      .map((e) => ({ type: e.type, type_label: (MAINTENANCE_LABEL as Record<string, string>)[e.type] ?? e.type, date: e.date, days_ago: daysAgo(e.date), vendor: e.vendor, note: e.note }));
+    const lastPipe = events.find((e) => e.type === "pipe_cleaning");
+    return { content: JSON.stringify({ as_of: asOf, count: events.length, events, last_pipe_cleaning: lastPipe ? { date: lastPipe.date, days_ago: lastPipe.days_ago } : null }) };
   }
   if (name === "get_weather") {
     const date = String(input.date ?? "");
@@ -236,6 +284,8 @@ export async function runDetection(
 ): Promise<DetectionRun> {
   const client: ClientLike = opts.client ?? new Anthropic({ timeout: 60_000 });
   const maxRequests = opts.maxRequests ?? 8;
+  const systemPrompt = buildSystemPrompt(ctx.rules);
+  const asOf = ymdOf(target.logged_at);
   const view = logView(target, ctx.baseline, true);
   const messages: Anthropic.MessageParam[] = [{
     role: "user",
@@ -251,7 +301,7 @@ export async function runDetection(
       model: DETECTION_MODEL,
       max_tokens: 8000,
       output_config: { effort: DETECTION_EFFORT },
-      system: SYSTEM_PROMPT,
+      system: systemPrompt,
       tools: TOOLS,
       messages,
     });
@@ -277,7 +327,7 @@ export async function runDetection(
     for (const use of uses) {
       toolCalls.push(use.name);
       if (use.name !== "report_detection") {
-        const r = runReadTool(ctx, use.name, (use.input ?? {}) as Record<string, unknown>);
+        const r = runReadTool(ctx, use.name, (use.input ?? {}) as Record<string, unknown>, asOf);
         results.push({ type: "tool_result", tool_use_id: use.id, content: r.content, ...(r.isError ? { is_error: true } : {}) });
         continue;
       }

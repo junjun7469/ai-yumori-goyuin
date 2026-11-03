@@ -2,9 +2,10 @@
 import type Anthropic from "@anthropic-ai/sdk";
 import { describe, expect, it } from "vitest";
 import {
-  baselineFromSheet, findForbiddenTerms, isWinter, logView, missingPhrases, runDetection,
-  type ClientLike, type DetectionContext, type DetectionResult, type LogRecord,
+  baselineFromSheet, buildSystemPrompt, findForbiddenTerms, isWinter, logView, missingPhrases, runDetection,
+  type ClientLike, type DetectionContext, type DetectionResult, type LogRecord, type MaintenanceEventRecord,
 } from "./detection";
+import type { YumoriRule } from "./yumoriRules";
 
 const baseline = baselineFromSheet({
   source_name: "杖立温泉", analyzed_at: "2014-02-25", spring_type: "ナトリウム－塩化物温泉",
@@ -14,7 +15,13 @@ const log = (o: Partial<LogRecord> = {}): LogRecord => ({
   logged_at: "2027-01-15T07:30:00+09:00", temp_chamber_c: 91.0, temp_bath_c: 46.0, flow_l_per_min: 185.0,
   clarity: "clear", smell: "normal", actions: "", note: "", weather: "sunny", ...o,
 });
-const ctx = (logs: LogRecord[]): DetectionContext => ({ facility: "丸正旅館", baseline, getRecentLogs: () => logs });
+const rules: YumoriRule[] = [
+  { id: "R9", origin: "hypothetical", rule: "想定のルール" },
+  { id: "R1", origin: "field", rule: "浴槽温度が40℃を切ると湯量が減る" },
+];
+const ctx = (logs: LogRecord[], events: MaintenanceEventRecord[] = []): DetectionContext => ({
+  facility: "丸正旅館", baseline, getRecentLogs: () => logs, getMaintenanceEvents: () => events, rules,
+});
 
 const good: DetectionResult = {
   level: "check", reasons: ["浴槽温度が冬季目標 43℃ より +3.0℃ で要確認"], next_checks: ["加水の量を確認"],
@@ -121,5 +128,41 @@ describe("runDetection（偽クライアント）", () => {
     await runDetection(ctx([log()]), log(), { client: c });
     const tr = (c.calls[1].messages.at(-1)!.content as Anthropic.ToolResultBlockParam[])[0];
     expect(tr.is_error).toBe(true);
+  });
+});
+
+describe("湯守の判断基準とメンテナンス記録", () => {
+  it("判断基準をプロンプトに入れ、現場由来(field)を先に並べる", () => {
+    const p = buildSystemPrompt(rules);
+    expect(p).toContain("この施設の湯守が定めた判断基準");
+    expect(p.indexOf("R1（現場由来）")).toBeGreaterThan(-1);
+    expect(p.indexOf("R1（現場由来）")).toBeLessThan(p.indexOf("R9（想定）"));
+    expect(buildSystemPrompt([])).not.toContain("この施設の湯守が定めた判断基準");
+  });
+  it("リクエストの system に判断基準が渡る", async () => {
+    const c = fake([use("t1", "report_detection", good)]);
+    await runDetection(ctx([log()]), log(), { client: c });
+    expect(String(c.calls[0].system)).toContain("R1（現場由来）：浴槽温度が40℃を切ると湯量が減る");
+    expect((c.calls[0].tools ?? []).map((t) => (t as { name: string }).name)).toContain("get_maintenance_events");
+  });
+  it("get_maintenance_events は経過日数と前回の引湯管清掃を返し、未来の記録は含めない", async () => {
+    const events: MaintenanceEventRecord[] = [
+      { type: "pipe_cleaning", date: "2026-10-10", vendor: "〇〇設備", note: "" }, // 97日前(2027-01-15 基準)
+      { type: "inspection", date: "2026-12-20", vendor: "", note: "" },
+      { type: "pipe_cleaning", date: "2027-02-01", vendor: "", note: "" }, // 未来
+    ];
+    const c = fake([use("t1", "get_maintenance_events", { facility: "丸正旅館" })], [use("t2", "report_detection", good)]);
+    await runDetection(ctx([log()], events), log(), { client: c });
+    const tr = (c.calls[1].messages.at(-1)!.content as Anthropic.ToolResultBlockParam[])[0];
+    const r = JSON.parse(tr.content as string);
+    expect(r.count).toBe(2);
+    expect(r.last_pipe_cleaning).toEqual({ date: "2026-10-10", days_ago: 97 });
+    expect(r.events[0].type_label).toBe("点検");
+  });
+  it("記録が無いときは last_pipe_cleaning が null", async () => {
+    const c = fake([use("t1", "get_maintenance_events", { facility: "丸正旅館" })], [use("t2", "report_detection", good)]);
+    await runDetection(ctx([log()]), log(), { client: c });
+    const tr = (c.calls[1].messages.at(-1)!.content as Anthropic.ToolResultBlockParam[])[0];
+    expect(JSON.parse(tr.content as string).last_pipe_cleaning).toBeNull();
   });
 });

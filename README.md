@@ -14,6 +14,11 @@
 - 47温泉地の泉質は代表的な分類のみ。数値は出典のあるものだけ表示します
 - 本プロジェクトは医療効果・安全性を保証するものではありません。湯の管理は施設の管理者の判断を前提にしています
 
+## 湯守の判断基準と評価セットの出典
+
+- `data/yumori_rules.json`：この施設の湯守が定めた判断基準。`origin: field` は湯守の実体験・判断基準、`hypothetical` はそこから派生させた想定。AI湯守の点検では field を優先して引用します
+- `eval/scenarios.json`：変化検知の評価セット（20件）。S11〜S15 は現場由来（field）、S16〜S20 は想定（hypothetical）、S01〜S10 は初期の想定。両者は混同せず区別して扱います
+
 ## セットアップ（初稿、実装後に更新）
 
 ```
@@ -23,5 +28,5 @@ npm run sim    # 模擬計測データを生成（data/maruso_daily_sim.json）
 npm run seed   # DB 初期化と投入
 npm run dev    # http://localhost:3000/dashboard/log
 npm run check:api   # Claude API への接続確認（1回だけ小さく呼ぶ）
-npm run eval -- --only S01,S02   # 変化検知の評価（Claude API を使う。引数なしで全件）
+npm run eval -- --only S01,S02   # 変化検知の評価（Claude API を使う。引数なしで全20件）
 ```

@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { and, eq, gte, lte, asc } from "drizzle-orm";
 import { db, schema } from "@/db";
 import { baselineFromSheet, type DetectionContext, type LogRecord } from "./detection";
+import { loadYumoriRules } from "./yumoriRules";
 
 const DAY = 24 * 3600 * 1000;
 const toJst = (d: Date) => new Date(d.getTime() + 9 * 3600 * 1000).toISOString().slice(0, 19) + "+09:00";
@@ -24,6 +25,11 @@ export function createDbContext(facilityId: number, facilityName: string, target
   return {
     facility: facilityName,
     baseline: baselineFromSheet(raw),
+    rules: loadYumoriRules(),
+    getMaintenanceEvents() {
+      return db.select().from(schema.maintenanceEvent).where(eq(schema.maintenanceEvent.facilityId, facilityId)).all()
+        .map((e) => ({ type: e.eventType, date: e.eventDate, vendor: e.vendor, note: e.note }));
+    },
     getRecentLogs(days) {
       const jstDay = toJst(target.loggedAt).slice(0, 10);
       const from = new Date(new Date(`${jstDay}T00:00:00+09:00`).getTime() - (days - 1) * DAY);
