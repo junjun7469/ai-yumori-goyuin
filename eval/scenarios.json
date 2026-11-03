@@ -1,0 +1,103 @@
+{
+  "description": "変化検知の評価セット。各シナリオは直近の湯日誌（模擬）を与え、期待する level と reasons に含まれるべきキーワードを定義する。npm run eval で合格率を出す。小野の現場感覚を追加して 20 件まで増やす。",
+  "baseline": "data/maruso_analysis_2014.json",
+  "scenarios": [
+    {
+      "id": "S01",
+      "title": "平常",
+      "logs": [
+        { "day": -2, "temp_c": 90.8, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "sunny" },
+        { "day": -1, "temp_c": 91.2, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "sunny" },
+        { "day": 0, "temp_c": 91.0, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "sunny" }
+      ],
+      "expect": { "level": "normal" }
+    },
+    {
+      "id": "S02",
+      "title": "湯量が3日連続で少なめ",
+      "logs": [
+        { "day": -2, "temp_c": 91.0, "point": "source", "flow_level": "less", "clarity": "clear", "smell": "normal", "weather": "sunny" },
+        { "day": -1, "temp_c": 90.9, "point": "source", "flow_level": "less", "clarity": "clear", "smell": "normal", "weather": "sunny" },
+        { "day": 0, "temp_c": 90.7, "point": "source", "flow_level": "less", "clarity": "clear", "smell": "normal", "weather": "sunny" }
+      ],
+      "expect": { "level": "check", "reasons_include": ["湯量"], "next_checks_include": ["引湯"] }
+    },
+    {
+      "id": "S03",
+      "title": "降雨翌日の一時的な濁り（天候で説明できる）",
+      "logs": [
+        { "day": -1, "temp_c": 91.1, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "heavy_rain" },
+        { "day": 0, "temp_c": 90.6, "point": "source", "flow_level": "more", "clarity": "slightly_cloudy", "smell": "normal", "weather": "rain" }
+      ],
+      "expect": { "level": "watch", "reasons_include": ["雨"] }
+    },
+    {
+      "id": "S04",
+      "title": "濁りが2日続く（雨なし）",
+      "logs": [
+        { "day": -1, "temp_c": 91.0, "point": "source", "flow_level": "normal", "clarity": "cloudy", "smell": "normal", "weather": "sunny" },
+        { "day": 0, "temp_c": 91.2, "point": "source", "flow_level": "normal", "clarity": "cloudy", "smell": "normal", "weather": "sunny" }
+      ],
+      "expect": { "level": "check", "reasons_include": ["濁"] }
+    },
+    {
+      "id": "S05",
+      "title": "匂いが違う",
+      "logs": [
+        { "day": 0, "temp_c": 91.3, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "different", "weather": "sunny" }
+      ],
+      "expect": { "level": "check", "reasons_include": ["匂"] }
+    },
+    {
+      "id": "S06",
+      "title": "温度が基準から -10% 超（源泉）",
+      "logs": [
+        { "day": -1, "temp_c": 90.5, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "sunny" },
+        { "day": 0, "temp_c": 81.0, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "sunny" }
+      ],
+      "expect": { "level": "check", "reasons_include": ["温度"] }
+    },
+    {
+      "id": "S07",
+      "title": "冬季の緩やかな温度低下（季節で説明できる）",
+      "logs": [
+        { "day": -3, "temp_c": 89.5, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "snow" },
+        { "day": -2, "temp_c": 89.2, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "snow" },
+        { "day": -1, "temp_c": 89.0, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "sunny" },
+        { "day": 0, "temp_c": 88.8, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "sunny" }
+      ],
+      "expect": { "level": "watch" }
+    },
+    {
+      "id": "S08",
+      "title": "浴槽温度が高すぎる（加水不足）",
+      "logs": [
+        { "day": 0, "temp_c": 46.0, "point": "bath", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "sunny", "actions": "加水なし" }
+      ],
+      "expect": { "level": "check", "reasons_include": ["浴槽"], "next_checks_include": ["加水"] }
+    },
+    {
+      "id": "S09",
+      "title": "作業記録に清掃あり、一時的に濁り",
+      "logs": [
+        { "day": 0, "temp_c": 91.0, "point": "source", "flow_level": "normal", "clarity": "slightly_cloudy", "smell": "normal", "weather": "sunny", "actions": "貯湯槽清掃" }
+      ],
+      "expect": { "level": "watch", "reasons_include": ["清掃"] }
+    },
+    {
+      "id": "S10",
+      "title": "湯量が増えて温度が下がる（混入の可能性）",
+      "logs": [
+        { "day": -1, "temp_c": 91.0, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "sunny" },
+        { "day": 0, "temp_c": 86.0, "point": "source", "flow_level": "more", "clarity": "clear", "smell": "normal", "weather": "sunny" }
+      ],
+      "expect": { "level": "check", "reasons_include": ["湯量", "温度"] }
+    }
+  ],
+  "todo_from_owner": [
+    "冬場に本当に起きる変化を 3 件",
+    "雨の後に起きる変化を 2 件",
+    "過去に実際にあったトラブルを 2 件（個人情報は除く）",
+    "湯守が『これは危ない』と判断する兆候を 3 件"
+  ]
+}

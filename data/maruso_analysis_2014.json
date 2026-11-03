@@ -1,0 +1,47 @@
+{
+  "facility": "丸正旅館",
+  "applicant_address": "阿蘇郡小国町杖立3397",
+  "source_name": "杖立温泉（ひごや協同泉源）",
+  "source_location": "阿蘇郡小国町大字下城3393-1",
+  "certificate_no": "第K13108663号",
+  "sampled_at": "2014-02-13",
+  "analyzed_at": "2014-02-25",
+  "lab": "株式会社同仁グローカル",
+  "spring_type": "ナトリウム－塩化物温泉",
+  "spring_type_old": "含塩化土類食塩泉",
+  "classification": { "osmotic": "低張性", "ph_class": "弱酸性", "temp_class": "高温泉" },
+  "field": {
+    "temp_c": 91.5,
+    "air_temp_c": 12.0,
+    "flow_l_per_min": 185.7,
+    "flow_method": "計量",
+    "appearance": "無色透明・無味・無臭・微弱硫化水素臭",
+    "ph": { "value": 2.01, "needs_verification": true, "note": "画像上の読み取り。泉質分類『弱酸性』（指針上 pH 3〜6）と整合しないため原本で確認" },
+    "ec_ms_per_cm_25c": 0.464,
+    "ec_ms_per_cm_20c": 0.539
+  },
+  "lab_results": {
+    "appearance": "無色透明・強い酸味・微弱塩化水素臭",
+    "density_g_per_cm3_20c": 1.0001,
+    "ph": { "value": 1.87, "needs_verification": true },
+    "evaporation_residue_g_per_kg_110c": 1.734
+  },
+  "cations_mg": { "Li": 0.7, "Na": 181.8, "K": 18.1, "NH4": 5.3, "Ca": 43.7, "Sr": 0.1, "total": 249.7 },
+  "cations_mval": { "Li": 0.10, "Na": 7.91, "K": 0.46, "NH4": 0.30, "Ca": 2.18, "Sr": 0.01, "total": 10.96 },
+  "anions_mg": { "OH": 0.2, "F": 1.7, "Cl": 542.4, "Br": 2.1, "I": 0.5, "HSO4": 0.5, "SO4": 112.7, "HCO3": 1.8, "total": 661.9 },
+  "anions_mval": { "OH": 0.01, "F": 0.09, "Cl": 23.76, "Br": 0.03, "I": 0.00, "HSO4": 0.01, "SO4": 2.35, "HCO3": 0.03, "total": 26.27 },
+  "non_dissociated_mg": { "H2SiO3": 116.1, "HBO2": 98.3, "HAsO2": null, "total": 214.4 },
+  "dissolved_gas_mg": { "CO2": "<0.1", "H2S": null },
+  "trace_not_detected_mg_per_l_lt": 0.1,
+  "therapeutic_components_note": "含有成分（ガス性のものを除く）1.74g（1g以上）、リチウムイオン 1.3mg（1mg以上）、フッ素イオン 1.0mg（1mg以上）、メタケイ酸 116.1mg（50mg以上）",
+  "needs_verification": [
+    "pH（現地 2.01 / 試験室 1.87）が泉質分類『弱酸性』と整合しない。原本で桁・小数点を確認",
+    "陽イオンの mval% 合計が 11.68、陰イオンが 94.09 と読める（各群で 100% になるはず）。原本で確認",
+    "Li が成分表では 0.7mg、下段の含有成分欄では 1.3mg。原本で確認",
+    "F が成分表では 1.7mg、下段では 1.0mg。原本で確認",
+    "分析日から 10 年以上経過。再分析の時期を施設に確認（断定しない）"
+  ],
+  "source_note": "本温泉分析値に記載のある数値は分析値であり、浴槽における分析値と必ずしも一致するものではありません",
+  "digitized_from": "温泉分析書（画像）。読み取りは Claude、原本未照合",
+  "digitized_at": "2026-11-03"
+}
