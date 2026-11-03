@@ -19,6 +19,7 @@
 ```
 cp .env.example .env   # APIキーを記入
 npm install
-npm run seed
-npm run dev
+npm run sim    # 模擬計測データを生成（data/maruso_daily_sim.json）
+npm run seed   # DB 初期化と投入
+npm run dev    # http://localhost:3000/dashboard/log
 ```
