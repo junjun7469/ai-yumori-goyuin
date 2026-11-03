@@ -12,7 +12,10 @@ const today = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
 const endDate = arg("end") ?? today;
 const days = Number(arg("days") ?? 60);
 
-const { logs, anomalies } = generateSimLogs({ endDate, days });
+const generated = generateSimLogs({ endDate, days });
+// 終了日が今日のとき、まだ来ていない時刻（深夜の記録など）は出さない
+const logs = generated.logs.filter((l) => new Date(l.logged_at).getTime() <= Date.now());
+const anomalies = generated.anomalies;
 const out = {
   is_simulated: true,
   notice: "これは模擬データです。分析書（2014-02）の値を基準に ±10% 以内で生成したもので、丸正旅館の実測値ではありません。",

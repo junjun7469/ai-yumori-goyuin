@@ -77,6 +77,7 @@ export const detection = sqliteTable("detection", {
   nextChecks: text("next_checks", { mode: "json" }).notNull().$type<string[]>(),
   explanationPro: text("explanation_pro").notNull(),
   explanationGuest: text("explanation_guest").notNull(),
+  confidence: text("confidence", { enum: ["low", "medium", "high"] }),
   model: text("model").notNull(),
   ...timestamps,
 });

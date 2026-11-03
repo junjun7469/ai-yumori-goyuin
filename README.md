@@ -22,4 +22,6 @@ npm install
 npm run sim    # 模擬計測データを生成（data/maruso_daily_sim.json）
 npm run seed   # DB 初期化と投入
 npm run dev    # http://localhost:3000/dashboard/log
+npm run check:api   # Claude API への接続確認（1回だけ小さく呼ぶ）
+npm run eval -- --only S01,S02   # 変化検知の評価（Claude API を使う。引数なしで全件）
 ```

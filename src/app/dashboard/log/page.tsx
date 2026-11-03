@@ -1,7 +1,8 @@
 import { readFileSync } from "node:fs";
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq, inArray, lte } from "drizzle-orm";
 import Link from "next/link";
 import { db, schema } from "@/db";
+import { LEVEL_LABEL, LEVEL_STYLE } from "@/lib/levelLabels";
 import { CLARITY, SMELL } from "@/lib/logInput";
 import { LogForm, type Preset } from "./LogForm";
 
@@ -50,9 +51,16 @@ const fmt = new Intl.DateTimeFormat("ja-JP", {
 export default function LogPage() {
   const facility = db.select().from(schema.facility).where(eq(schema.facility.name, "丸正旅館")).get();
   const recent = facility
-    ? db.select().from(schema.dailyLog).where(eq(schema.dailyLog.facilityId, facility.id))
+    ? db.select().from(schema.dailyLog).where(and(eq(schema.dailyLog.facilityId, facility.id), lte(schema.dailyLog.loggedAt, new Date())))
         .orderBy(desc(schema.dailyLog.loggedAt)).limit(8).all()
     : [];
+
+  const levelByLog = new Map(
+    recent.length
+      ? db.select().from(schema.detection).where(inArray(schema.detection.dailyLogId, recent.map((l) => l.id))).all()
+          .map((d) => [d.dailyLogId, d.level] as const)
+      : [],
+  );
 
   return (
     <main className="mx-auto max-w-md space-y-6 p-4 pb-16">
@@ -75,6 +83,11 @@ export default function LogPage() {
                 <span className={`rounded px-1.5 py-0.5 text-[10px] font-bold ${l.isSimulated ? "bg-amber-100 text-amber-900" : "bg-emerald-100 text-emerald-900"}`}>
                   {l.isSimulated ? "模擬データ" : "入力した記録"}
                 </span>
+                {levelByLog.has(l.id) && (
+                  <span className={`rounded border px-1.5 py-0.5 text-[10px] font-bold ${LEVEL_STYLE[levelByLog.get(l.id)!]}`}>
+                    {LEVEL_LABEL[levelByLog.get(l.id)!]}
+                  </span>
+                )}
               </div>
               <div className="text-stone-600">
                 チャンバー {l.tempChamberC ?? "—"}℃ ・ 浴槽 {l.tempBathC ?? "—"}℃ ・ 湯量 {l.flowLPerMin ?? "—"} L/分

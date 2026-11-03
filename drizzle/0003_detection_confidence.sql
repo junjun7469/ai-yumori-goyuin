@@ -1,0 +1,1 @@
+ALTER TABLE `detection` ADD `confidence` text;

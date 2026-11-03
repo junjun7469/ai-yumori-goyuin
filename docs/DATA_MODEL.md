@@ -70,6 +70,7 @@ SQLite + Drizzle。全テーブルに `created_at`, `updated_at`。模擬デー�
 | next_checks | json | 「湯守なら次に見ること」配列 |
 | explanation_pro | text | 湯守向けの説明 |
 | explanation_guest | text | 宿泊者向けの説明 |
+| confidence | text nullable | `low` / `medium` / `high`（モデルの自己申告。参考値） |
 | model | text | 使ったモデル名 |
 | created_at | datetime | |
 

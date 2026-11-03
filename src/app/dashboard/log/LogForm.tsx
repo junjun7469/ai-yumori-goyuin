@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BASELINE_HINT, CLARITY, SMELL, WEATHER } from "@/lib/logInput";
+import { DetectionCard, type DetectionView } from "./DetectionCard";
 
 type Values = {
   tempChamberC: string; tempBathC: string; flowLPerMin: string; clarity: string; smell: string;
@@ -39,11 +40,13 @@ export function LogForm({ presets }: { presets: Preset[] }) {
   const [busy, setBusy] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
   const [saved, setSaved] = useState(false);
+  const [detection, setDetection] = useState<DetectionView | null>(null);
+  const [detectionError, setDetectionError] = useState<string | null>(null);
   const set = (k: keyof Values) => (val: string) => { setV((p) => ({ ...p, [k]: val })); setSaved(false); };
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    setBusy(true); setErrors([]); setSaved(false);
+    setBusy(true); setErrors([]); setSaved(false); setDetection(null); setDetectionError(null);
     try {
       const res = await fetch("/api/logs", {
         method: "POST", headers: { "Content-Type": "application/json" },
@@ -51,7 +54,7 @@ export function LogForm({ presets }: { presets: Preset[] }) {
       });
       const data = await res.json();
       if (!res.ok) { setErrors(data.errors ?? ["保存に失敗しました"]); return; }
-      setSaved(true); setV(EMPTY); router.refresh();
+      setSaved(true); setV(EMPTY); setDetection(data.detection ?? null); setDetectionError(data.detectionError ?? null); router.refresh();
     } catch {
       setErrors(["通信に失敗しました。もう一度お試しください"]);
     } finally {
@@ -129,9 +132,11 @@ export function LogForm({ presets }: { presets: Preset[] }) {
         </ul>
       )}
       {saved && <p role="status" className="rounded-lg border border-emerald-300 bg-emerald-50 p-3 text-sm text-emerald-900">保存しました。下の「直近の記録」に出ています。</p>}
+      {detection && <DetectionCard d={detection} />}
+      {detectionError && <p role="status" className="rounded-lg border border-stone-300 bg-stone-100 p-3 text-sm text-stone-700">{detectionError}</p>}
 
       <button disabled={busy} className="w-full rounded-xl bg-sky-700 py-4 text-base font-bold text-white disabled:opacity-50">
-        {busy ? "保存中…" : "記録する"}
+        {busy ? "保存して点検中…（数秒かかります）" : "記録する"}
       </button>
     </form>
   );
