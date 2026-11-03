@@ -57,9 +57,9 @@ export const dailyLog = sqliteTable("daily_log", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   facilityId: integer("facility_id").notNull().references(() => facility.id),
   loggedAt: integer("logged_at", { mode: "timestamp" }).notNull(),
-  tempC: real("temp_c"),
-  point: text("point", { enum: ["source", "bath"] }).notNull(),
-  flowLevel: text("flow_level", { enum: ["more", "normal", "less"] }).notNull(),
+  tempChamberC: real("temp_chamber_c"), // チャンバー温度（基準 91.5）
+  tempBathC: real("temp_bath_c"), // 浴槽温度（40〜43℃前後）
+  flowLPerMin: real("flow_l_per_min"), // 湯量 L/分（計測器の値。基準 185.7）
   clarity: text("clarity", { enum: ["clear", "slightly_cloudy", "cloudy"] }).notNull(),
   smell: text("smell", { enum: ["normal", "stronger", "different"] }).notNull(),
   actions: text("actions").notNull().default(""),

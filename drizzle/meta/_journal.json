@@ -8,6 +8,20 @@
       "when": 1793670953021,
       "tag": "0000_init",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1793672294583,
+      "tag": "0001_add_temps_and_flow",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1793672307139,
+      "tag": "0002_drop_old_temp_and_flow_level",
+      "breakpoints": true
     }
   ]
 }

@@ -1,14 +1,15 @@
 // 湯日誌フォーム入力の検証（クライアント・API で共通）
-export const POINTS = { source: "湯口（源泉）", bath: "浴槽" } as const;
-export const FLOW = { more: "多め", normal: "いつも通り", less: "少なめ" } as const;
 export const CLARITY = { clear: "透明", slightly_cloudy: "やや濁り", cloudy: "濁り" } as const;
 export const SMELL = { normal: "いつも通り", stronger: "やや強い", different: "いつもと違う" } as const;
 export const WEATHER = { sunny: "晴れ", rain: "雨", heavy_rain: "大雨", snow: "雪" } as const;
 
+// 基準は分析書（2014-02）。画面の入力欄のヒントに使う
+export const BASELINE_HINT = { chamberC: 91.5, flowLPerMin: 185.7 } as const;
+
 export type LogInput = {
-  tempC: number | null;
-  point: keyof typeof POINTS;
-  flowLevel: keyof typeof FLOW;
+  tempChamberC: number | null;
+  tempBathC: number | null;
+  flowLPerMin: number | null;
   clarity: keyof typeof CLARITY;
   smell: keyof typeof SMELL;
   actions: string;
@@ -20,19 +21,29 @@ export type LogInput = {
 const oneOf = <T extends string>(v: unknown, map: Record<T, string>): v is T =>
   typeof v === "string" && v in map;
 
+/** 空欄は null。入力があれば min〜max の数字であること */
+function optionalNumber(v: unknown, label: string, min: number, max: number, errors: string[]): number | null {
+  if (v === null || v === undefined || v === "") return null;
+  const n = typeof v === "number" ? v : Number(String(v).trim());
+  if (!Number.isFinite(n) || n < min || n > max) {
+    errors.push(`${label}は ${min}〜${max} の数字で入力してください`);
+    return null;
+  }
+  return n;
+}
+
 export function parseLogInput(body: unknown, now = new Date()):
   { ok: true; value: LogInput } | { ok: false; errors: string[] } {
   const b = (body ?? {}) as Record<string, unknown>;
   const errors: string[] = [];
 
-  let tempC: number | null = null;
-  if (b.tempC !== null && b.tempC !== undefined && b.tempC !== "") {
-    const n = Number(b.tempC);
-    if (!Number.isFinite(n) || n < 0 || n > 110) errors.push("温度は 0〜110 の数字で入力してください");
-    else tempC = n;
+  const tempChamberC = optionalNumber(b.tempChamberC, "チャンバー温度", 0, 110, errors);
+  const tempBathC = optionalNumber(b.tempBathC, "浴槽温度", 0, 60, errors);
+  const flowLPerMin = optionalNumber(b.flowLPerMin, "湯量", 0, 1000, errors);
+  if (!errors.length && tempChamberC === null && tempBathC === null && flowLPerMin === null) {
+    errors.push("チャンバー温度・浴槽温度・湯量のどれか1つは入力してください");
   }
-  if (!oneOf(b.point, POINTS)) errors.push("測った場所を選んでください");
-  if (!oneOf(b.flowLevel, FLOW)) errors.push("湯量の目安を選んでください");
+
   if (!oneOf(b.clarity, CLARITY)) errors.push("見た目を選んでください");
   if (!oneOf(b.smell, SMELL)) errors.push("匂いを選んでください");
   const weather = b.weather === null || b.weather === undefined || b.weather === "" ? null : b.weather;
@@ -55,7 +66,7 @@ export function parseLogInput(body: unknown, now = new Date()):
   return {
     ok: true,
     value: {
-      tempC, point: b.point as LogInput["point"], flowLevel: b.flowLevel as LogInput["flowLevel"],
+      tempChamberC, tempBathC, flowLPerMin,
       clarity: b.clarity as LogInput["clarity"], smell: b.smell as LogInput["smell"],
       actions, note, weather: weather as LogInput["weather"], loggedAt,
     },

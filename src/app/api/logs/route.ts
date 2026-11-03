@@ -19,8 +19,8 @@ export async function POST(req: Request) {
 
   const v = parsed.value;
   const row = db.insert(schema.dailyLog).values({
-    facilityId: facility.id, loggedAt: v.loggedAt, tempC: v.tempC, point: v.point,
-    flowLevel: v.flowLevel, clarity: v.clarity, smell: v.smell, actions: v.actions, note: v.note,
+    facilityId: facility.id, loggedAt: v.loggedAt, tempChamberC: v.tempChamberC,
+    tempBathC: v.tempBathC, flowLPerMin: v.flowLPerMin, clarity: v.clarity, smell: v.smell, actions: v.actions, note: v.note,
     weather: v.weather, isSimulated: false, // 画面から入力した記録は模擬ではない
   }).returning().get();
   return NextResponse.json({ log: row }, { status: 201 });

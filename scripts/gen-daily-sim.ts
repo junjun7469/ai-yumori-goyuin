@@ -2,7 +2,7 @@
 //   npm run sim                         （今日までの直近60日）
 //   npm run sim -- --end 2026-11-03     （終了日を指定）
 import { writeFileSync } from "node:fs";
-import { BASELINE, generateSimLogs } from "../src/lib/simulate";
+import { BASELINE, BATH_RANGE, generateSimLogs } from "../src/lib/simulate";
 
 const arg = (name: string) => {
   const i = process.argv.indexOf(`--${name}`);
@@ -16,7 +16,7 @@ const { logs, anomalies } = generateSimLogs({ endDate, days });
 const out = {
   is_simulated: true,
   notice: "これは模擬データです。分析書（2014-02）の値を基準に ±10% 以内で生成したもので、丸正旅館の実測値ではありません。",
-  baseline: { source: "data/maruso_analysis_2014.json", ...BASELINE },
+  baseline: { source: "data/maruso_analysis_2014.json", ...BASELINE, bath_c_range: [BATH_RANGE.min, BATH_RANGE.max] },
   period: { from: logs[0].logged_at.slice(0, 10), to: endDate, days },
   anomalies,
   logs,

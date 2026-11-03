@@ -1,22 +1,27 @@
 import { describe, expect, it } from "vitest";
 import { parseLogInput } from "./logInput";
 
-const base = { tempC: "91.3", point: "source", flowLevel: "normal", clarity: "clear", smell: "normal" };
+const base = { tempChamberC: "91.3", tempBathC: "41.8", flowLPerMin: "186.2", clarity: "clear", smell: "normal" };
 
 describe("parseLogInput", () => {
-  it("最小の入力を受け付ける（温度は文字列でも可、天候・メモは省略可）", () => {
+  it("数値3つ（文字列でも可）と見た目・匂いを受け付ける。天候・メモは省略可", () => {
     const r = parseLogInput(base);
-    expect(r.ok && r.value.tempC).toBe(91.3);
+    expect(r.ok && r.value.tempChamberC).toBe(91.3);
+    expect(r.ok && r.value.tempBathC).toBe(41.8);
+    expect(r.ok && r.value.flowLPerMin).toBe(186.2);
     expect(r.ok && r.value.weather).toBeNull();
   });
-  it("温度は空でもよい", () => {
-    expect(parseLogInput({ ...base, tempC: "" }).ok).toBe(true);
+  it("数値は一部が空でもよい（どれか1つあれば）", () => {
+    const r = parseLogInput({ ...base, tempBathC: "", flowLPerMin: "" });
+    expect(r.ok && r.value.tempBathC).toBeNull();
+    expect(parseLogInput({ ...base, tempChamberC: "", tempBathC: "", flowLPerMin: "" }).ok).toBe(false);
   });
-  it("範囲外の温度・未選択の項目・未知の値を弾く", () => {
-    expect(parseLogInput({ ...base, tempC: "250" }).ok).toBe(false);
-    expect(parseLogInput({ ...base, tempC: "abc" }).ok).toBe(false);
+  it("範囲外・数字でない値・未選択・未知の値を弾く", () => {
+    expect(parseLogInput({ ...base, tempChamberC: "250" }).ok).toBe(false);
+    expect(parseLogInput({ ...base, tempBathC: "80" }).ok).toBe(false);
+    expect(parseLogInput({ ...base, flowLPerMin: "abc" }).ok).toBe(false);
+    expect(parseLogInput({ ...base, flowLPerMin: "-5" }).ok).toBe(false);
     expect(parseLogInput({ ...base, smell: undefined }).ok).toBe(false);
-    expect(parseLogInput({ ...base, flowLevel: "huge" }).ok).toBe(false);
     expect(parseLogInput({ ...base, weather: "fog" }).ok).toBe(false);
   });
   it("未来の日時を弾く", () => {

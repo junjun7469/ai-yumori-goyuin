@@ -6,19 +6,19 @@
       "id": "S01",
       "title": "平常",
       "logs": [
-        { "day": -2, "temp_c": 90.8, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "sunny" },
-        { "day": -1, "temp_c": 91.2, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "sunny" },
-        { "day": 0, "temp_c": 91.0, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "sunny" }
+        { "day": -2, "temp_chamber_c": 90.8, "temp_bath_c": null, "flow_l_per_min": 184.5, "clarity": "clear", "smell": "normal", "weather": "sunny" },
+        { "day": -1, "temp_chamber_c": 91.2, "temp_bath_c": null, "flow_l_per_min": 185.7, "clarity": "clear", "smell": "normal", "weather": "sunny" },
+        { "day": 0, "temp_chamber_c": 91.0, "temp_bath_c": null, "flow_l_per_min": 186.9, "clarity": "clear", "smell": "normal", "weather": "sunny" }
       ],
       "expect": { "level": "normal" }
     },
     {
       "id": "S02",
-      "title": "湯量が3日連続で少なめ",
+      "title": "湯量が3日連続で基準の−8%以下",
       "logs": [
-        { "day": -2, "temp_c": 91.0, "point": "source", "flow_level": "less", "clarity": "clear", "smell": "normal", "weather": "sunny" },
-        { "day": -1, "temp_c": 90.9, "point": "source", "flow_level": "less", "clarity": "clear", "smell": "normal", "weather": "sunny" },
-        { "day": 0, "temp_c": 90.7, "point": "source", "flow_level": "less", "clarity": "clear", "smell": "normal", "weather": "sunny" }
+        { "day": -2, "temp_chamber_c": 91.0, "temp_bath_c": null, "flow_l_per_min": 169.0, "clarity": "clear", "smell": "normal", "weather": "sunny" },
+        { "day": -1, "temp_chamber_c": 90.9, "temp_bath_c": null, "flow_l_per_min": 168.5, "clarity": "clear", "smell": "normal", "weather": "sunny" },
+        { "day": 0, "temp_chamber_c": 90.7, "temp_bath_c": null, "flow_l_per_min": 168.0, "clarity": "clear", "smell": "normal", "weather": "sunny" }
       ],
       "expect": { "level": "check", "reasons_include": ["湯量"], "next_checks_include": ["引湯"] }
     },
@@ -26,8 +26,8 @@
       "id": "S03",
       "title": "降雨翌日の一時的な濁り（天候で説明できる）",
       "logs": [
-        { "day": -1, "temp_c": 91.1, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "heavy_rain" },
-        { "day": 0, "temp_c": 90.6, "point": "source", "flow_level": "more", "clarity": "slightly_cloudy", "smell": "normal", "weather": "rain" }
+        { "day": -1, "temp_chamber_c": 91.1, "temp_bath_c": null, "flow_l_per_min": 184.5, "clarity": "clear", "smell": "normal", "weather": "heavy_rain" },
+        { "day": 0, "temp_chamber_c": 90.6, "temp_bath_c": null, "flow_l_per_min": 196.0, "clarity": "slightly_cloudy", "smell": "normal", "weather": "rain" }
       ],
       "expect": { "level": "watch", "reasons_include": ["雨"] }
     },
@@ -35,8 +35,8 @@
       "id": "S04",
       "title": "濁りが2日続く（雨なし）",
       "logs": [
-        { "day": -1, "temp_c": 91.0, "point": "source", "flow_level": "normal", "clarity": "cloudy", "smell": "normal", "weather": "sunny" },
-        { "day": 0, "temp_c": 91.2, "point": "source", "flow_level": "normal", "clarity": "cloudy", "smell": "normal", "weather": "sunny" }
+        { "day": -1, "temp_chamber_c": 91.0, "temp_bath_c": null, "flow_l_per_min": 184.5, "clarity": "cloudy", "smell": "normal", "weather": "sunny" },
+        { "day": 0, "temp_chamber_c": 91.2, "temp_bath_c": null, "flow_l_per_min": 185.7, "clarity": "cloudy", "smell": "normal", "weather": "sunny" }
       ],
       "expect": { "level": "check", "reasons_include": ["濁"] }
     },
@@ -44,7 +44,7 @@
       "id": "S05",
       "title": "匂いが違う",
       "logs": [
-        { "day": 0, "temp_c": 91.3, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "different", "weather": "sunny" }
+        { "day": 0, "temp_chamber_c": 91.3, "temp_bath_c": null, "flow_l_per_min": 184.5, "clarity": "clear", "smell": "different", "weather": "sunny" }
       ],
       "expect": { "level": "check", "reasons_include": ["匂"] }
     },
@@ -52,8 +52,8 @@
       "id": "S06",
       "title": "温度が基準から -10% 超（源泉）",
       "logs": [
-        { "day": -1, "temp_c": 90.5, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "sunny" },
-        { "day": 0, "temp_c": 81.0, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "sunny" }
+        { "day": -1, "temp_chamber_c": 90.5, "temp_bath_c": null, "flow_l_per_min": 184.5, "clarity": "clear", "smell": "normal", "weather": "sunny" },
+        { "day": 0, "temp_chamber_c": 81.0, "temp_bath_c": null, "flow_l_per_min": 185.7, "clarity": "clear", "smell": "normal", "weather": "sunny" }
       ],
       "expect": { "level": "check", "reasons_include": ["温度"] }
     },
@@ -61,10 +61,10 @@
       "id": "S07",
       "title": "冬季の緩やかな温度低下（季節で説明できる）",
       "logs": [
-        { "day": -3, "temp_c": 89.5, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "snow" },
-        { "day": -2, "temp_c": 89.2, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "snow" },
-        { "day": -1, "temp_c": 89.0, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "sunny" },
-        { "day": 0, "temp_c": 88.8, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "sunny" }
+        { "day": -3, "temp_chamber_c": 89.5, "temp_bath_c": null, "flow_l_per_min": 184.5, "clarity": "clear", "smell": "normal", "weather": "snow" },
+        { "day": -2, "temp_chamber_c": 89.2, "temp_bath_c": null, "flow_l_per_min": 185.7, "clarity": "clear", "smell": "normal", "weather": "snow" },
+        { "day": -1, "temp_chamber_c": 89.0, "temp_bath_c": null, "flow_l_per_min": 186.9, "clarity": "clear", "smell": "normal", "weather": "sunny" },
+        { "day": 0, "temp_chamber_c": 88.8, "temp_bath_c": null, "flow_l_per_min": 185.1, "clarity": "clear", "smell": "normal", "weather": "sunny" }
       ],
       "expect": { "level": "watch" }
     },
@@ -72,7 +72,7 @@
       "id": "S08",
       "title": "浴槽温度が高すぎる（加水不足）",
       "logs": [
-        { "day": 0, "temp_c": 46.0, "point": "bath", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "sunny", "actions": "加水なし" }
+        { "day": 0, "temp_chamber_c": null, "temp_bath_c": 46.0, "flow_l_per_min": 184.5, "clarity": "clear", "smell": "normal", "weather": "sunny", "actions": "加水なし" }
       ],
       "expect": { "level": "check", "reasons_include": ["浴槽"], "next_checks_include": ["加水"] }
     },
@@ -80,7 +80,7 @@
       "id": "S09",
       "title": "作業記録に清掃あり、一時的に濁り",
       "logs": [
-        { "day": 0, "temp_c": 91.0, "point": "source", "flow_level": "normal", "clarity": "slightly_cloudy", "smell": "normal", "weather": "sunny", "actions": "貯湯槽清掃" }
+        { "day": 0, "temp_chamber_c": 91.0, "temp_bath_c": null, "flow_l_per_min": 184.5, "clarity": "slightly_cloudy", "smell": "normal", "weather": "sunny", "actions": "貯湯槽清掃" }
       ],
       "expect": { "level": "watch", "reasons_include": ["清掃"] }
     },
@@ -88,8 +88,8 @@
       "id": "S10",
       "title": "湯量が増えて温度が下がる（混入の可能性）",
       "logs": [
-        { "day": -1, "temp_c": 91.0, "point": "source", "flow_level": "normal", "clarity": "clear", "smell": "normal", "weather": "sunny" },
-        { "day": 0, "temp_c": 86.0, "point": "source", "flow_level": "more", "clarity": "clear", "smell": "normal", "weather": "sunny" }
+        { "day": -1, "temp_chamber_c": 91.0, "temp_bath_c": null, "flow_l_per_min": 184.5, "clarity": "clear", "smell": "normal", "weather": "sunny" },
+        { "day": 0, "temp_chamber_c": 86.0, "temp_bath_c": null, "flow_l_per_min": 196.0, "clarity": "clear", "smell": "normal", "weather": "sunny" }
       ],
       "expect": { "level": "check", "reasons_include": ["湯量", "温度"] }
     }

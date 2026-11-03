@@ -2,15 +2,15 @@ import { readFileSync } from "node:fs";
 import { desc, eq } from "drizzle-orm";
 import Link from "next/link";
 import { db, schema } from "@/db";
-import { CLARITY, FLOW, SMELL } from "@/lib/logInput";
+import { CLARITY, SMELL } from "@/lib/logInput";
 import { LogForm, type Preset } from "./LogForm";
 
 export const dynamic = "force-dynamic";
 
-type SimFile = {
-  anomalies: { type: string; from: string }[];
-  logs: Record<string, string | number>[];
-};
+type SimLog = Record<string, string | number | null>;
+type SimFile = { anomalies: { type: string; from: string }[]; logs: SimLog[] };
+
+const BASE_FLOW = 185.7;
 
 // 模擬データのプリセット：平常の日と、異常シナリオ3種の初日（data/maruso_daily_sim.json）
 function loadPresets(): Preset[] {
@@ -20,17 +20,18 @@ function loadPresets(): Preset[] {
   } catch {
     return []; // npm run sim 前
   }
-  const toPreset = (label: string, l: Record<string, string | number>): Preset => ({
+  const toPreset = (label: string, l: SimLog): Preset => ({
     label,
     values: {
-      tempC: String(l.temp_c), point: l.point as string, flowLevel: l.flow_level as string,
+      tempChamberC: String(l.temp_chamber_c), tempBathC: String(l.temp_bath_c),
+      flowLPerMin: String(l.flow_l_per_min),
       clarity: l.clarity as string, smell: l.smell as string, actions: l.actions as string,
       note: l.note as string, weather: l.weather as string,
     },
   });
   const presets: Preset[] = [];
   const calm = [...sim.logs].reverse().find((l) =>
-    l.flow_level === "normal" && l.clarity === "clear" && l.smell === "normal" && l.weather === "sunny");
+    Math.abs(Number(l.flow_l_per_min) - BASE_FLOW) / BASE_FLOW < 0.04 && l.clarity === "clear" && l.smell === "normal" && l.weather === "sunny");
   if (calm) presets.push(toPreset("平常の日", calm));
   const names: Record<string, string> = {
     flow_decline: "湯量が少なめ", smell_change: "匂いが違う", cloudy_streak: "濁りが残る",
@@ -76,7 +77,9 @@ export default function LogPage() {
                 </span>
               </div>
               <div className="text-stone-600">
-                {l.tempC ?? "—"}℃ ・ 湯量 {FLOW[l.flowLevel]} ・ {CLARITY[l.clarity]} ・ 匂い {SMELL[l.smell]}
+                チャンバー {l.tempChamberC ?? "—"}℃ ・ 浴槽 {l.tempBathC ?? "—"}℃ ・ 湯量 {l.flowLPerMin ?? "—"} L/分
+                <br />
+                {CLARITY[l.clarity]} ・ 匂い {SMELL[l.smell]}
               </div>
               {l.note && <div className="text-stone-500">{l.note}</div>}
             </li>

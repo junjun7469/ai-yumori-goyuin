@@ -49,9 +49,9 @@ SQLite + Drizzle。全テーブルに `created_at`, `updated_at`。模擬デー�
 | id | integer PK | |
 | facility_id | FK | |
 | logged_at | datetime | |
-| temp_c | real nullable | 湯口または浴槽の温度（どちらかを `point` で） |
-| point | text | `source` / `bath` |
-| flow_level | text | 湯量の目安：`more` / `normal` / `less` |
+| temp_chamber_c | real nullable | チャンバー温度（℃）。基準 91.5 |
+| temp_bath_c | real nullable | 浴槽温度（℃）。40〜43℃前後が目安 |
+| flow_l_per_min | real nullable | 湯量（L/分）。計測器の値。基準 185.7 |
 | clarity | text | `clear` / `slightly_cloudy` / `cloudy` |
 | smell | text | `normal` / `stronger` / `different` |
 | actions | text | 作業内容（加水、清掃、配管確認 など自由記述） |
@@ -138,7 +138,7 @@ SQLite + Drizzle。全テーブルに `created_at`, `updated_at`。模擬デー�
 ```json
 {
   "level": "watch",
-  "reasons": ["湯量が3日連続で『少なめ』。基準 185.7 L/min に対して継続的な減少の可能性"],
+  "reasons": ["湯量が3日連続で基準（185.7 L/分）の −8% 以下。継続的な減少の可能性"],
   "next_checks": ["引湯管の詰まりを目視", "貯湯槽の水位", "共同泉源側の変化を組合に確認"],
   "explanation_pro": "…",
   "explanation_guest": "…",
@@ -147,7 +147,7 @@ SQLite + Drizzle。全テーブルに `created_at`, `updated_at`。模擬デー�
 ```
 
 `level` の決め方（最初のルール、eval で磨く）：
-- `check`：基準から ±10% を超える温度変化、湯量 `less` が3日以上、匂い `different`、濁り `cloudy` が2日以上
+- `check`：基準から ±10% を超える温度変化（チャンバー）、湯量が基準（185.7 L/分）の −8% 以下の日が3日以上、匂い `different`、濁り `cloudy` が2日以上
 - `watch`：上記に近づく傾向、天候で説明できる一時的変化
 - `normal`：それ以外
 

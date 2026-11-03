@@ -2,16 +2,16 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { CLARITY, FLOW, POINTS, SMELL, WEATHER } from "@/lib/logInput";
+import { BASELINE_HINT, CLARITY, SMELL, WEATHER } from "@/lib/logInput";
 
 type Values = {
-  tempC: string; point: string; flowLevel: string; clarity: string; smell: string;
+  tempChamberC: string; tempBathC: string; flowLPerMin: string; clarity: string; smell: string;
   actions: string; note: string; weather: string; loggedAt: string;
 };
 export type Preset = { label: string; values: Partial<Values> };
 
 const EMPTY: Values = {
-  tempC: "", point: "source", flowLevel: "", clarity: "", smell: "",
+  tempChamberC: "", tempBathC: "", flowLPerMin: "", clarity: "", smell: "",
   actions: "", note: "", weather: "", loggedAt: "",
 };
 
@@ -77,19 +77,25 @@ export function LogForm({ presets }: { presets: Preset[] }) {
 
       <div className="grid grid-cols-2 gap-3">
         <label className="space-y-1.5">
-          <span className="text-sm font-bold">温度（℃）</span>
-          <input inputMode="decimal" placeholder="例 91.3" value={v.tempC} onChange={(e) => set("tempC")(e.target.value)}
+          <span className="text-sm font-bold">チャンバー温度（℃）</span>
+          <input inputMode="decimal" placeholder={`基準 ${BASELINE_HINT.chamberC}`} value={v.tempChamberC}
+            onChange={(e) => set("tempChamberC")(e.target.value)}
             className="w-full rounded-lg border bg-white px-3 py-3 text-lg" />
         </label>
         <label className="space-y-1.5">
-          <span className="text-sm font-bold">測った場所</span>
-          <select value={v.point} onChange={(e) => set("point")(e.target.value)} className="w-full rounded-lg border bg-white px-3 py-3 text-base">
-            {Object.entries(POINTS).map(([k, t]) => <option key={k} value={k}>{t}</option>)}
-          </select>
+          <span className="text-sm font-bold">浴槽温度（℃）</span>
+          <input inputMode="decimal" placeholder="例 41.5" value={v.tempBathC}
+            onChange={(e) => set("tempBathC")(e.target.value)}
+            className="w-full rounded-lg border bg-white px-3 py-3 text-lg" />
         </label>
       </div>
+      <label className="block space-y-1.5">
+        <span className="text-sm font-bold">湯量（L/分）</span>
+        <input inputMode="decimal" placeholder={`基準 ${BASELINE_HINT.flowLPerMin}（計測器の値）`} value={v.flowLPerMin}
+          onChange={(e) => set("flowLPerMin")(e.target.value)}
+          className="w-full rounded-lg border bg-white px-3 py-3 text-lg" />
+      </label>
 
-      <Choice name="flow" label="湯量の目安" options={FLOW} value={v.flowLevel} onChange={set("flowLevel")} />
       <Choice name="clarity" label="見た目" options={CLARITY} value={v.clarity} onChange={set("clarity")} />
       <Choice name="smell" label="匂い" options={SMELL} value={v.smell} onChange={set("smell")} />
 

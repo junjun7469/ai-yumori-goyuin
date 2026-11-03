@@ -67,8 +67,8 @@ function seedMaruso() {
 }
 
 type SimLog = {
-  logged_at: string; temp_c: number | null; point: "source" | "bath";
-  flow_level: "more" | "normal" | "less"; clarity: "clear" | "slightly_cloudy" | "cloudy";
+  logged_at: string; temp_chamber_c: number | null; temp_bath_c: number | null;
+  flow_l_per_min: number | null; clarity: "clear" | "slightly_cloudy" | "cloudy";
   smell: "normal" | "stronger" | "different"; actions: string; note: string;
   weather: "sunny" | "rain" | "heavy_rain" | "snow" | null; is_simulated: true;
 };
@@ -89,8 +89,8 @@ function seedSimLogs(facilityId: number) {
   db.insert(schema.dailyLog).values(logs.map((l) => ({
     facilityId,
     loggedAt: new Date(l.logged_at),
-    tempC: l.temp_c, point: l.point, flowLevel: l.flow_level, clarity: l.clarity,
-    smell: l.smell, actions: l.actions, note: l.note, weather: l.weather, isSimulated: true,
+    tempChamberC: l.temp_chamber_c, tempBathC: l.temp_bath_c, flowLPerMin: l.flow_l_per_min,
+    clarity: l.clarity, smell: l.smell, actions: l.actions, note: l.note, weather: l.weather, isSimulated: true,
   }))).run();
   return logs.length;
 }
