@@ -1,5 +1,5 @@
 {
-  "description": "変化検知の評価セット。各シナリオは直近の湯日誌（模擬）を与え、期待する level と reasons に含まれるべきキーワードを定義する。npm run eval で合格率を出す。小野の現場感覚を追加して 20 件まで増やす。",
+  "description": "変化検知の評価セット。各シナリオは直近の湯日誌（模擬）を与え、期待する level と reasons に含まれるべきキーワードを定義する。npm run eval で合格率を出す。S11〜S20 は湯守の判断基準（data/yumori_rules.json）に基づく：origin が field のものは湯守の実体験・判断基準、hypothetical はそこから派生させた想定（origin の無い S01〜S10 は初期の想定）。context.last_pipe_cleaning_days_ago は設備メンテナンス記録（引湯管清掃）として与える。",
   "baseline": "data/maruso_analysis_2014.json",
   "scenarios": [
     {
@@ -92,6 +92,112 @@
         { "day": 0, "temp_chamber_c": 86.0, "temp_bath_c": null, "flow_l_per_min": 196.0, "clarity": "clear", "smell": "normal", "weather": "sunny" }
       ],
       "expect": { "level": "check", "reasons_include": ["湯量", "温度"] }
+    },
+    {
+      "id": "S11",
+      "origin": "field",
+      "title": "浴槽40℃割れが続き、湯量が下がり始める（引湯管の付着）",
+      "logs": [
+        { "day": -3, "temp_chamber_c": 90.8, "temp_bath_c": 41.0, "flow_l_per_min": 184.0, "clarity": "clear", "smell": "normal", "weather": "sunny" },
+        { "day": -2, "temp_chamber_c": 90.5, "temp_bath_c": 39.6, "flow_l_per_min": 181.0, "clarity": "clear", "smell": "normal", "weather": "sunny" },
+        { "day": -1, "temp_chamber_c": 90.4, "temp_bath_c": 39.2, "flow_l_per_min": 176.0, "clarity": "clear", "smell": "normal", "weather": "sunny" },
+        { "day": 0, "temp_chamber_c": 90.3, "temp_bath_c": 39.0, "flow_l_per_min": 171.0, "clarity": "clear", "smell": "normal", "weather": "sunny" }
+      ],
+      "expect": { "level": "check", "reasons_include": ["40", "引湯管"], "next_checks_include": ["引湯管"] }
+    },
+    {
+      "id": "S12",
+      "origin": "field",
+      "title": "浴槽38℃割れ（危険信号）",
+      "logs": [
+        { "day": -1, "temp_chamber_c": 90.9, "temp_bath_c": 40.5, "flow_l_per_min": 183.0, "clarity": "clear", "smell": "normal", "weather": "snow" },
+        { "day": 0, "temp_chamber_c": 90.7, "temp_bath_c": 37.8, "flow_l_per_min": 180.0, "clarity": "clear", "smell": "normal", "weather": "snow" }
+      ],
+      "expect": { "level": "check", "reasons_include": ["38"] }
+    },
+    {
+      "id": "S13",
+      "origin": "field",
+      "title": "前回の引湯管清掃から90日超＋湯量の緩やかな低下",
+      "context": { "last_pipe_cleaning_days_ago": 97 },
+      "logs": [
+        { "day": -6, "temp_chamber_c": 91.0, "temp_bath_c": 42.8, "flow_l_per_min": 183.0, "clarity": "clear", "smell": "normal", "weather": "sunny" },
+        { "day": -4, "temp_chamber_c": 90.9, "temp_bath_c": 42.6, "flow_l_per_min": 180.0, "clarity": "clear", "smell": "normal", "weather": "sunny" },
+        { "day": -2, "temp_chamber_c": 90.8, "temp_bath_c": 42.4, "flow_l_per_min": 177.0, "clarity": "clear", "smell": "normal", "weather": "sunny" },
+        { "day": 0, "temp_chamber_c": 90.8, "temp_bath_c": 42.3, "flow_l_per_min": 174.0, "clarity": "clear", "smell": "normal", "weather": "sunny" }
+      ],
+      "expect": { "level": "watch", "reasons_include": ["清掃"], "next_checks_include": ["業者"] }
+    },
+    {
+      "id": "S14",
+      "origin": "field",
+      "title": "冬季に湯量が全開になっていない（運用ルール）",
+      "context": { "season": "winter" },
+      "logs": [
+        { "day": 0, "temp_chamber_c": 90.6, "temp_bath_c": 41.2, "flow_l_per_min": 168.0, "clarity": "clear", "smell": "normal", "weather": "snow", "actions": "" }
+      ],
+      "expect": { "level": "watch", "reasons_include": ["冬"], "next_checks_include": ["全開"] }
+    },
+    {
+      "id": "S15",
+      "origin": "field",
+      "title": "保温シート未実施の記録（冬季・来客前）",
+      "context": { "season": "winter" },
+      "logs": [
+        { "day": 0, "temp_chamber_c": 91.0, "temp_bath_c": 40.1, "flow_l_per_min": 185.0, "clarity": "clear", "smell": "normal", "weather": "sunny", "actions": "保温シートなし", "note": "朝の時点でシート未使用" }
+      ],
+      "expect": { "level": "watch", "next_checks_include": ["保温シート"] }
+    },
+    {
+      "id": "S16",
+      "origin": "hypothetical",
+      "title": "引湯管清掃の直後に湯量が回復（清掃効果の確認）",
+      "logs": [
+        { "day": -1, "temp_chamber_c": 90.5, "temp_bath_c": 41.0, "flow_l_per_min": 170.0, "clarity": "clear", "smell": "normal", "weather": "sunny", "actions": "業者による引湯管清掃" },
+        { "day": 0, "temp_chamber_c": 91.2, "temp_bath_c": 42.9, "flow_l_per_min": 186.0, "clarity": "slightly_cloudy", "smell": "normal", "weather": "sunny" }
+      ],
+      "expect": { "level": "normal", "reasons_include": ["清掃"] }
+    },
+    {
+      "id": "S17",
+      "origin": "hypothetical",
+      "title": "チャンバー温度は正常なのに浴槽だけ下がる（浴槽側の問題）",
+      "logs": [
+        { "day": -1, "temp_chamber_c": 91.1, "temp_bath_c": 42.8, "flow_l_per_min": 185.0, "clarity": "clear", "smell": "normal", "weather": "sunny" },
+        { "day": 0, "temp_chamber_c": 91.0, "temp_bath_c": 39.5, "flow_l_per_min": 184.0, "clarity": "clear", "smell": "normal", "weather": "sunny" }
+      ],
+      "expect": { "level": "check", "reasons_include": ["浴槽"], "next_checks_include": ["加水"] }
+    },
+    {
+      "id": "S18",
+      "origin": "hypothetical",
+      "title": "チャンバーも浴槽も下がる（源泉側・引湯側の問題）",
+      "logs": [
+        { "day": -1, "temp_chamber_c": 90.9, "temp_bath_c": 42.7, "flow_l_per_min": 184.0, "clarity": "clear", "smell": "normal", "weather": "sunny" },
+        { "day": 0, "temp_chamber_c": 85.0, "temp_bath_c": 40.0, "flow_l_per_min": 176.0, "clarity": "clear", "smell": "normal", "weather": "sunny" }
+      ],
+      "expect": { "level": "check", "reasons_include": ["チャンバー"], "next_checks_include": ["引湯"] }
+    },
+    {
+      "id": "S19",
+      "origin": "hypothetical",
+      "title": "大雨の翌日、湯量が増えて濁る（天候で説明できる一時的変化）",
+      "logs": [
+        { "day": -1, "temp_chamber_c": 91.0, "temp_bath_c": 42.9, "flow_l_per_min": 185.0, "clarity": "clear", "smell": "normal", "weather": "heavy_rain" },
+        { "day": 0, "temp_chamber_c": 89.8, "temp_bath_c": 42.5, "flow_l_per_min": 198.0, "clarity": "slightly_cloudy", "smell": "normal", "weather": "rain" }
+      ],
+      "expect": { "level": "watch", "reasons_include": ["雨"] }
+    },
+    {
+      "id": "S20",
+      "origin": "hypothetical",
+      "title": "濁りが晴天で3日続く（天候で説明できない）",
+      "logs": [
+        { "day": -2, "temp_chamber_c": 91.0, "temp_bath_c": 42.8, "flow_l_per_min": 185.0, "clarity": "cloudy", "smell": "normal", "weather": "sunny" },
+        { "day": -1, "temp_chamber_c": 91.1, "temp_bath_c": 42.9, "flow_l_per_min": 184.0, "clarity": "cloudy", "smell": "normal", "weather": "sunny" },
+        { "day": 0, "temp_chamber_c": 91.0, "temp_bath_c": 42.7, "flow_l_per_min": 184.0, "clarity": "cloudy", "smell": "stronger", "weather": "sunny" }
+      ],
+      "expect": { "level": "check", "reasons_include": ["濁"] }
     }
   ],
   "todo_from_owner": [
