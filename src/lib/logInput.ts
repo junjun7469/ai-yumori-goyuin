@@ -6,6 +6,13 @@ export const WEATHER = { sunny: "晴れ", rain: "雨", heavy_rain: "大雨", sno
 // 基準は分析書（2014-02）。画面の入力欄のヒントに使う
 export const BASELINE_HINT = { chamberC: 91.5, flowLPerMin: 185.7 } as const;
 
+/** 作業欄に引湯管の清掃が書かれているか。メンテナンス記録への登録を促す判定に使う */
+export function mentionsPipeCleaning(actions: string): boolean {
+  return actions.includes("引湯管") && /清掃|掃除|洗浄/.test(actions);
+}
+
+export type MaintenanceSuggestion = { eventType: "pipe_cleaning"; eventDate: string };
+
 export type LogInput = {
   tempChamberC: number | null;
   tempBathC: number | null;

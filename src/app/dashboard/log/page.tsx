@@ -110,7 +110,7 @@ export default function LogPage() {
         </ul>
       </section>
 
-      <section className="space-y-3 border-t pt-6">
+      <section id="maintenance" className="space-y-3 border-t pt-6">
         <h2 className="text-sm font-bold text-stone-700">設備メンテナンスの記録</h2>
         <p className="text-xs text-stone-500">
           引湯管の清掃などの日付を残すと、AI湯守が「前回から何日か」を点検に使います。

@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { BASELINE_HINT, CLARITY, SMELL, WEATHER } from "@/lib/logInput";
+import { BASELINE_HINT, CLARITY, mentionsPipeCleaning, SMELL, WEATHER, type MaintenanceSuggestion } from "@/lib/logInput";
 import { DetectionCard, type DetectionView } from "./DetectionCard";
 
 type Values = {
@@ -42,11 +42,18 @@ export function LogForm({ presets }: { presets: Preset[] }) {
   const [saved, setSaved] = useState(false);
   const [detection, setDetection] = useState<DetectionView | null>(null);
   const [detectionError, setDetectionError] = useState<string | null>(null);
+  const [suggestion, setSuggestion] = useState<MaintenanceSuggestion | null>(null);
   const set = (k: keyof Values) => (val: string) => { setV((p) => ({ ...p, [k]: val })); setSaved(false); };
+
+  /** 登録欄（下の「設備メンテナンスの記録」）に種別と日付を入れて、そこへ移動する */
+  function fillMaintenance(date: string) {
+    window.dispatchEvent(new CustomEvent("prefill-maintenance", { detail: { eventType: "pipe_cleaning", eventDate: date } }));
+  }
+  const jstToday = () => new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    setBusy(true); setErrors([]); setSaved(false); setDetection(null); setDetectionError(null);
+    setBusy(true); setErrors([]); setSaved(false); setDetection(null); setDetectionError(null); setSuggestion(null);
     try {
       const res = await fetch("/api/logs", {
         method: "POST", headers: { "Content-Type": "application/json" },
@@ -54,7 +61,7 @@ export function LogForm({ presets }: { presets: Preset[] }) {
       });
       const data = await res.json();
       if (!res.ok) { setErrors(data.errors ?? ["保存に失敗しました"]); return; }
-      setSaved(true); setV(EMPTY); setDetection(data.detection ?? null); setDetectionError(data.detectionError ?? null); router.refresh();
+      setSaved(true); setV(EMPTY); setDetection(data.detection ?? null); setDetectionError(data.detectionError ?? null); setSuggestion(data.maintenanceSuggestion ?? null); router.refresh();
     } catch {
       setErrors(["通信に失敗しました。もう一度お試しください"]);
     } finally {
@@ -114,6 +121,13 @@ export function LogForm({ presets }: { presets: Preset[] }) {
         <span className="text-sm font-bold">作業内容（任意）</span>
         <input placeholder="例 加水の調整、清掃、配管確認" value={v.actions} onChange={(e) => set("actions")(e.target.value)}
           className="w-full rounded-lg border bg-white px-3 py-3 text-base" />
+        {mentionsPipeCleaning(v.actions) && (
+          <span className="block rounded-lg border border-sky-300 bg-sky-50 p-2 text-xs text-sky-900">
+            引湯管の清掃は「設備メンテナンスの記録」にも登録すると、AI湯守が前回からの日数を点検に使えます。
+            <button type="button" onClick={() => fillMaintenance(v.loggedAt ? v.loggedAt.slice(0, 10) : jstToday())}
+              className="ml-1 font-bold underline">登録欄に入れる</button>
+          </span>
+        )}
       </label>
       <label className="block space-y-1.5">
         <span className="text-sm font-bold">一言メモ（任意）</span>
@@ -132,6 +146,12 @@ export function LogForm({ presets }: { presets: Preset[] }) {
         </ul>
       )}
       {saved && <p role="status" className="rounded-lg border border-emerald-300 bg-emerald-50 p-3 text-sm text-emerald-900">保存しました。下の「直近の記録」に出ています。</p>}
+      {suggestion && (
+        <p role="status" className="rounded-lg border border-sky-300 bg-sky-50 p-3 text-sm text-sky-900">
+          作業欄に引湯管の清掃がありました。メンテナンス記録にも登録しますか？（{suggestion.eventDate}）
+          <button type="button" onClick={() => fillMaintenance(suggestion.eventDate)} className="ml-1 font-bold underline">登録欄に入れる</button>
+        </p>
+      )}
       {detection && <DetectionCard d={detection} />}
       {detectionError && <p role="status" className="rounded-lg border border-stone-300 bg-stone-100 p-3 text-sm text-stone-700">{detectionError}</p>}
 

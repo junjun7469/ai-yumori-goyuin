@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { db, schema } from "@/db";
 import { DetectionError, runDetection } from "@/lib/detection";
 import { createDbContext, toLogRecord } from "@/lib/detectionDb";
-import { parseLogInput } from "@/lib/logInput";
+import { mentionsPipeCleaning, parseLogInput, type MaintenanceSuggestion } from "@/lib/logInput";
 
 export const dynamic = "force-dynamic";
 
@@ -26,6 +26,18 @@ export async function POST(req: Request) {
     actions: v.actions, note: v.note, weather: v.weather, isSimulated: false, // 画面から入力した記録は模擬ではない
   }).returning().get();
 
+  // 作業欄に引湯管の清掃とあり、その日の記録がまだ無ければ、メンテナンス記録への登録を促す
+  let maintenanceSuggestion: MaintenanceSuggestion | null = null;
+  if (mentionsPipeCleaning(v.actions)) {
+    const eventDate = new Date(v.loggedAt.getTime() + 9 * 3600 * 1000).toISOString().slice(0, 10); // 日本時間の日付
+    const exists = db.select().from(schema.maintenanceEvent).where(and(
+      eq(schema.maintenanceEvent.facilityId, facility.id),
+      eq(schema.maintenanceEvent.eventType, "pipe_cleaning"),
+      eq(schema.maintenanceEvent.eventDate, eventDate),
+    )).get();
+    if (!exists) maintenanceSuggestion = { eventType: "pipe_cleaning", eventDate };
+  }
+
   let detection: typeof schema.detection.$inferSelect | null = null;
   let detectionError: string | null = null;
   if (process.env.DETECTION === "off") {
@@ -47,7 +59,7 @@ export async function POST(req: Request) {
         : "変化検知に失敗しました（通信またはAPIのエラー）。記録は保存済みです。";
     }
   }
-  return NextResponse.json({ log: row, detection, detectionError }, { status: 201 });
+  return NextResponse.json({ log: row, detection, detectionError, maintenanceSuggestion }, { status: 201 });
 }
 
 /** 推移：GET /api/logs?days=60 */

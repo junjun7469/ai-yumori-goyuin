@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MAINTENANCE_LABEL } from "@/lib/maintenanceInput";
 
 const today = () => new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
@@ -13,6 +13,17 @@ export function MaintenanceForm() {
   const [busy, setBusy] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
   const [saved, setSaved] = useState(false);
+  // 入力画面の「登録欄に入れる」から種別と日付を受け取る
+  useEffect(() => {
+    const onPrefill = (e: Event) => {
+      const d = (e as CustomEvent<{ eventType: string; eventDate: string }>).detail;
+      setV((p) => ({ ...p, eventType: d.eventType, eventDate: d.eventDate }));
+      setSaved(false); setErrors([]);
+      document.getElementById("maintenance")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    window.addEventListener("prefill-maintenance", onPrefill);
+    return () => window.removeEventListener("prefill-maintenance", onPrefill);
+  }, []);
   const set = (k: keyof typeof v) => (val: string) => { setV((p) => ({ ...p, [k]: val })); setSaved(false); };
 
   async function submit(e: React.FormEvent) {

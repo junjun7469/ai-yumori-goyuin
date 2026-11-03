@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { parseLogInput } from "./logInput";
+import { mentionsPipeCleaning, parseLogInput } from "./logInput";
 
 const base = { tempChamberC: "91.3", tempBathC: "41.8", flowLPerMin: "186.2", clarity: "clear", smell: "normal" };
 
@@ -28,5 +28,18 @@ describe("parseLogInput", () => {
     const now = new Date("2026-11-03T10:00:00+09:00");
     expect(parseLogInput({ ...base, loggedAt: "2026-11-04T10:00" }, now).ok).toBe(false);
     expect(parseLogInput({ ...base, loggedAt: "2026-11-03T07:30" }, now).ok).toBe(true);
+  });
+});
+
+describe("mentionsPipeCleaning", () => {
+  it("作業欄に引湯管の清掃があれば true", () => {
+    expect(mentionsPipeCleaning("引湯管清掃")).toBe(true);
+    expect(mentionsPipeCleaning("業者による引湯管の清掃")).toBe(true);
+    expect(mentionsPipeCleaning("引湯管を掃除した")).toBe(true);
+  });
+  it("それ以外は false（浴槽の清掃・引湯管の確認だけ・空欄）", () => {
+    expect(mentionsPipeCleaning("浴槽の清掃")).toBe(false);
+    expect(mentionsPipeCleaning("引湯管の目視確認")).toBe(false);
+    expect(mentionsPipeCleaning("")).toBe(false);
   });
 });
