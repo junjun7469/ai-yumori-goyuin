@@ -2,7 +2,7 @@
 import type Anthropic from "@anthropic-ai/sdk";
 import { describe, expect, it } from "vitest";
 import {
-  baselineFromSheet, buildSystemPrompt, findForbiddenTerms, isWinter, logView, missingPhrases, runDetection,
+  applyHardRules, baselineFromSheet, buildSystemPrompt, findForbiddenTerms, hardRuleProblems, isWinter, logView, missingPhrases, runDetection,
   type ClientLike, type DetectionContext, type DetectionResult, type LogRecord, type MaintenanceEventRecord,
 } from "./detection";
 import type { YumoriRule } from "./yumoriRules";
@@ -164,5 +164,54 @@ describe("湯守の判断基準とメンテナンス記録", () => {
     await runDetection(ctx([log()]), log(), { client: c });
     const tr = (c.calls[1].messages.at(-1)!.content as Anthropic.ToolResultBlockParam[])[0];
     expect(JSON.parse(tr.content as string).last_pipe_cleaning).toBeNull();
+  });
+});
+
+describe("浴槽温度の線（41℃未満は要確認、38℃未満は R3 で最優先）", () => {
+  const watch: DetectionResult = { ...good, level: "watch", reasons: ["浴槽が低め。要確認"] };
+  it("bath_alert を計算済みで渡す（季節を問わない）", () => {
+    expect(logView(log({ temp_bath_c: 37.8 }), baseline).bath_alert).toBe("R3_danger_below_38");
+    expect(logView(log({ temp_bath_c: 40.1 }), baseline).bath_alert).toBe("check_below_41");
+    expect(logView(log({ temp_bath_c: 41.0 }), baseline).bath_alert).toBeNull();
+    expect(logView(log({ temp_bath_c: 40.1, logged_at: "2026-10-01T07:00:00+09:00" }), baseline).bath_alert).toBe("check_below_41");
+    expect(logView(log({ temp_bath_c: null }), baseline).bath_alert).toBeNull();
+  });
+  it("41℃未満で check でなければ差し戻し対象、41℃以上なら対象外", () => {
+    expect(hardRuleProblems(log({ temp_bath_c: 40.1 }), watch)).toHaveLength(1);
+    expect(hardRuleProblems(log({ temp_bath_c: 40.1 }), good)).toEqual([]);
+    expect(hardRuleProblems(log({ temp_bath_c: 41.0 }), watch)).toEqual([]);
+  });
+  it("38℃未満は check かつ reasons 先頭に R3 が必要", () => {
+    expect(hardRuleProblems(log({ temp_bath_c: 37.8 }), good)).toHaveLength(1); // check だが R3 が先頭にない
+    expect(hardRuleProblems(log({ temp_bath_c: 37.8 }), { ...good, reasons: ["湯守の判断基準（R3）：38℃を切ったら危険信号。要確認"] })).toEqual([]);
+  });
+  it("直らなければ規則で補う（level=check、R3 を先頭に）。補った内容を返す", () => {
+    const { result, forced } = applyHardRules(log({ temp_bath_c: 37.8 }), watch);
+    expect(result.level).toBe("check");
+    expect(result.reasons[0]).toContain("R3");
+    expect(forced).toHaveLength(2);
+    expect(applyHardRules(log({ temp_bath_c: 42 }), watch).forced).toEqual([]);
+  });
+  it("R3 に反する報告は差し戻され、直せば受理される（補正なし）", async () => {
+    const r3 = { ...good, reasons: ["湯守の判断基準（R3）：浴槽38℃を切ったら危険信号。要確認"] };
+    const c = fake([use("a", "report_detection", { ...watch })], [use("b", "report_detection", r3)]);
+    const run = await runDetection(ctx([log({ temp_bath_c: 37.8 })]), log({ temp_bath_c: 37.8 }), { client: c });
+    expect(run.repairs).toBe(1);
+    expect(run.forced_by_rules).toEqual([]);
+    expect(run.result.reasons[0]).toContain("R3");
+  });
+  it("2回差し戻しても直らなければコードで補い、forced_by_rules に残す", async () => {
+    const c = fake([use("a", "report_detection", watch)], [use("b", "report_detection", watch)], [use("c", "report_detection", watch)]);
+    const run = await runDetection(ctx([log({ temp_bath_c: 37.8 })]), log({ temp_bath_c: 37.8 }), { client: c });
+    expect(run.result.level).toBe("check");
+    expect(run.result.reasons[0]).toContain("R3");
+    expect(run.forced_by_rules.length).toBeGreaterThan(0);
+  });
+  it("プロンプトに 41℃・38℃・濁り単独は watch が入っている", () => {
+    const p = buildSystemPrompt([]);
+    expect(p).toContain("41℃ 未満");
+    expect(p).toContain("38℃ 未満");
+    expect(p).toContain("濁り単独では check にしない");
+    expect(p).toContain("引湯管の清掃とあるのに");
   });
 });

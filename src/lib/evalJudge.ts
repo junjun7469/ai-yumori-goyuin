@@ -1,7 +1,7 @@
 // eval の合否判定（API を呼ばない純粋関数）。eval/scenarios.json の expect に対応
 import { findForbiddenTerms, missingPhrases, type DetectionResult } from "./detection";
 
-export type Expect = { level: DetectionResult["level"]; reasons_include?: string[]; next_checks_include?: string[] };
+export type Expect = { level: DetectionResult["level"]; reasons_include?: string[]; next_checks_include?: string[]; first_reason_includes?: string[] };
 
 export function judge(expect: Expect, r: DetectionResult) {
   const problems: string[] = [];
@@ -10,6 +10,7 @@ export function judge(expect: Expect, r: DetectionResult) {
   for (const k of expect.reasons_include ?? []) if (!reasons.includes(k)) problems.push(`reasons に「${k}」が無い`);
   const checks = r.next_checks.join("\n");
   for (const k of expect.next_checks_include ?? []) if (!checks.includes(k)) problems.push(`next_checks に「${k}」が無い`);
+  for (const k of expect.first_reason_includes ?? []) if (!(r.reasons[0] ?? "").includes(k)) problems.push(`reasons の先頭に「${k}」が無い（最優先で指摘されていない）`);
   const bad = findForbiddenTerms(r);
   if (bad.length) problems.push(`禁止語: ${bad.join("、")}`);
   const miss = missingPhrases(r);

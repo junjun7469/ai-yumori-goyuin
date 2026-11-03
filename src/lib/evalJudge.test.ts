@@ -20,4 +20,9 @@ describe("judge", () => {
     expect(judge({ level: "check", reasons_include: ["温度"] }, r).problems[0]).toContain("温度");
     expect(judge({ level: "check" }, { ...r, explanation_guest: "安全です" }).pass).toBe(false);
   });
+  it("first_reason_includes：先頭の理由に無ければ不合格", () => {
+    const r3: DetectionResult = { ...r, reasons: ["湯守の判断基準（R3）：38℃を切ったら危険信号。要確認", "湯量は平常"] };
+    expect(judge({ level: "check", first_reason_includes: ["R3"] }, r3).pass).toBe(true);
+    expect(judge({ level: "check", first_reason_includes: ["R3"] }, { ...r3, reasons: ["湯量は平常", ...r3.reasons] }).pass).toBe(false);
+  });
 });

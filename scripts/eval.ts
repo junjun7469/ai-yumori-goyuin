@@ -74,10 +74,14 @@ async function main() {
       total.requests += run.usage.requests;
       total.input_tokens += run.usage.input_tokens;
       total.output_tokens += run.usage.output_tokens;
-      rows.push({ id: s.id, origin: s.origin ?? "initial", title: s.title, pass: j.pass, problems: j.problems, expect: s.expect, result: run.result, tool_calls: run.tool_calls, usage: run.usage });
+      rows.push({ id: s.id, origin: s.origin ?? "initial", title: s.title, pass: j.pass, problems: j.problems, expect: s.expect, result: run.result, tool_calls: run.tool_calls, usage: run.usage, repairs: run.repairs, forced_by_rules: run.forced_by_rules });
       console.log(`${j.pass ? "✅" : "❌"} ${s.id}${s.origin ? `［${s.origin === "field" ? "現場由来" : "想定"}］` : ""} ${s.title}\n   期待 ${s.expect.level} → 結果 ${run.result.level}（確からしさ ${run.result.confidence}）`);
       console.log(`   理由: ${run.result.reasons.join(" / ")}`);
       console.log(`   次に見ること: ${run.result.next_checks.join(" / ")}`);
+      if (run.repairs > 0 || run.forced_by_rules.length > 0) {
+        const forcedText = run.forced_by_rules.length > 0 ? ` / 規則で補正：${run.forced_by_rules.join("、")}` : "";
+        console.log(`   差し戻し ${run.repairs} 回${forcedText}`);
+      }
       if (!j.pass) console.log(`   不合格の理由: ${j.problems.join("；")}`);
     } catch (e) {
       rows.push({ id: s.id, origin: s.origin ?? "initial", title: s.title, pass: false, problems: [`実行エラー: ${(e as Error).message}`] });
