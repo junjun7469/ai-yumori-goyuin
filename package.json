@@ -9,10 +9,12 @@
     "seed": "tsx scripts/seed.ts",
     "sim": "tsx scripts/gen-daily-sim.ts",
     "test": "vitest run",
-    "eval": "tsx scripts/eval.ts",
-    "db:push": "drizzle-kit push"
+    "eval": "tsx --env-file=.env scripts/eval.ts",
+    "db:push": "drizzle-kit push",
+    "check:api": "tsx --env-file=.env scripts/check-api.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^1.4.0",
     "better-sqlite3": "^13.0.3",
     "drizzle-orm": "^0.45.4",
     "next": "^15.5.28",
