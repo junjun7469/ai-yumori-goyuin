@@ -1,63 +1,52 @@
 @import "tailwindcss";
 
-/* ===== 御湯印（/goyuin）：御朱印帳のような和風の意匠 ===== */
+/* ===== 御湯印図鑑（/goyuin, /visit）：和の温泉宿のアプリ ===== */
 .goyuin-theme {
-  --paper: #f3ead8;
-  --paper-card: #fbf6ea;
-  --ink: #2b2623;
-  --ink-soft: #6b6157;
-  --vermilion: #c0392b; /* 朱 */
-  --indigo: #2f4a6b; /* 藍 */
-  --gold: #a98542; /* 金茶 */
+  --paper: #f6f1e7; /* 生成り */
+  --paper-card: #fffdf8; /* カードの地 */
+  --ink: #4a3a2c; /* 焦げ茶 */
+  --ink-soft: #8a7867; /* 焦げ茶の薄め */
+  --vermilion: #b5543a; /* 湯の赤茶（アクセント） */
+  --indigo: #1f2a44; /* 紺（差し色） */
+  --gold: #b58a4a;
+  --line: #e6dccb; /* 罫線 */
+  --track: #ece3d2; /* 進捗バーなどの下地 */
   color: var(--ink);
-  font-family: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", "Times New Roman", serif;
+  font-family: var(--font-zen), "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Hiragino Sans", "Yu Gothic", sans-serif;
   background-color: var(--paper);
-  /* 和紙の繊維のようなごく薄い斑 */
-  background-image:
-    radial-gradient(circle at 20% 10%, rgba(169, 133, 66, 0.07), transparent 40%),
-    radial-gradient(circle at 80% 70%, rgba(47, 74, 107, 0.05), transparent 45%);
   min-height: 100vh;
 }
 .goyuin-theme a { color: var(--indigo); }
+.goyuin-theme h1, .goyuin-theme h2, .goyuin-theme h3 { font-weight: 700; }
 
-/* 御朱印のカード：生成り地・細い外枠・内側の金茶の罫線 */
+/* 角丸16px・淡い影のカード */
 .goshuin-card {
   position: relative;
   background: var(--paper-card);
-  border: 1px solid #cdbd95;
-  box-shadow: 0 1px 0 #fff inset, 0 8px 20px rgba(70, 50, 20, 0.12);
-  border-radius: 3px;
-}
-.goshuin-card::before {
-  content: "";
-  position: absolute;
-  inset: 5px;
-  border: 1px solid rgba(169, 133, 66, 0.55);
-  border-radius: 2px;
-  pointer-events: none;
+  border: 1px solid var(--line);
+  box-shadow: 0 2px 12px rgba(74, 58, 44, 0.08);
+  border-radius: 16px;
 }
 
-/* 朱の落款（角印） */
+/* 丸い朱印（♨ を赤茶の円で囲んだもの）は YuMark.tsx の自前 SVG。こちらは文字を入れる小さな丸印 */
 .hanko {
   display: inline-grid;
   place-items: center;
-  width: 2.6rem;
-  height: 2.6rem;
+  width: 2.4rem;
+  height: 2.4rem;
   border: 2px solid var(--vermilion);
-  border-radius: 4px;
+  border-radius: 9999px;
   color: var(--vermilion);
   font-weight: 700;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   line-height: 1;
-  transform: rotate(-6deg);
-  background: rgba(192, 57, 43, 0.06);
+  background: rgba(181, 84, 58, 0.06);
 }
-.hanko-sm { width: 1.7rem; height: 1.7rem; font-size: 0.85rem; border-width: 1.5px; }
+.hanko-sm { width: 1.6rem; height: 1.6rem; font-size: 0.8rem; border-width: 1.5px; }
 
-/* 見出しの飾り線 */
-.rule-gold { height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.rule-gold { height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0.6; }
 
-/* ガチャの演出：湯けむりが立ちのぼり、晴れて、御湯印が現れる（約2秒） */
+/* ガチャ・QR着地の演出：湯けむりが立ちのぼり、晴れて、御湯印が現れる（約2秒） */
 @keyframes steam-rise {
   0% { opacity: 0; transform: translateY(40px) scale(0.7); }
   30% { opacity: 0.9; }
@@ -85,34 +74,67 @@
 }
 .stamp-in { animation: stamp-in 0.45s 0.5s ease-out both; }
 
-/* 御湯印の柄（台紙）。色と模様は CSS だけで作る（外部の素材は使わない）。文字は濃い墨色のまま読める明るさにする */
+/* 御湯印の柄（台紙）。色と模様は CSS だけで作る（外部の素材は使わない）。文字は濃い焦げ茶のまま読める明るさにする */
 .goshuin-card[data-variant="washi"],
-.map-tile[data-variant="washi"] { background: var(--paper-card); }
+.map-tile[data-variant="washi"],
+.stamp-card[data-variant="washi"] {
+  background:
+    radial-gradient(circle at 18% 12%, rgba(181, 138, 74, 0.10), transparent 42%),
+    radial-gradient(circle at 85% 80%, rgba(181, 138, 74, 0.08), transparent 45%),
+    #fbf6ea;
+}
 /* 朝湯：朝もやの淡い水色から、うす黄の朝日へ。横に細い湯面の波 */
 .goshuin-card[data-variant="asayu"],
-.map-tile[data-variant="asayu"] {
+.map-tile[data-variant="asayu"],
+.stamp-card[data-variant="asayu"] {
   background:
-    repeating-linear-gradient(0deg, rgba(47, 74, 107, 0.05) 0 1px, transparent 1px 14px),
-    linear-gradient(180deg, #e4eff2 0%, #f3f1de 62%, #fbeccb 100%);
+    repeating-linear-gradient(0deg, rgba(31, 42, 68, 0.045) 0 1px, transparent 1px 14px),
+    linear-gradient(180deg, #e2eef2 0%, #f4f1de 62%, #fbebcb 100%);
 }
-/* 夕湯：夕焼けの桃色から橙へ。うすい市松 */
+/* 夕湯：夕焼けの桃色から橙へ。うすい斜めの織り */
 .goshuin-card[data-variant="yuuyu"],
-.map-tile[data-variant="yuuyu"] {
+.map-tile[data-variant="yuuyu"],
+.stamp-card[data-variant="yuuyu"] {
   background:
-    repeating-linear-gradient(45deg, rgba(192, 57, 43, 0.045) 0 10px, transparent 10px 20px),
-    linear-gradient(180deg, #fbe3d8 0%, #fbeed9 55%, #f4d6b4 100%);
+    repeating-linear-gradient(45deg, rgba(181, 84, 58, 0.05) 0 10px, transparent 10px 20px),
+    linear-gradient(180deg, #fbe1d4 0%, #fbeed9 55%, #f3d4b2 100%);
 }
 /* 雪見：白藍の地に、ちらつく雪の粒 */
 .goshuin-card[data-variant="yukimi"],
-.map-tile[data-variant="yukimi"] {
+.map-tile[data-variant="yukimi"],
+.stamp-card[data-variant="yukimi"] {
   background:
     radial-gradient(circle at 12% 18%, #fff 0 2px, transparent 3px),
     radial-gradient(circle at 70% 10%, #fff 0 1.5px, transparent 2.5px),
     radial-gradient(circle at 40% 42%, #fff 0 2px, transparent 3px),
     radial-gradient(circle at 88% 60%, #fff 0 1.5px, transparent 2.5px),
     radial-gradient(circle at 24% 80%, #fff 0 2px, transparent 3px),
-    linear-gradient(180deg, #e6eef8 0%, #f4f7fb 100%);
+    linear-gradient(180deg, #e4edf8 0%, #f4f7fb 100%);
 }
+
+/* 御湯印帳のカード（縦長の和紙風台紙）。内側に細い線、右下に丸い朱印 */
+.stamp-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(74, 58, 44, 0.1);
+  color: var(--ink);
+  text-decoration: none;
+  overflow: hidden;
+}
+.stamp-card::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgba(181, 84, 58, 0.16);
+  border-radius: 12px;
+  pointer-events: none;
+}
+.stamp-card .yumark { position: absolute; right: 10px; bottom: 10px; transform: rotate(-8deg); }
+
 /* 地図のタイル */
 .map-tile {
   position: relative;
@@ -122,15 +144,15 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border: 1px solid #b9a77a;
-  border-radius: 3px;
-  box-shadow: 0 1px 0 #fff inset, 0 2px 4px rgba(70, 50, 20, 0.15);
+  border: 1px solid #d9ccb3;
+  border-radius: 7px;
+  box-shadow: 0 1px 4px rgba(74, 58, 44, 0.12);
   color: var(--ink);
   text-decoration: none;
 }
 .map-tile--empty {
-  border: 1px dashed #c9bb94;
-  background: rgba(255, 255, 255, 0.35);
+  border: 1px dashed #d3c6ab;
+  background: rgba(255, 255, 255, 0.45);
   box-shadow: none;
   color: var(--ink-soft);
 }
@@ -141,11 +163,11 @@
   width: min(70vw, 17rem);
   aspect-ratio: 1;
   overflow: hidden;
-  border-radius: 6px;
+  border-radius: 20px;
   background:
-    radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.08), transparent 60%),
-    linear-gradient(160deg, #3a3531, #1f1c1a);
-  box-shadow: 0 8px 20px rgba(40, 30, 15, 0.3);
+    radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.10), transparent 60%),
+    linear-gradient(160deg, #2c3a5e, #1f2a44);
+  box-shadow: 0 8px 20px rgba(31, 42, 68, 0.28);
 }
 .scan-qr-hint {
   position: absolute;
@@ -157,7 +179,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
 }
-.scan-corner { position: absolute; width: 2.2rem; height: 2.2rem; border: 0 solid #f1d9a0; }
+.scan-corner { position: absolute; width: 2.2rem; height: 2.2rem; border: 0 solid #f0dcb0; }
 .scan-corner--tl { top: 12%; left: 12%; border-top-width: 4px; border-left-width: 4px; border-top-left-radius: 6px; }
 .scan-corner--tr { top: 12%; right: 12%; border-top-width: 4px; border-right-width: 4px; border-top-right-radius: 6px; }
 .scan-corner--bl { bottom: 12%; left: 12%; border-bottom-width: 4px; border-left-width: 4px; border-bottom-left-radius: 6px; }
@@ -168,8 +190,8 @@
   right: 14%;
   height: 3px;
   border-radius: 2px;
-  background: linear-gradient(90deg, transparent, #e0553f, transparent);
-  box-shadow: 0 0 10px 2px rgba(224, 85, 63, 0.55);
+  background: linear-gradient(90deg, transparent, #e07a5c, transparent);
+  box-shadow: 0 0 10px 2px rgba(224, 122, 92, 0.55);
   animation: scan-move 2.4s ease-in-out infinite alternate;
 }
 .scan-frame--active .scan-line { animation-duration: 0.7s; }

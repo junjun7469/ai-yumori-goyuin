@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const icon = (d: React.ReactNode) => (
-  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>{d}</svg>
+  <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>{d}</svg>
 );
 
 const TABS = [
@@ -34,15 +34,15 @@ const TABS = [
 export function BottomTabs() {
   const path = usePathname() ?? "";
   return (
-    <nav aria-label="御湯印図鑑のメニュー" className="fixed inset-x-0 bottom-0 z-30 border-t border-[#cdbd95] bg-[var(--paper-card)]/95 backdrop-blur">
-      <ul className="mx-auto flex max-w-md">
+    <nav aria-label="御湯印図鑑のメニュー" className="fixed inset-x-0 bottom-0 z-30 border-t border-[var(--line)] bg-white">
+      <ul className="mx-auto flex max-w-[480px]">
         {TABS.map((t) => {
           const on = t.active(path);
           return (
             <li key={t.href} className="flex-1">
               <Link href={t.href} aria-current={on ? "page" : undefined}
-                className="flex flex-col items-center gap-0.5 py-2 text-[11px] no-underline"
-                style={{ color: on ? "var(--vermilion)" : "var(--ink-soft)", fontWeight: on ? 700 : 400 }}>
+                className="flex flex-col items-center gap-0.5 pb-2 pt-2.5 text-[11px] no-underline"
+                style={{ color: on ? "var(--vermilion)" : "rgba(74, 58, 44, 0.55)", fontWeight: on ? 700 : 500 }}>
                 {t.icon}
                 {t.label}
               </Link>

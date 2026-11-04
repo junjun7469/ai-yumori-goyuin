@@ -11,8 +11,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ja">
       <body className="min-h-screen bg-stone-50 text-stone-900 antialiased">
         {/* CLAUDE.md 絶対ルール1：全画面に「模擬データ」ラベル */}
-        <div className="bg-amber-100 px-4 py-1 text-center text-xs font-medium text-amber-900">
-          模擬データ — 丸正旅館の計測値は分析書（2014年）を基準に生成した模擬データです。実測値ではありません
+        <div className="whitespace-nowrap bg-amber-100/80 px-3 py-1 text-center text-[11px] font-medium text-amber-900">
+          ⚠️ 丸正旅館のデータは模擬データです（実測値ではありません）
         </div>
         {children}
       </body>

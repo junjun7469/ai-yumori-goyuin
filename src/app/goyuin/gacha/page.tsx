@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export default function GachaPage() {
   return (
     <>
-      <p className="mx-4 mt-4 rounded-sm border border-amber-400 bg-amber-100 px-3 py-2 text-xs leading-relaxed text-amber-900">
+      <p className="mx-5 mt-4 rounded-2xl border border-amber-300 bg-amber-100 px-3 py-2 text-xs leading-relaxed text-amber-900">
         これは構想として残している「ランダムガチャ」です。御湯印図鑑の本筋は、温泉地でQRを読んで取得する形です。
       </p>
       <GachaClient total={listAreas().length} />

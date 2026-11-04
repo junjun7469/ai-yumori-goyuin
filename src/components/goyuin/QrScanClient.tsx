@@ -30,7 +30,7 @@ export function QrScanClient() {
   }
 
   return (
-    <div className="space-y-5 px-4 pb-10 pt-6">
+    <div className="space-y-5 px-5 pb-10 pt-5">
       <p className="text-center text-sm leading-relaxed text-[var(--ink-soft)] [text-wrap:balance]">
         温泉地に掲示されたQRコードを、枠に合わせて読み取ります。
       </p>
@@ -45,18 +45,18 @@ export function QrScanClient() {
 
       <div className="space-y-3 text-center">
         <button onClick={scan} disabled={scanning}
-          className="w-full max-w-sm rounded-sm border-2 border-[var(--vermilion)] bg-[var(--vermilion)] px-6 py-4 text-lg font-bold tracking-widest text-[#fbf6ea] shadow disabled:opacity-40">
+          className="w-full max-w-sm rounded-full bg-[var(--vermilion)] px-6 py-4 text-lg font-bold tracking-widest text-white shadow-[0_4px_12px_rgba(181,84,58,0.35)] disabled:opacity-40">
           QRコードを読み取る
         </button>
         <p className="text-[11px] leading-relaxed text-[var(--ink-soft)]">※スマホの設定により、このデモでは読み取りを擬似的に再現しています</p>
       </div>
 
       {/* 撮影・開発用：どの温泉地のQRを読んだことにするか */}
-      <div className="mx-auto max-w-sm border-t border-[#cdbd95] pt-3 text-center">
+      <div className="mx-auto max-w-sm rounded-2xl border border-dashed border-[var(--line)] px-3 py-3 text-center">
         <label className="text-[11px] text-[var(--ink-soft)]">
           読み取るQR（撮影・開発用）{" "}
           <select value={code} onChange={(e) => setCode(e.target.value)} disabled={scanning}
-            className="ml-1 rounded-sm border border-[#cdbd95] bg-[var(--paper-card)] px-2 py-1 text-xs text-[var(--ink)]">
+            className="ml-1 rounded-full border border-[var(--line)] bg-white px-3 py-1 text-xs text-[var(--ink)]">
             {DEMO_TARGETS.map(([c, name]) => <option key={c} value={c}>{c} {name}</option>)}
           </select>
         </label>

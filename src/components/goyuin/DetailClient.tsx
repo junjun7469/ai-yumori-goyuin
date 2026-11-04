@@ -30,7 +30,7 @@ export function DetailClient({ code, prefecture, regionLabel }: { code: string; 
   }, [code]);
 
   return (
-    <article className="space-y-5 px-4 pb-16 pt-5">
+    <article className="space-y-5 px-5 pb-10 pt-4">
       <p className="text-sm"><Link href="/goyuin">← 図鑑にもどる</Link></p>
 
       {state.status === "loading" && <p className="py-12 text-center text-sm text-[var(--ink-soft)]">御湯印帳をひらいています…</p>}
@@ -39,7 +39,7 @@ export function DetailClient({ code, prefecture, regionLabel }: { code: string; 
       {state.status === "ready" && !state.d.owned && (
         <div className="goshuin-card space-y-4 p-6 text-center">
           <p className="text-xs tracking-widest text-[var(--ink-soft)]">No.{code}　{regionLabel}　{prefecture}</p>
-          <div className="mx-auto grid h-28 w-28 place-items-center rounded-sm border border-dashed border-[#c9bb94] text-5xl text-[var(--ink-soft)]" aria-hidden>？</div>
+          <div className="mx-auto grid h-28 w-28 place-items-center rounded-2xl border border-dashed border-[#d3c6ab] text-5xl text-[var(--ink-soft)]" aria-hidden>？</div>
           <p className="text-sm leading-relaxed [text-wrap:balance]">この御湯印はまだ手に入れていません。現地でQRを読んで取得しましょう。</p>
           <p className="text-sm"><Link href="/goyuin/qr">QRを読む画面へ</Link></p>
         </div>

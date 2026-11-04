@@ -8,6 +8,7 @@ import { VARIANT_LABEL, type Variant } from "@/lib/goyuinVariant";
 import { pointsFor, summarizePoints } from "@/lib/progress";
 import { resetUserKey } from "@/lib/userKey";
 import { CharacterImage } from "./CharacterImage";
+import { YuMark } from "./YuMark";
 import { TodayYuCard } from "./TodayYuCard";
 import { useOwned } from "./useOwned";
 
@@ -98,13 +99,13 @@ function VisitClient({ code, prefecture }: { code: string; prefecture: string })
   if (phase === "result" && visit) return <VisitResultCard v={visit} gain={gain} />;
 
   return (
-    <div className="space-y-5 px-4 pb-16 pt-6">
+    <div className="space-y-5 px-5 pb-10 pt-5">
       {/* 着くまで、温泉地名もキャラも見せない（取得した瞬間が初対面） */}
       <div className="goshuin-card visit-stage relative mx-auto max-w-sm space-y-3 p-5 text-center" data-variant="washi" aria-live="polite">
         <p className="text-xs tracking-widest text-[var(--ink-soft)]">No.{code}</p>
         <h2 className="text-2xl font-bold tracking-wider">{prefecture}</h2>
         <p className="text-sm text-[var(--ink-soft)]">に着きました</p>
-        <div className={`mx-auto grid aspect-square w-3/5 place-items-center rounded-sm border border-dashed border-[#c9bb94] text-6xl text-[var(--ink-soft)] ${phase === "arriving" ? "visit-char-fade" : ""}`} aria-hidden>？</div>
+        <div className={`mx-auto grid aspect-square w-3/5 place-items-center rounded-2xl border border-dashed border-[#d3c6ab] text-6xl text-[var(--ink-soft)] ${phase === "arriving" ? "visit-char-fade" : ""}`} aria-hidden>？</div>
         {phase === "arriving" && (
           <>
             {[10, 30, 50, 70].map((left, i) => (
@@ -119,7 +120,7 @@ function VisitClient({ code, prefecture }: { code: string; prefecture: string })
         <button
           onClick={arrive}
           disabled={phase !== "idle"}
-          className="w-full max-w-sm rounded-sm border-2 border-[var(--vermilion)] bg-[var(--vermilion)] px-6 py-4 text-lg font-bold tracking-widest text-[#fbf6ea] shadow disabled:opacity-40"
+          className="w-full max-w-sm rounded-full bg-[var(--vermilion)] px-6 py-4 text-lg font-bold tracking-widest text-white shadow-[0_4px_12px_rgba(181,84,58,0.35)] disabled:opacity-40"
         >
           到着！御湯印をもらう
         </button>
@@ -135,9 +136,9 @@ function VisitClient({ code, prefecture }: { code: string; prefecture: string })
 function VisitResultCard({ v, gain }: { v: Visit; gain: Gain | null }) {
   const a = v.area;
   return (
-    <div className="space-y-4 px-4 pb-10 pt-6">
+    <div className="space-y-4 px-5 pb-10 pt-5">
       {gain?.leveledUp && (
-        <p className="reveal mx-auto max-w-sm rounded-sm border-2 border-[var(--vermilion)] bg-[var(--paper-card)] px-4 py-3 text-center" role="status">
+        <p className="reveal mx-auto max-w-sm rounded-2xl border-2 border-[var(--vermilion)] bg-[var(--paper-card)] px-4 py-3 text-center" role="status">
           <span className="block text-lg font-bold tracking-widest text-[var(--vermilion)]">レベルアップ！</span>
           <span className="text-sm">Lv.{gain.level}　{gain.title}</span>
         </p>
@@ -149,7 +150,7 @@ function VisitResultCard({ v, gain }: { v: Visit; gain: Gain | null }) {
             <h2 className="mt-1 text-2xl font-bold tracking-wider">{a.name}</h2>
             <p className="text-xs text-[var(--ink-soft)]">{v.facility ? `${v.facility}　` : ""}{a.prefecture}</p>
           </div>
-          <span className="hanko stamp-in" aria-hidden>湯</span>
+          <YuMark size={46} className="stamp-in" />
         </header>
 
         <CharacterImage area={a} variant={v.variant} priority sizes="(max-width: 640px) 80vw, 360px" />

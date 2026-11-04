@@ -45,20 +45,20 @@ export function TileMap({ areas, variants }: { areas: AreaPublic[]; variants: Ma
   );
 }
 
-/** 集めた御湯印 n / 47 と進捗バー */
+/** 集めた御湯印 n / 47 と赤茶の進捗バー（カード） */
 export function CollectionProgress({ owned, total, loading = false }: { owned: number; total: number; loading?: boolean }) {
   const pct = total > 0 ? Math.round((owned / total) * 100) : 0;
   return (
-    <section aria-label="集めた御湯印" className="space-y-1.5">
-      <p className="flex items-baseline justify-between">
+    <section aria-label="集めた御湯印" className="goshuin-card space-y-3 p-5">
+      <p className="flex items-end justify-between">
         <span className="text-sm font-bold tracking-widest">集めた御湯印</span>
-        <span className="tabular-nums" aria-live="polite">
-          <span className="text-2xl font-bold">{loading ? "…" : owned}</span>
-          <span className="text-sm text-[var(--ink-soft)]"> / {total}</span>
+        <span className="tabular-nums leading-none" aria-live="polite">
+          <span className="text-[34px] font-black text-[var(--vermilion)]">{loading ? "…" : owned}</span>
+          <span className="ml-1 text-base font-bold text-[var(--ink-soft)]">/ {total}</span>
         </span>
       </p>
-      <div className="h-2.5 overflow-hidden rounded-full border border-[#cdbd95] bg-[#efe6cf]" role="progressbar" aria-valuemin={0} aria-valuemax={total} aria-valuenow={loading ? 0 : owned}>
-        <div className="h-full bg-[var(--vermilion)] transition-[width]" style={{ width: `${pct}%` }} />
+      <div className="h-3 overflow-hidden rounded-full bg-[var(--track)]" role="progressbar" aria-valuemin={0} aria-valuemax={total} aria-valuenow={loading ? 0 : owned}>
+        <div className="h-full rounded-full bg-[var(--vermilion)] transition-[width]" style={{ width: `${pct}%` }} />
       </div>
     </section>
   );

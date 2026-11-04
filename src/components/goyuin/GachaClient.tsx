@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { AreaView, TodayYu } from "@/lib/goyuinData";
 import { CharacterImage } from "./CharacterImage";
+import { YuMark } from "./YuMark";
 import { TodayYuCard } from "./TodayYuCard";
 import { useOwned } from "./useOwned";
 
@@ -60,7 +61,7 @@ export function GachaClient({ total }: { total: number }) {
   const canDraw = !drewToday && phase === "idle";
 
   return (
-    <div className="space-y-5 px-4 pb-16 pt-6">
+    <div className="space-y-5 px-5 pb-10 pt-5">
       <p className="text-center text-sm leading-relaxed text-[var(--ink-soft)] [text-wrap:balance]">
         湯けむりの向こうから、全国の温泉地の御湯印が現れます。<br />1日1回、無料でひけます。
       </p>
@@ -77,7 +78,7 @@ export function GachaClient({ total }: { total: number }) {
             </>
           ) : (
             <div className="space-y-3 text-center">
-              <span className="hanko" aria-hidden>湯</span>
+              <YuMark size={48} />
               <p className="text-lg font-bold tracking-widest">御湯印</p>
               <p className="text-xs text-[var(--ink-soft)]">所持 {owned.size} / {total}</p>
             </div>
@@ -90,7 +91,7 @@ export function GachaClient({ total }: { total: number }) {
           <button
             onClick={draw}
             disabled={!canDraw}
-            className="w-full max-w-xs rounded-sm border-2 border-[var(--vermilion)] bg-[var(--vermilion)] px-6 py-4 text-lg font-bold tracking-widest text-[#fbf6ea] shadow disabled:opacity-40"
+            className="w-full max-w-xs rounded-full bg-[var(--vermilion)] px-6 py-4 text-lg font-bold tracking-widest text-white shadow-[0_4px_12px_rgba(181,84,58,0.35)] disabled:opacity-40"
           >
             御湯印をひく
           </button>
@@ -114,7 +115,7 @@ function ResultCard({ r, total, owned }: { r: DrawResult; total: number; owned: 
           <h2 className="mt-1 text-2xl font-bold tracking-wider">{a.name}</h2>
           <p className="text-xs text-[var(--ink-soft)]">{a.reading}　{a.prefecture}</p>
         </div>
-        <span className="hanko stamp-in" aria-hidden>湯</span>
+        <YuMark size={46} className="stamp-in" />
       </header>
 
       <CharacterImage area={a} priority sizes="(max-width: 640px) 80vw, 360px" />
