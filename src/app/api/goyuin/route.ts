@@ -15,7 +15,7 @@ export function GET(req: Request) {
   const now = new Date();
   const today = drewToday(rows, now);
   return NextResponse.json({
-    items: rows.map((r) => ({ code: idToCode.get(r.onsenAreaId)!, obtainedVia: r.obtainedVia, obtainedAt: r.obtainedAt.toISOString() })),
+    items: rows.map((r) => ({ code: idToCode.get(r.onsenAreaId)!, obtainedVia: r.obtainedVia, obtainedAt: r.obtainedAt.toISOString(), variant: r.variant })),
     drewToday: today ? { code: idToCode.get(today.onsenAreaId)!, obtainedAt: today.obtainedAt.toISOString() } : null,
     nextDrawAt: nextDrawAt(now).toISOString(),
   });

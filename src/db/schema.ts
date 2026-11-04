@@ -2,6 +2,7 @@
 // 日付は text(ISO)、時刻は timestamp、JSON は text(mode: json) で持つ。
 import { sql } from "drizzle-orm";
 import { integer, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { VARIANTS } from "../lib/goyuinVariant";
 
 const timestamps = {
   createdAt: integer("created_at", { mode: "timestamp" })
@@ -99,6 +100,7 @@ export const goyuin = sqliteTable("goyuin", {
   obtainedVia: text("obtained_via", { enum: ["gacha", "visit"] }).notNull(),
   obtainedAt: integer("obtained_at", { mode: "timestamp" }).notNull(),
   snapshot: text("snapshot", { mode: "json" }).$type<Record<string, unknown> | null>(), // 丸正のみ
+  variant: text("variant", { enum: VARIANTS }).notNull().default("washi"), // 御湯印の柄（G5）。既存の記録は washi
   ...timestamps,
 });
 

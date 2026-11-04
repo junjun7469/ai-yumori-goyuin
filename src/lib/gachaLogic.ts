@@ -32,3 +32,9 @@ export function drewToday<T extends { obtainedVia: string; obtainedAt: Date }>(r
   const today = jstDate(now);
   return rows.find((r) => r.obtainedVia === "gacha" && jstDate(r.obtainedAt) === today);
 }
+
+/** 今日（日本時間）、この温泉地で QR の御湯印（visit）をもらっているか。判定は温泉地ごと */
+export function visitedToday<T extends { onsenAreaId: number; obtainedVia: string; obtainedAt: Date }>(rows: T[], onsenAreaId: number, now: Date): T | undefined {
+  const today = jstDate(now);
+  return rows.find((r) => r.obtainedVia === "visit" && r.onsenAreaId === onsenAreaId && jstDate(r.obtainedAt) === today);
+}

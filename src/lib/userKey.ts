@@ -22,3 +22,17 @@ export function getOrCreateUserKey(): string | null {
     return null;
   }
 }
+
+/**
+ * 匿名キーを作り直す。撮影・開発用（/visit/[code]?reset=1）で、本番の機能ではない。
+ * 古いキーの記録は DB に残るが、匿名なので害はない。
+ */
+export function resetUserKey(): string | null {
+  try {
+    const key = newKey();
+    window.localStorage.setItem(USER_KEY_STORAGE, key);
+    return key;
+  } catch {
+    return null;
+  }
+}

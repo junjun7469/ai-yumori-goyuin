@@ -1,6 +1,8 @@
 import Image from "next/image";
 import type { SpringClass } from "@/db/schema";
+import { characterImagePath } from "@/lib/characterImage";
 import { fallbackCharacterDataUri } from "@/lib/fallbackCharacter";
+import type { Variant } from "@/lib/goyuinVariant";
 
 type Props = {
   area: { code: string; name: string; characterImage: string | null; springTypeClass: SpringClass };
@@ -10,15 +12,18 @@ type Props = {
   /** 未所持の見た目（モノトーン） */
   dim?: boolean;
   className?: string;
+  /** 柄。今は画像に影響しない（画像パスの解決は characterImagePath に集約） */
+  variant?: Variant;
 };
 
 /** 画像がある温泉地は縮小配信、無い温泉地は泉質分類から作った SVG（fallbackCharacter.ts） */
-export function CharacterImage({ area, sizes = "(max-width: 640px) 45vw, 200px", priority = false, dim = false, className = "" }: Props) {
+export function CharacterImage({ area, sizes = "(max-width: 640px) 45vw, 200px", priority = false, dim = false, className = "", variant }: Props) {
+  const src = characterImagePath(area, variant);
   const filter = dim ? "grayscale(1) opacity(0.45)" : undefined;
   return (
     <div className={`relative aspect-square w-full ${className}`} style={{ filter }}>
-      {area.characterImage ? (
-        <Image src={area.characterImage} alt={`${area.name}のキャラクター`} fill sizes={sizes} priority={priority} className="object-contain" />
+      {src ? (
+        <Image src={src} alt={`${area.name}のキャラクター`} fill sizes={sizes} priority={priority} className="object-contain" />
       ) : (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={fallbackCharacterDataUri(area.springTypeClass, area.code)} alt={`${area.name}のキャラクター（仮の絵）`} className="h-full w-full object-contain" />

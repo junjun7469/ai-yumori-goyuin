@@ -1,0 +1,1 @@
+ALTER TABLE `goyuin` ADD `variant` text DEFAULT 'washi' NOT NULL;

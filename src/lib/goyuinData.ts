@@ -75,3 +75,12 @@ export function sourceLabel(a: Pick<AreaView, "sourceUrl" | "sourceStatus">): { 
   if (a.sourceUrl) return { text: a.sourceUrl, verified: a.sourceStatus === "verified", href: a.sourceUrl };
   return { text: "要確認", verified: false, href: null };
 }
+
+/** AI湯守を導入した施設の名前（QR 着地ページで見せる）。無ければ null */
+export function getFacilityName(areaCode: string): string | null {
+  const area = db.select().from(schema.onsenArea).where(eq(schema.onsenArea.code, areaCode)).get();
+  if (!area) return null;
+  const facility = db.select().from(schema.facility)
+    .where(and(eq(schema.facility.onsenAreaId, area.id), eq(schema.facility.hasAiYumori, true))).get();
+  return facility?.name ?? null;
+}

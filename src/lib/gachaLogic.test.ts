@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { drewToday, isValidUserKey, jstDate, nextDrawAt, pickArea } from "./gachaLogic";
+import { drewToday, isValidUserKey, jstDate, nextDrawAt, pickArea, visitedToday } from "./gachaLogic";
 
 const areas = ["01", "02", "03", "04"].map((code) => ({ code }));
 
@@ -48,5 +48,16 @@ describe("isValidUserKey", () => {
     expect(isValidUserKey("a".repeat(65))).toBe(false);
     expect(isValidUserKey(undefined)).toBe(false);
     expect(isValidUserKey(123)).toBe(false);
+  });
+});
+
+describe("visitedToday（QR の御湯印は温泉地ごとに1日1回）", () => {
+  const row = (onsenAreaId: number, obtainedVia: string, iso: string) => ({ onsenAreaId, obtainedVia, obtainedAt: new Date(iso) });
+  it("同じ温泉地・同じ日本時間の日だけ見つかる", () => {
+    const rows = [row(1, "visit", "2026-11-04T01:00:00Z"), row(2, "visit", "2026-11-04T01:00:00Z"), row(3, "gacha", "2026-11-04T01:00:00Z")];
+    const now = new Date("2026-11-04T10:00:00Z");
+    expect(visitedToday(rows, 1, now)).toBe(rows[0]);
+    expect(visitedToday(rows, 3, now)).toBeUndefined(); // ガチャは数えない
+    expect(visitedToday(rows, 1, new Date("2026-11-04T15:00:00Z"))).toBeUndefined(); // 日本時間で翌日
   });
 });
