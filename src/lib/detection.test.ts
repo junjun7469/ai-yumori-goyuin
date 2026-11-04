@@ -2,7 +2,7 @@
 import type Anthropic from "@anthropic-ai/sdk";
 import { describe, expect, it } from "vitest";
 import {
-  applyHardRules, baselineFromSheet, buildSystemPrompt, findForbiddenTerms, hardRuleProblems, isWinter, logView, missingPhrases, runDetection,
+  applyHardRules, baselineFromSheet, buildSystemPrompt, findForbiddenTerms, findIdentifiers, findMalformed, hardRuleProblems, isWinter, logView, missingPhrases, runDetection,
   type ClientLike, type DetectionContext, type DetectionResult, type LogRecord, type MaintenanceEventRecord,
 } from "./detection";
 import type { YumoriRule } from "./yumoriRules";
@@ -213,5 +213,58 @@ describe("浴槽温度の線（41℃未満は要確認、38℃未満は R3 で�
     expect(p).toContain("38℃ 未満");
     expect(p).toContain("濁り単独では check にしない");
     expect(p).toContain("引湯管の清掃とあるのに");
+    expect(p).toContain("3〜5% 低いのが季節の癖"); // S07：冬季の通常の低下は normal
+    expect(p).toContain("回復している"); // 回復済みの過去の異常で level を上げない
+    expect(p).toContain("メンテナンス記録が無いこと自体は level を上げる理由にしない");
+  });
+});
+
+describe("出力の品質検査（壊れた出力・英語の識別子）", () => {
+  const junk = { ...good, explanation_pro: '浴槽が低め。管理者の確認を。\', "explanation_guest": "確認中です", "confidence">medium' };
+  it("別の項目や JSON の断片が混ざった出力を検出する", () => {
+    expect(findMalformed(good)).toEqual([]);
+    expect(findMalformed(junk)).toEqual(["explanation_pro"]);
+    expect(findMalformed({ ...good, explanation_guest: "" })).toEqual(["explanation_guest（空または短すぎる）"]);
+    // キー名のない断片（", "…", "]）も検出する
+    expect(findMalformed({ ...good, explanation_pro: '確認を。", "お湯の出が少なめです。", "]' })).toEqual(["explanation_pro"]);
+    expect(findMalformed({ ...good, reasons: ["「やや濁り」で単独"] })).toEqual([]); // 日本語のかぎ括弧は正常
+  });
+  it("snake_case の識別子を検出する（R3 や日本語は対象外）", () => {
+    expect(findIdentifiers({ ...good, reasons: ["bath_alert が check_below_41、slightly_cloudy"] })).toEqual(["bath_alert", "check_below_41", "slightly_cloudy"]);
+    expect(findIdentifiers({ ...good, reasons: ["湯守の判断基準（R3）：38℃未満。やや濁り"] })).toEqual([]);
+  });
+  it("壊れた報告は差し戻され、直せば受理される", async () => {
+    const c = fake([use("a", "report_detection", junk)], [use("b", "report_detection", good)]);
+    const run = await runDetection(ctx([log()]), log(), { client: c });
+    expect(run.repairs).toBe(1);
+    expect(run.result.explanation_pro).not.toContain("explanation_guest");
+    const err = (c.calls[1].messages.at(-1)!.content as Anthropic.ToolResultBlockParam[])[0];
+    expect(String(err.content)).toContain("JSON の断片");
+  });
+  it("差し戻しでも壊れたままなら会話を最初からやり直し、それでも壊れていれば保存しない（例外）", async () => {
+    const j = () => [use("x", "report_detection", junk)];
+    const c = fake(j(), j(), j(), j(), j(), j());
+    await expect(runDetection(ctx([log()]), log(), { client: c })).rejects.toThrow("壊れていた");
+    expect(c.calls).toHaveLength(6); // 1試行目 3回（差し戻し2回）＋ やり直し 3回
+  });
+  it("やり直した会話で直れば成功し、使用量・差し戻し回数は試行をまたいで合算される", async () => {
+    const j = () => [use("x", "report_detection", junk)];
+    const c = fake(j(), j(), j(), [use("y", "report_detection", good)]);
+    const run = await runDetection(ctx([log()]), log(), { client: c });
+    expect(run.result.explanation_pro).not.toContain("explanation_guest");
+    expect(run.usage.requests).toBe(4);
+    expect(run.repairs).toBe(2);
+    // やり直しは最初の会話から（前の会話の履歴を引きずらない）
+    expect(c.calls[3].messages).toHaveLength(1);
+  });
+  it("英語の識別子は差し戻すが、直らなくても保存はできる", async () => {
+    const leaky = { ...good, reasons: ["bath_alert が出ている。要確認"] };
+    const c = fake([use("a", "report_detection", leaky)], [use("b", "report_detection", leaky)], [use("c", "report_detection", leaky)]);
+    const run = await runDetection(ctx([log()]), log(), { client: c });
+    expect(run.repairs).toBe(2);
+    expect(run.result.level).toBe("check");
+  });
+  it("プロンプトに英語の識別子を書かない指示がある", () => {
+    expect(buildSystemPrompt([])).toContain("英語の値");
   });
 });

@@ -59,14 +59,14 @@
     },
     {
       "id": "S07",
-      "title": "冬季の緩やかな温度低下（季節で説明できる）",
+      "title": "冬季の緩やかな温度低下（基準比 −3% 前後は季節の癖なので平常）",
       "logs": [
         { "day": -3, "temp_chamber_c": 89.5, "temp_bath_c": null, "flow_l_per_min": 184.5, "clarity": "clear", "smell": "normal", "weather": "snow" },
         { "day": -2, "temp_chamber_c": 89.2, "temp_bath_c": null, "flow_l_per_min": 185.7, "clarity": "clear", "smell": "normal", "weather": "snow" },
         { "day": -1, "temp_chamber_c": 89.0, "temp_bath_c": null, "flow_l_per_min": 186.9, "clarity": "clear", "smell": "normal", "weather": "sunny" },
         { "day": 0, "temp_chamber_c": 88.8, "temp_bath_c": null, "flow_l_per_min": 185.1, "clarity": "clear", "smell": "normal", "weather": "sunny" }
       ],
-      "expect": { "level": "watch" }
+      "expect": { "level": "normal" }
     },
     {
       "id": "S08",

@@ -108,6 +108,27 @@ export function findForbiddenTerms(r: DetectionResult): string[] {
   const text = [...r.reasons, ...r.next_checks, r.explanation_pro, r.explanation_guest].join("\n");
   return FORBIDDEN_TERMS.filter((t) => text.includes(t));
 }
+/** 出力が壊れていないか：別の項目や JSON の断片が文中に混ざっていないか、宿泊者向け説明が空でないか */
+export function findMalformed(r: DetectionResult): string[] {
+  const bad: string[] = [];
+  const key = /"(explanation_pro|explanation_guest|confidence|level|reasons|next_checks)"/;
+  const fields: [string, string][] = [
+    ["explanation_pro", r.explanation_pro], ["explanation_guest", r.explanation_guest],
+    ...r.reasons.map((x, i): [string, string] => [`reasons[${i}]`, x]),
+    ...r.next_checks.map((x, i): [string, string] => [`next_checks[${i}]`, x]),
+  ];
+  // 半角の二重引用符は、日本語の文中には現れない。出力の JSON の断片（", "…", "]）が混ざったときの目印
+  for (const [name, v] of fields) if (key.test(v) || v.includes('"')) bad.push(name);
+  if (r.explanation_guest.trim().length < 5) bad.push("explanation_guest（空または短すぎる）");
+  return bad;
+}
+
+/** 文中に英語の識別子（bath_alert, slightly_cloudy など snake_case）がそのまま出ていないか */
+export function findIdentifiers(r: DetectionResult): string[] {
+  const text = [...r.reasons, ...r.next_checks, r.explanation_pro, r.explanation_guest].join("\n");
+  return [...new Set(text.match(/\b[a-z]+(?:_[a-z0-9]+)+\b/g) ?? [])];
+}
+
 /** watch / check のときは「要確認」と「管理者の確認を」を必須にする */
 export function missingPhrases(r: DetectionResult): string[] {
   if (r.level === "normal") return [];
@@ -178,11 +199,12 @@ watch（経過観察）:
 - 上の check に近づく傾向（例：冬季に浴槽温度が目標 43℃ から 1〜2℃ 外れる＝41〜42℃または44〜45℃、湯量が基準より −4〜−8%、匂いが「やや強い」）
 - 濁り（cloudy / slightly_cloudy）が単独のとき。何日続いても単独なら watch（雨・雪・清掃で説明できるときは、その旨を reasons に書く）
 - 天候で説明できそうな一時的な変化（雨・大雨の翌日の湯量の増加とやや濁りなど）。reasons に「雨」など天候を書く
-- 季節で説明できそうな緩やかな温度の低下（冬季）
+- 冬季にチャンバー温度が基準より −5% を超え、なお下がり続けている（季節の癖を超える低下）
 - 清掃・配管確認などの作業直後の一時的な濁り。reasons に作業名を書く
-normal（平常）: 上のどれにも当たらない。
+normal（平常）: 上のどれにも当たらない。冬季（12〜2月）はチャンバー温度が基準より 3〜5% 低いのが季節の癖で、この範囲は normal（基準比 −5% までの緩やかな低下は平常として扱い、理由に「冬季の範囲内」と書く）。
 
-数字が未入力（null）の項目は「測っていない」だけで、異常ではない。その項目では判断しない。分析書の pH などの要確認事項は日次の判定には使わない。浴槽温度の 41℃/38℃ の下側の線は季節を問わず適用する。冬季目標 43℃ との比較（平常・様子見・上側の check）は冬季のみ。
+数字が未入力（null）の項目は「測っていない」だけで、異常ではない。その項目では判断しない。分析書の pH などの要確認事項は日次の判定には使わない。過去の異常の扱い：直近14日に異常があっても、今回の日誌で回復している（数値が基準内に戻っている）なら、今回の level は normal にしてよい（理由に「回復」と書く）。今も続いている、または再発しているときだけ level に反映する。メンテナンス記録が無いこと自体は level を上げる理由にしない（normal のままでよい）。引湯管の清掃は、記録から経過日数が約90日を超えているとわかるときだけ判断基準 R2 を理由に挙げる。
+浴槽温度の 41℃/38℃ の下側の線は季節を問わず適用する。冬季目標 43℃ との比較（平常・様子見・上側の check）は冬季のみ。
 
 `;
 
@@ -194,6 +216,8 @@ const SYSTEM_PROMPT_TAIL = `# 書き方
 - confidence：判断の確からしさ（low / medium / high）。データが少ない、または欠けているときは low か medium。
 - check と watch のときは、reasons や説明に「要確認」と「管理者の確認を」という言い回しを入れる。
 - 次の語は使わない：効く、効き、効能、効果、治る、治す、治癒、安全、保証。医療的な効能や安全性を述べない。「異常」「危険」と断定しない（湯守の判断基準の文言をそのまま引用する場合を除く）。
+- 文中にツールの項目名や英語の値（bath_alert、clear、slightly_cloudy、null、last_pipe_cleaning など）をそのまま書かない。日本語で言い換える（例：透明、やや濁り、未入力、記録なし、41℃未満）。
+- reasons・next_checks・explanation_pro・explanation_guest は、それぞれ独立した自然な日本語の文章にする。JSON の記号やキー名（"explanation_guest" など）を文中に入れない。
 - 丸正旅館の計測値は模擬データを含む。実測と断定しない。`;
 
 /** この施設の湯守が定めた判断基準を、現場由来を先にして渡す */
@@ -209,7 +233,7 @@ ${lines.join("\n")}
 - 日誌やメンテナンス記録の事実が判断基準に当てはまるとき、reasons に「湯守の判断基準（R1）：…」の形で番号つきで引用し、その基準に沿って確認すべきことを next_checks に入れる。
 - 「現場由来」は湯守自身の経験で、最優先で引用する。「想定」は現場由来から派生させた想定なので、引用するときは「想定の基準」と添える。
 - 判断基準に反する事実は少なくとも watch。基準が「危険信号」のように明確な線を示している状態や、他の check 条件と重なる場合は check。
-- 引湯管の清掃時期は get_maintenance_events の days_ago で判断する（前回から約90日を超えていれば当たる）。記録が無いときは「記録なし」と書き、超過とは断定しない。
+- 引湯管の清掃時期は get_maintenance_events の days_ago で判断する（前回から約90日を超えていれば当たる）。記録が無いときは、それだけで level を上げない（超過とは断定しない）。
 
 `;
 }
@@ -320,6 +344,8 @@ function runReadTool(ctx: DetectionContext, name: string, input: Record<string, 
 // ---- 実行ループ ----------------------------------------------------------
 
 export class DetectionError extends Error {}
+/** 差し戻しても出力が壊れたままだった（会話を最初からやり直す対象） */
+export class MalformedOutputError extends DetectionError {}
 
 export type ClientLike = { messages: { create(params: Anthropic.MessageCreateParamsNonStreaming): Promise<Anthropic.Message> } };
 
@@ -329,10 +355,31 @@ const isResult = (x: unknown): x is DetectionResult => {
     && typeof r.explanation_pro === "string" && typeof r.explanation_guest === "string" && CONFIDENCES.includes(r.confidence);
 };
 
+/**
+ * 変化検知を実行する。出力が壊れたまま直らなかったとき（まれ）だけ、会話を最初からやり直す（最大2回試す）。
+ * 使用量・差し戻し回数は試行をまたいで合算する。
+ */
 export async function runDetection(
   ctx: DetectionContext,
   target: LogRecord,
   opts: { client?: ClientLike; maxRequests?: number } = {},
+): Promise<DetectionRun> {
+  const acc = { requests: 0, input_tokens: 0, output_tokens: 0, repairs: 0 };
+  for (let attempt = 1; ; attempt++) {
+    try {
+      const run = await detectOnce(ctx, target, opts, acc);
+      return { ...run, usage: { requests: acc.requests, input_tokens: acc.input_tokens, output_tokens: acc.output_tokens }, repairs: acc.repairs };
+    } catch (e) {
+      if (!(e instanceof MalformedOutputError) || attempt >= 2) throw e;
+    }
+  }
+}
+
+async function detectOnce(
+  ctx: DetectionContext,
+  target: LogRecord,
+  opts: { client?: ClientLike; maxRequests?: number },
+  acc: { requests: number; input_tokens: number; output_tokens: number; repairs: number },
 ): Promise<DetectionRun> {
   const client: ClientLike = opts.client ?? new Anthropic({ timeout: 60_000 });
   const maxRequests = opts.maxRequests ?? 8;
@@ -343,12 +390,13 @@ export async function runDetection(
     role: "user",
     content: `次の湯日誌が保存されました。点検してください。\n${JSON.stringify(view)}`,
   }];
-  const usage = { requests: 0, input_tokens: 0, output_tokens: 0 };
+  const usage = { requests: 0, input_tokens: 0, output_tokens: 0 }; // この試行の分
   const toolCalls: string[] = [];
   let repairs = 0;
   let nudged = false;
   let forced: string[] = [];
 
+  try {
   while (usage.requests < maxRequests) {
     const res = await client.messages.create({
       model: DETECTION_MODEL,
@@ -392,16 +440,21 @@ export async function runDetection(
       const bad = findForbiddenTerms(result);
       const miss = missingPhrases(result);
       const hard = hardRuleProblems(target, result);
-      if ((bad.length || miss.length || hard.length) && repairs < 2) {
+      const malformed = findMalformed(result);
+      const idents = findIdentifiers(result);
+      if ((bad.length || miss.length || hard.length || malformed.length || idents.length) && repairs < 2) {
         repairs += 1;
         const msgs = [];
         if (bad.length) msgs.push(`次の語は使えません: ${bad.join("、")}。医療的な効能や安全性を述べず、「要確認」「管理者の確認を」の言い回しに直してください。`);
         if (miss.length) msgs.push(`level が ${result.level} のときは「${miss.join("」「")}」という言い回しを reasons か説明に含めてください。`);
         if (hard.length) msgs.push(...hard);
+        if (malformed.length) msgs.push(`次の項目に JSON の断片や別の項目の内容が混ざっているか、空です: ${malformed.join("、")}。各項目を独立した文章にして、全ての項目を指定し直してください。`);
+        if (idents.length) msgs.push(`次の英語の識別子が文中に出ています: ${idents.join("、")}。日本語に言い換えてください（例：透明、やや濁り、未入力、41℃未満）。`);
         results.push({ type: "tool_result", tool_use_id: use.id, is_error: true, content: msgs.join("\n") });
         continue;
       }
       if (bad.length) throw new DetectionError(`出力に使えない語が残ったため保存しませんでした: ${bad.join("、")}`);
+      if (malformed.length) throw new MalformedOutputError(`出力が壊れていたため保存しませんでした（${malformed.join("、")}）`);
       const ruled = applyHardRules(target, result); // 直らなければ規則どおりに補う
       forced = ruled.forced;
       accepted = ruled.result;
@@ -411,6 +464,10 @@ export async function runDetection(
     messages.push({ role: "user", content: results });
   }
   throw new DetectionError("リクエスト回数の上限に達しました");
+  } finally {
+    // 失敗した試行の分も合算する（費用の把握のため）
+    acc.requests += usage.requests; acc.input_tokens += usage.input_tokens; acc.output_tokens += usage.output_tokens; acc.repairs += repairs;
+  }
 }
 
 /** 分析書 JSON（data/maruso_analysis_2014.json）から基準値を作る */
