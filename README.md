@@ -16,7 +16,7 @@
 
 ## 画面（開発サーバー起動後）
 
-- AI湯守（施設向け）：`/dashboard/log` 湯日誌の入力と変化検知
+- AI湯守（施設向け）：`/dashboard/log` 湯日誌の入力と変化検知、`/dashboard/trend` 推移グラフ（直近60日・41℃/38℃の線・検知の印、クリックで理由）、`/dashboard/handover` 引き継ぎメモ（Sonnet が下書き、再生成可）
 - 御湯印（一般向け・スマホ幅優先）：`/goyuin` ガチャ（1日1回・無料）、`/goyuin/zukan` 図鑑（地域で絞り込み）、`/goyuin/43` 詳細（杖立だけ丸正旅館の「今日の湯」。模擬データのラベル付き）
 
 ## 湯守の判断基準と評価セットの出典
@@ -34,4 +34,5 @@ npm run seed   # DB 初期化と投入
 npm run dev    # http://localhost:3000/dashboard/log
 npm run check:api   # Claude API への接続確認（1回だけ小さく呼ぶ）
 npm run eval -- --only S01,S02   # 変化検知の評価（Claude API を使う。引数なしで全20件）
+npm run backfill                 # 模擬日誌への変化検知（Claude API を使う）。結果は data/maruso_detections_sim.json に保存され、seed が読み込む
 ```
