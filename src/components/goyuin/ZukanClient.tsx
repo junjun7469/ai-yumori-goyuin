@@ -1,18 +1,28 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
-import { latestVariantByCode } from "@/lib/progress";
+import { useEffect, useMemo, useState } from "react";
+import { latestVariantByCode, newestFirst } from "@/lib/progress";
+import { VARIANT_LABEL } from "@/lib/goyuinVariant";
 import type { AreaPublic } from "@/lib/goyuinData";
 import { REGIONS, regionOf, type RegionId } from "@/lib/regions";
 import { CharacterImage } from "./CharacterImage";
 import { CollectionProgress, TileMap } from "./TileMap";
 import { useCollection } from "./useCollection";
 
-/** 図鑑の「探す」：地図と一覧。未所持の温泉地は、名前もキャラも（サーバーから）届かない */
+const dateFmt = new Intl.DateTimeFormat("ja-JP", { timeZone: "Asia/Tokyo", year: "numeric", month: "numeric", day: "numeric" });
+
+/**
+ * 御湯印図鑑：「取得した御湯印」（取得日の新しい順のカード）と「御湯印を探す」（地図／一覧）。
+ * 未所持の温泉地は、名前もキャラも（サーバーから）届かない
+ */
 export function ZukanClient({ base }: { base: { code: string; prefecture: string }[] }) {
-  const { status, items, areas } = useCollection(base);
+  const { status, items, areas, loaded } = useCollection(base);
+  const [tab, setTab] = useState<"owned" | "search">("owned");
   const [view, setView] = useState<"map" | "list">("map");
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("tab") === "search") setTab("search");
+  }, []);
   const [region, setRegion] = useState<RegionId | "all">("all");
 
   const byRegion = useMemo(() => {
@@ -24,6 +34,15 @@ export function ZukanClient({ base }: { base: { code: string; prefecture: string
     return m;
   }, [areas]);
 
+  // 取得した御湯印：取得1回ごとに1枚。名前などは、所持している温泉地として API が返したものだけを使う
+  const stamps = useMemo(() => {
+    const byCode = new Map(areas.flatMap((a) => (a.owned ? [[a.code, a] as const] : [])));
+    return newestFirst(items).flatMap((it) => {
+      const area = byCode.get(it.code);
+      return area ? [{ ...it, area }] : [];
+    });
+  }, [areas, items]);
+
   const shown = region === "all" ? areas : (byRegion.get(region) ?? []);
   const ownedIn = (list: AreaPublic[]) => list.filter((a) => a.owned).length;
 
@@ -31,10 +50,10 @@ export function ZukanClient({ base }: { base: { code: string; prefecture: string
     <div className="space-y-4 px-4 pb-16 pt-5">
       <CollectionProgress owned={ownedIn(areas)} total={areas.length} loading={status === "loading"} />
 
-      <div role="tablist" aria-label="表示" className="flex overflow-hidden rounded-sm border border-[#cdbd95] text-center text-sm">
-        {([["map", "地図"], ["list", "一覧"]] as const).map(([v, label]) => (
-          <button key={v} role="tab" aria-selected={view === v} onClick={() => setView(v)}
-            className={`flex-1 py-2 ${view === v ? "bg-[var(--vermilion)] font-bold text-[#fbf6ea]" : "bg-[var(--paper-card)]"}`}>
+      <div role="tablist" aria-label="図鑑の切り替え" className="flex overflow-hidden rounded-sm border border-[#cdbd95] text-center text-sm">
+        {([["owned", "取得した御湯印"], ["search", "御湯印を探す"]] as const).map(([v, label]) => (
+          <button key={v} role="tab" aria-selected={tab === v} onClick={() => setTab(v)}
+            className={`flex-1 py-2.5 ${tab === v ? "bg-[var(--vermilion)] font-bold text-[#fbf6ea]" : "bg-[var(--paper-card)]"}`}>
             {label}
           </button>
         ))}
@@ -42,6 +61,38 @@ export function ZukanClient({ base }: { base: { code: string; prefecture: string
 
       {status === "error" && <p role="alert" className="text-sm text-red-800">所持の状況を読み込めませんでした（図鑑は見られます）。</p>}
       {status === "nokey" && <p className="text-sm text-[var(--ink-soft)]">このブラウザでは所持を保存できないため、すべて未所持として表示します。</p>}
+
+      {tab === "owned" && (
+        !loaded && status !== "nokey" && status !== "error" ? (
+          <p className="py-10 text-center text-sm text-[var(--ink-soft)]">御湯印帳をひらいています…</p>
+        ) : stamps.length === 0 ? (
+          <p className="goshuin-card px-5 py-10 text-center text-sm leading-relaxed [text-wrap:balance]">
+            まだ御湯印がありません。温泉地でQRを読んで、最初の1枚を手に入れよう。
+          </p>
+        ) : (
+          <ul className="grid grid-cols-2 gap-3">
+            {stamps.map((st, i) => (
+              <li key={`${st.code}-${st.obtainedAt}-${i}`}>
+                <Link href={`/goyuin/${st.code}`} className="goshuin-card block space-y-1 p-3 text-center no-underline" data-variant={st.variant} style={{ color: "var(--ink)" }}>
+                  <CharacterImage area={st.area} variant={st.variant} sizes="(max-width: 640px) 45vw, 200px" />
+                  <p className="text-sm font-bold leading-tight">{st.area.name}</p>
+                  <p className="text-[11px] text-[var(--ink-soft)]">{dateFmt.format(new Date(st.obtainedAt))}　{VARIANT_LABEL[st.variant]}</p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )
+      )}
+
+      {tab === "search" && <>
+      <div role="tablist" aria-label="探し方" className="flex overflow-hidden rounded-sm border border-[#cdbd95] text-center text-xs">
+        {([["map", "地図"], ["list", "一覧"]] as const).map(([v, label]) => (
+          <button key={v} role="tab" aria-selected={view === v} onClick={() => setView(v)}
+            className={`flex-1 py-1.5 ${view === v ? "bg-[#e8dcc0] font-bold" : "bg-[var(--paper-card)]"}`}>
+            {label}
+          </button>
+        ))}
+      </div>
 
       {view === "map" && <TileMap areas={areas} variants={latestVariantByCode(items)} />}
 
@@ -88,6 +139,7 @@ export function ZukanClient({ base }: { base: { code: string; prefecture: string
           </p>
         </>
       )}
+      </>}
     </div>
   );
 }

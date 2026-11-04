@@ -137,7 +137,7 @@ function ResultCard({ r, total, owned }: { r: DrawResult; total: number; owned: 
         <p>所持 {owned} / {total}　・　次にひけるのは {nextFmt.format(new Date(r.nextDrawAt))} からです</p>
         <p className="space-x-4 text-sm">
           <Link href={`/goyuin/${a.code}`}>くわしく見る</Link>
-          <Link href="/goyuin/zukan">図鑑をひらく</Link>
+          <Link href="/goyuin">図鑑をひらく</Link>
         </p>
       </footer>
     </article>

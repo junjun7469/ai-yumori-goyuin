@@ -12,10 +12,8 @@ export default function Home() {
         </li>
         <li>
           <Link className="text-sky-700 underline" href="/goyuin">
-            御湯印ガチャ（1日1回・無料）
+            御湯印図鑑（温泉地でQRを読んで集める）
           </Link>
-          <span className="mx-2 text-stone-400">／</span>
-          <Link className="text-sky-700 underline" href="/goyuin/zukan">図鑑</Link>
         </li>
       </ul>
     </main>

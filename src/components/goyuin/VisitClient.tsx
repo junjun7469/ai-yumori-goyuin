@@ -5,10 +5,14 @@ import { useEffect, useRef, useState } from "react";
 import type { AreaView, TodayYu } from "@/lib/goyuinData";
 import { jstDate } from "@/lib/gachaLogic";
 import { VARIANT_LABEL, type Variant } from "@/lib/goyuinVariant";
+import { pointsFor, summarizePoints } from "@/lib/progress";
 import { resetUserKey } from "@/lib/userKey";
 import { CharacterImage } from "./CharacterImage";
 import { TodayYuCard } from "./TodayYuCard";
 import { useOwned } from "./useOwned";
+
+/** 今回もらって増えたポイントと、レベルが上がったか（新しく取ったときだけ） */
+type Gain = { points: number; leveledUp: boolean; level: number; title: string };
 
 type Visit = { already: boolean; area: AreaView; facility: string | null; variant: Variant; obtainedAt: string; snapshot: TodayYu | null };
 
@@ -41,6 +45,7 @@ function VisitClient({ code, prefecture }: { code: string; prefecture: string })
   const { status, userKey, items, refresh } = useOwned();
   const [phase, setPhase] = useState<"idle" | "arriving" | "result">("idle");
   const [visit, setVisit] = useState<Visit | null>(null);
+  const [gain, setGain] = useState<Gain | null>(null);
   const [error, setError] = useState<string | null>(null);
   const restored = useRef(false);
 
@@ -62,13 +67,21 @@ function VisitClient({ code, prefecture }: { code: string; prefecture: string })
 
   async function arrive() {
     if (!userKey) return;
+    restored.current = true; // 取得後に記録が増えても、「今日もらった結果の復元」をもう一度走らせない
     setError(null); setPhase("arriving");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const wait = new Promise((r) => setTimeout(r, reduced ? ARRIVE_MS_REDUCED : ARRIVE_MS));
     try {
       const [res] = await Promise.all([post(), wait]);
       if (!res.ok) throw new Error(String(res.status));
-      setVisit(await res.json());
+      const v: Visit = await res.json();
+      if (!v.already) {
+        // レベルアップの判定：取る前の記録と、今回の1件を足した記録で比べる
+        const before = summarizePoints(items);
+        const after = summarizePoints([...items, { variant: v.variant }]);
+        setGain({ points: pointsFor(v), leveledUp: after.level > before.level, level: after.level, title: after.title });
+      }
+      setVisit(v);
       setPhase("result");
       void refresh();
     } catch {
@@ -82,7 +95,7 @@ function VisitClient({ code, prefecture }: { code: string; prefecture: string })
     return <p className="goshuin-card m-4 p-5 text-sm leading-relaxed">このブラウザでは、御湯印帳の印（匿名の端末キー）を保存できません。プライベートブラウズを解除するか、別のブラウザでお試しください。</p>;
   }
 
-  if (phase === "result" && visit) return <VisitResultCard v={visit} />;
+  if (phase === "result" && visit) return <VisitResultCard v={visit} gain={gain} />;
 
   return (
     <div className="space-y-5 px-4 pb-16 pt-6">
@@ -119,10 +132,16 @@ function VisitClient({ code, prefecture }: { code: string; prefecture: string })
 }
 
 /** 台紙＋キャラ＋温泉地名＋取得日を、1枚の御湯印として見せる */
-function VisitResultCard({ v }: { v: Visit }) {
+function VisitResultCard({ v, gain }: { v: Visit; gain: Gain | null }) {
   const a = v.area;
   return (
-    <div className="space-y-4 px-4 pb-16 pt-6">
+    <div className="space-y-4 px-4 pb-10 pt-6">
+      {gain?.leveledUp && (
+        <p className="reveal mx-auto max-w-sm rounded-sm border-2 border-[var(--vermilion)] bg-[var(--paper-card)] px-4 py-3 text-center" role="status">
+          <span className="block text-lg font-bold tracking-widest text-[var(--vermilion)]">レベルアップ！</span>
+          <span className="text-sm">Lv.{gain.level}　{gain.title}</span>
+        </p>
+      )}
       <article className="reveal goshuin-card mx-auto max-w-sm space-y-4 p-5" data-variant={v.variant}>
         <header className="flex items-start justify-between">
           <div>
@@ -137,13 +156,15 @@ function VisitResultCard({ v }: { v: Visit }) {
         <div className="rule-gold" />
 
         <p className="text-center text-sm tracking-widest">取得日　{dateFmt.format(new Date(v.obtainedAt))}</p>
+        {gain && <p className="text-center text-xs text-[var(--ink-soft)]">+{gain.points} pt</p>}
 
         {v.snapshot && <TodayYuCard yu={v.snapshot} title="もらったときの今日の湯" />}
       </article>
 
-      <p className="space-x-6 text-center text-sm">
+      <p className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-center text-sm">
         <Link href={`/goyuin/${a.code}`}>成分を見る</Link>
-        <Link href="/goyuin/zukan">図鑑へ</Link>
+        <Link href="/goyuin">図鑑で見る</Link>
+        <Link href="/goyuin/me">わたし</Link>
       </p>
     </div>
   );

@@ -25,5 +25,5 @@ export function useCollection(base: { code: string; prefecture: string }[]) {
   }, [owned.status, owned.userKey, owned.items]);
 
   const areas: AreaPublic[] = fetched ?? base.map((b) => ({ owned: false as const, ...b }));
-  return { ...owned, areas };
+  return { ...owned, areas, loaded: fetched !== null };
 }

@@ -121,3 +121,14 @@ export function ownedVariantsOf(userKey: string | null): Map<string, Variant[]> 
   }
   return out;
 }
+
+/** AI湯守を導入した施設の今日の湯の一覧（今は丸正旅館＝杖立だけ）。未導入の温泉地は含めない */
+export function listTodayYus(): { areaCode: string; areaName: string; prefecture: string; yu: TodayYu }[] {
+  const rows = db.select({ code: schema.onsenArea.code, name: schema.onsenArea.name, prefecture: schema.onsenArea.prefecture })
+    .from(schema.facility).innerJoin(schema.onsenArea, eq(schema.facility.onsenAreaId, schema.onsenArea.id))
+    .where(eq(schema.facility.hasAiYumori, true)).orderBy(asc(schema.onsenArea.code)).all();
+  return rows.flatMap((r) => {
+    const yu = getTodayYu(r.code);
+    return yu ? [{ areaCode: r.code, areaName: r.name, prefecture: r.prefecture, yu }] : [];
+  });
+}

@@ -135,6 +135,47 @@
   color: var(--ink-soft);
 }
 
+/* QR の擬似スキャン：カメラの枠風（四隅のマークと、上下に動く読み取りライン）。実際のカメラは使わない */
+.scan-frame {
+  position: relative;
+  width: min(70vw, 17rem);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 6px;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.08), transparent 60%),
+    linear-gradient(160deg, #3a3531, #1f1c1a);
+  box-shadow: 0 8px 20px rgba(40, 30, 15, 0.3);
+}
+.scan-qr-hint {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: rgba(255, 255, 255, 0.12);
+  font-size: 5rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.scan-corner { position: absolute; width: 2.2rem; height: 2.2rem; border: 0 solid #f1d9a0; }
+.scan-corner--tl { top: 12%; left: 12%; border-top-width: 4px; border-left-width: 4px; border-top-left-radius: 6px; }
+.scan-corner--tr { top: 12%; right: 12%; border-top-width: 4px; border-right-width: 4px; border-top-right-radius: 6px; }
+.scan-corner--bl { bottom: 12%; left: 12%; border-bottom-width: 4px; border-left-width: 4px; border-bottom-left-radius: 6px; }
+.scan-corner--br { bottom: 12%; right: 12%; border-bottom-width: 4px; border-right-width: 4px; border-bottom-right-radius: 6px; }
+.scan-line {
+  position: absolute;
+  left: 14%;
+  right: 14%;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, #e0553f, transparent);
+  box-shadow: 0 0 10px 2px rgba(224, 85, 63, 0.55);
+  animation: scan-move 2.4s ease-in-out infinite alternate;
+}
+.scan-frame--active .scan-line { animation-duration: 0.7s; }
+.scan-frame--active .scan-corner { border-color: #fff; }
+@keyframes scan-move { from { top: 16%; } to { top: calc(84% - 3px); } }
+
 /* QR 着地：到着の演出中、カードの上を湯けむりが昇る */
 .visit-stage { overflow: hidden; }
 .visit-char-fade { animation: visit-fade 2s ease-in-out both; }
@@ -142,6 +183,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .visit-char-fade { animation: none; }
+  .scan-line { animation: none; top: 50%; }
   .steam-puff { animation: none; opacity: 0.6; }
   .reveal, .stamp-in { animation: none; }
 }
