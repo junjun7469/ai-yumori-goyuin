@@ -10,6 +10,13 @@ export default function Home() {
             湯日誌を入力する（AI湯守）
           </Link>
         </li>
+        <li>
+          <Link className="text-sky-700 underline" href="/goyuin">
+            御湯印ガチャ（1日1回・無料）
+          </Link>
+          <span className="mx-2 text-stone-400">／</span>
+          <Link className="text-sky-700 underline" href="/goyuin/zukan">図鑑</Link>
+        </li>
       </ul>
     </main>
   );

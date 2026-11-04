@@ -1,1 +1,91 @@
 @import "tailwindcss";
+
+/* ===== 御湯印（/goyuin）：御朱印帳のような和風の意匠 ===== */
+.goyuin-theme {
+  --paper: #f3ead8;
+  --paper-card: #fbf6ea;
+  --ink: #2b2623;
+  --ink-soft: #6b6157;
+  --vermilion: #c0392b; /* 朱 */
+  --indigo: #2f4a6b; /* 藍 */
+  --gold: #a98542; /* 金茶 */
+  color: var(--ink);
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", "Times New Roman", serif;
+  background-color: var(--paper);
+  /* 和紙の繊維のようなごく薄い斑 */
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(169, 133, 66, 0.07), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(47, 74, 107, 0.05), transparent 45%);
+  min-height: 100vh;
+}
+.goyuin-theme a { color: var(--indigo); }
+
+/* 御朱印のカード：生成り地・細い外枠・内側の金茶の罫線 */
+.goshuin-card {
+  position: relative;
+  background: var(--paper-card);
+  border: 1px solid #cdbd95;
+  box-shadow: 0 1px 0 #fff inset, 0 8px 20px rgba(70, 50, 20, 0.12);
+  border-radius: 3px;
+}
+.goshuin-card::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgba(169, 133, 66, 0.55);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+/* 朱の落款（角印） */
+.hanko {
+  display: inline-grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 2px solid var(--vermilion);
+  border-radius: 4px;
+  color: var(--vermilion);
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1;
+  transform: rotate(-6deg);
+  background: rgba(192, 57, 43, 0.06);
+}
+.hanko-sm { width: 1.7rem; height: 1.7rem; font-size: 0.85rem; border-width: 1.5px; }
+
+/* 見出しの飾り線 */
+.rule-gold { height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+
+/* ガチャの演出：湯けむりが立ちのぼり、晴れて、御湯印が現れる（約2秒） */
+@keyframes steam-rise {
+  0% { opacity: 0; transform: translateY(40px) scale(0.7); }
+  30% { opacity: 0.9; }
+  100% { opacity: 0; transform: translateY(-90px) scale(1.5); }
+}
+.steam-puff {
+  position: absolute;
+  bottom: 18%;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 9999px;
+  /* 生成りの紙の上でも見えるよう、淡い藍灰色の湯けむり */
+  background: radial-gradient(circle, rgba(110, 135, 160, 0.5), rgba(110, 135, 160, 0) 68%);
+  animation: steam-rise 1.9s ease-in-out infinite;
+}
+@keyframes reveal-in {
+  0% { opacity: 0; transform: translateY(14px) scale(0.96); filter: blur(6px); }
+  100% { opacity: 1; transform: none; filter: none; }
+}
+.reveal { animation: reveal-in 0.7s ease-out both; }
+@keyframes stamp-in {
+  0% { opacity: 0; transform: scale(1.8) rotate(-14deg); }
+  70% { opacity: 1; transform: scale(0.96) rotate(-6deg); }
+  100% { opacity: 1; transform: scale(1) rotate(-6deg); }
+}
+.stamp-in { animation: stamp-in 0.45s 0.5s ease-out both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .steam-puff { animation: none; opacity: 0.6; }
+  .reveal, .stamp-in { animation: none; }
+}
