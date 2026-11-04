@@ -39,7 +39,7 @@ export function MeClient({ base }: { base: { code: string; prefecture: string }[
           </div>
           <div className="min-w-0">
             <p className="text-xs text-[var(--ink-soft)]">いまの称号</p>
-            <p className="text-[26px] font-black leading-tight tracking-wider">{p.title}</p>
+            <p className="text-[22px] font-black leading-snug [text-wrap:balance]">{p.title}</p>
             <p className="mt-1 text-sm font-bold tabular-nums text-[var(--vermilion)]">{p.points} pt</p>
           </div>
         </div>

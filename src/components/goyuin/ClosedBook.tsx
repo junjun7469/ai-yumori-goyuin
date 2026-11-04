@@ -26,7 +26,7 @@ export function ClosedBook({ className = "" }: { className?: string }) {
       {/* 題箋 */}
       <rect x="92" y="34" width="46" height="112" rx="3" fill="#f6f1e7" />
       <rect x="95" y="37" width="40" height="106" rx="2" fill="none" stroke="#b5543a" strokeOpacity="0.5" strokeWidth="0.9" />
-      <g fill="#4a3a2c" fontSize="21" fontWeight="700" textAnchor="middle" fontFamily="var(--font-zen), sans-serif">
+      <g fill="#4a3a2c" fontSize="21" fontWeight="700" textAnchor="middle" fontFamily="'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', sans-serif">
         <text x="115" y="62">御</text><text x="115" y="88">湯</text><text x="115" y="114">印</text><text x="115" y="140">帳</text>
       </g>
     </svg>

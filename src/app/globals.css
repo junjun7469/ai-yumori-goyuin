@@ -12,7 +12,7 @@
   --line: #e6dccb; /* 罫線 */
   --track: #ece3d2; /* 進捗バーなどの下地 */
   color: var(--ink);
-  font-family: var(--font-zen), "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Hiragino Sans", "Yu Gothic", sans-serif;
+  font-family: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Hiragino Sans", "Yu Gothic", sans-serif;
   background-color: var(--paper);
   min-height: 100vh;
 }
