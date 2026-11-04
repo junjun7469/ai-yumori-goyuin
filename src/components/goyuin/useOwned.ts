@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import type { Variant } from "@/lib/goyuinVariant";
 import { getOrCreateUserKey } from "@/lib/userKey";
 
 export type OwnedState = {
@@ -8,7 +9,7 @@ export type OwnedState = {
   userKey: string | null;
   owned: Set<string>;
   /** 取得の記録（QR着地ページが「今日もらったか」を判定するのに使う） */
-  items: { code: string; obtainedVia: string; obtainedAt: string }[];
+  items: { code: string; obtainedVia: string; obtainedAt: string; variant: Variant }[];
   /** 今日すでに引いたガチャ（無ければ null） */
   drewToday: { code: string; obtainedAt: string } | null;
   refresh: () => Promise<void>;
