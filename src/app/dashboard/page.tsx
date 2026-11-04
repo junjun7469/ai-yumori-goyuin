@@ -8,7 +8,7 @@ export default function DashboardHome() {
         <li><Link className="text-sky-700 underline" href="/dashboard/log">D2 湯日誌の入力</Link></li>
         <li className="text-stone-400">D1 基準値（分析書）— 準備中</li>
         <li><Link className="text-sky-700 underline" href="/dashboard/trend">D3 推移と変化検知</Link></li>
-        <li className="text-stone-400">D4 引き継ぎメモ — 準備中</li>
+        <li><Link className="text-sky-700 underline" href="/dashboard/handover">D4 引き継ぎメモ</Link></li>
       </ul>
     </main>
   );

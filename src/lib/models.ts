@@ -11,7 +11,10 @@ export const DETECTION_MODEL = "claude-haiku-5-5";
 export const DETECTION_EFFORT = "medium" as const;
 
 /**
- * 湯守向け／宿泊者向けの説明文と引き継ぎメモ: Sonnet 5.5（11/5 以降に使用予定）。
+ * 引き継ぎメモ（D4）: Sonnet 5.5。
  * 理由：頻度が低く、文章の質を優先したいため。
  */
 export const WRITING_MODEL = "claude-sonnet-5-5";
+
+/** 引き継ぎメモの思考の深さ。Sonnet 5.5 の既定は high だが、与えた材料を整理して書く作業なので medium にして時間と費用を抑える */
+export const WRITING_EFFORT = "medium" as const;
