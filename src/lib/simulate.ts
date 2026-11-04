@@ -1,6 +1,6 @@
 // 丸正旅館の模擬計測データ生成（PRD §5）。基準は data/maruso_analysis_2014.json。
 //  - チャンバー温度：基準 91.5℃ の ±10% 以内
-//  - 浴槽温度：40〜43℃前後
+//  - 浴槽温度：通常は 41.5〜43℃（41℃未満は要確認のため）。異常シナリオで2日だけ 40.3〜40.8℃（要確認）
 //  - 湯量：基準 185.7 L/分 の ±10% 以内
 // 実測値ではない。全件 is_simulated: true。
 // 同じ (endDate, seed) なら同じ結果になる（動画撮影・eval の再現性のため）。
@@ -18,10 +18,12 @@ export type SimLog = {
   weather: Weather;
   is_simulated: true;
 };
-export type Anomaly = { type: "flow_decline" | "smell_change" | "cloudy_streak"; from: string; to: string };
+export type Anomaly = { type: "flow_decline" | "smell_change" | "cloudy_streak" | "bath_low"; from: string; to: string };
 
 export const BASELINE = { temp_chamber_c: 91.5, flow_l_per_min: 185.7 } as const;
 export const BATH_RANGE = { min: 40, max: 43 } as const;
+/** 通常の日の浴槽温度の範囲。湯守の指示で 41℃未満は要確認なので、それより上に置く */
+export const BATH_NORMAL = { min: 41.5, max: 43 } as const;
 /** 異常「湯量減少」の閾値：基準の −8% 以下（DATA_MODEL §3 の check 条件と同じ） */
 export const FLOW_DECLINE_THRESHOLD = BASELINE.flow_l_per_min * 0.92;
 
@@ -58,6 +60,7 @@ export function generateSimLogs(opts: { endDate: string; days?: number; seed?: n
     { type: "flow_decline", from: dates[days - 36], to: dates[days - 34] }, // 湯量が3日連続で基準−8%以下
     { type: "smell_change", from: dates[days - 19], to: dates[days - 19] }, // 匂いの変化（翌日は「やや強い」）
     { type: "cloudy_streak", from: dates[days - 8], to: dates[days - 7] }, // 雨なしで濁りが2日続く
+    { type: "bath_low", from: dates[days - 14], to: dates[days - 13] }, // 浴槽が 41℃ を割る（要確認）
   ];
   const inRange = (d: string, a: Anomaly) => d >= a.from && d <= a.to;
 
@@ -76,7 +79,7 @@ export function generateSimLogs(opts: { endDate: string; days?: number; seed?: n
     weatherOf.set(d, w);
   }
 
-  const [aFlow, aSmell, aCloud] = anomalies;
+  const [aFlow, aSmell, aCloud, aBath] = anomalies;
   const logs: SimLog[] = [];
   for (const d of dates) {
     const month = Number(d.slice(5, 7));
@@ -94,8 +97,11 @@ export function generateSimLogs(opts: { endDate: string; days?: number; seed?: n
       if (winter) chamber *= 1 - between(0.03, 0.05);
       if (e.night) chamber *= 1 - between(0.01, 0.02);
 
-      // 浴槽温度：41.5℃を中心に 40〜43℃ の範囲
-      const bath = clamp(41.5 + between(-1, 1), BATH_RANGE.min, BATH_RANGE.max);
+      // 浴槽温度：通常は 42.3℃ 中心に 41.5〜43℃。異常の日だけ 40.3〜40.8℃
+      let bath = clamp(42.3 + between(-0.7, 0.7), BATH_NORMAL.min, BATH_NORMAL.max);
+      if (inRange(d, aBath)) {
+        bath = between(40.3, 40.8);
+      }
 
       // 湯量：基準 ±3% の揺らぎ、降雨翌日 +5%
       let flow = BASELINE.flow_l_per_min * (1 + between(-0.03, 0.03));
@@ -103,6 +109,7 @@ export function generateSimLogs(opts: { endDate: string; days?: number; seed?: n
 
       let note = "";
       let actions = "";
+      if (inRange(d, aBath)) note = "浴槽の温度が上がりにくい";
       if (inRange(d, aFlow)) {
         // 基準の −10%〜−8%：3日連続で −8% 以下（FLOW_DECLINE_THRESHOLD）
         flow = BASELINE.flow_l_per_min * between(0.9, 0.92);

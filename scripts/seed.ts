@@ -73,6 +73,11 @@ type SimLog = {
   weather: "sunny" | "rain" | "heavy_rain" | "snow" | null; is_simulated: true;
 };
 
+type SavedDetection = {
+  level: "normal" | "watch" | "check"; reasons: string[]; next_checks: string[];
+  explanation_pro: string; explanation_guest: string; confidence: "low" | "medium" | "high"; model: string;
+};
+
 function seedSimLogs(facilityId: number) {
   const file = path.join(ROOT, "data/maruso_daily_sim.json");
   if (!existsSync(file)) return null; // npm run sim の後に、もう一度 npm run seed
@@ -86,13 +91,27 @@ function seedSimLogs(facilityId: number) {
     db.delete(schema.detection).where(inArray(schema.detection.dailyLogId, oldIds)).run();
     db.delete(schema.dailyLog).where(inArray(schema.dailyLog.id, oldIds)).run();
   }
-  db.insert(schema.dailyLog).values(logs.map((l) => ({
-    facilityId,
-    loggedAt: new Date(l.logged_at),
-    tempChamberC: l.temp_chamber_c, tempBathC: l.temp_bath_c, flowLPerMin: l.flow_l_per_min,
-    clarity: l.clarity, smell: l.smell, actions: l.actions, note: l.note, weather: l.weather, isSimulated: true,
-  }))).run();
-  return logs.length;
+  // 模擬データに対する検知結果（npm run backfill で Haiku が作り、保存したファイル）。あれば一緒に入れる
+  const detFile = path.join(ROOT, "data/maruso_detections_sim.json");
+  const saved: Record<string, SavedDetection> = existsSync(detFile) ? JSON.parse(readFileSync(detFile, "utf-8")).items : {};
+  let detections = 0;
+  for (const l of logs) {
+    const row = db.insert(schema.dailyLog).values({
+      facilityId,
+      loggedAt: new Date(l.logged_at),
+      tempChamberC: l.temp_chamber_c, tempBathC: l.temp_bath_c, flowLPerMin: l.flow_l_per_min,
+      clarity: l.clarity, smell: l.smell, actions: l.actions, note: l.note, weather: l.weather, isSimulated: true,
+    }).returning({ id: schema.dailyLog.id }).get();
+    const d = saved[l.logged_at];
+    if (d) {
+      db.insert(schema.detection).values({
+        dailyLogId: row.id, level: d.level, reasons: d.reasons, nextChecks: d.next_checks,
+        explanationPro: d.explanation_pro, explanationGuest: d.explanation_guest, confidence: d.confidence, model: d.model,
+      }).run();
+      detections += 1;
+    }
+  }
+  return { logs: logs.length, detections };
 }
 
 runMigrations();
@@ -100,4 +119,4 @@ const n = seedAreas();
 const facilityId = seedMaruso();
 const sim = seedSimLogs(facilityId);
 console.log(`温泉地 ${n} 件 / 丸正旅館 / 分析書 1 件を投入しました`);
-console.log(sim === null ? "模擬計測データ：未生成（npm run sim → npm run seed）" : `模擬計測データ ${sim} 件を投入しました`);
+console.log(sim === null ? "模擬計測データ：未生成（npm run sim → npm run seed）" : `模擬計測データ ${sim.logs} 件を投入しました（保存済みの検知結果 ${sim.detections} 件つき）`);

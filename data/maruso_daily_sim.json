@@ -11,32 +11,37 @@
     ]
   },
   "period": {
-    "from": "2026-09-05",
-    "to": "2026-11-03",
+    "from": "2026-09-06",
+    "to": "2026-11-04",
     "days": 60
   },
   "anomalies": [
     {
       "type": "flow_decline",
-      "from": "2026-09-29",
-      "to": "2026-10-01"
+      "from": "2026-09-30",
+      "to": "2026-10-02"
     },
     {
       "type": "smell_change",
-      "from": "2026-10-16",
-      "to": "2026-10-16"
+      "from": "2026-10-17",
+      "to": "2026-10-17"
     },
     {
       "type": "cloudy_streak",
-      "from": "2026-10-27",
-      "to": "2026-10-28"
+      "from": "2026-10-28",
+      "to": "2026-10-29"
+    },
+    {
+      "type": "bath_low",
+      "from": "2026-10-22",
+      "to": "2026-10-23"
     }
   ],
   "logs": [
     {
-      "logged_at": "2026-09-05T07:15:00+09:00",
+      "logged_at": "2026-09-06T07:15:00+09:00",
       "temp_chamber_c": 92.7,
-      "temp_bath_c": 40.9,
+      "temp_bath_c": 41.9,
       "flow_l_per_min": 181.3,
       "clarity": "clear",
       "smell": "normal",
@@ -46,9 +51,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-05T23:26:00+09:00",
+      "logged_at": "2026-09-06T23:26:00+09:00",
       "temp_chamber_c": 89.3,
-      "temp_bath_c": 41.6,
+      "temp_bath_c": 42.4,
       "flow_l_per_min": 190.7,
       "clarity": "clear",
       "smell": "normal",
@@ -58,9 +63,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-06T07:27:00+09:00",
+      "logged_at": "2026-09-07T07:27:00+09:00",
       "temp_chamber_c": 90.3,
-      "temp_bath_c": 42.4,
+      "temp_bath_c": 42.9,
       "flow_l_per_min": 197.2,
       "clarity": "clear",
       "smell": "normal",
@@ -70,9 +75,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-06T23:23:00+09:00",
+      "logged_at": "2026-09-07T23:23:00+09:00",
       "temp_chamber_c": 89.5,
-      "temp_bath_c": 40.5,
+      "temp_bath_c": 41.6,
       "flow_l_per_min": 197.4,
       "clarity": "slightly_cloudy",
       "smell": "normal",
@@ -82,9 +87,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-07T07:27:00+09:00",
+      "logged_at": "2026-09-08T07:27:00+09:00",
       "temp_chamber_c": 91.9,
-      "temp_bath_c": 41.5,
+      "temp_bath_c": 42.3,
       "flow_l_per_min": 182.2,
       "clarity": "clear",
       "smell": "normal",
@@ -94,9 +99,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-08T07:23:00+09:00",
+      "logged_at": "2026-09-09T07:23:00+09:00",
       "temp_chamber_c": 91.9,
-      "temp_bath_c": 41.8,
+      "temp_bath_c": 42.5,
       "flow_l_per_min": 181.9,
       "clarity": "clear",
       "smell": "normal",
@@ -106,9 +111,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-08T23:23:00+09:00",
+      "logged_at": "2026-09-09T23:23:00+09:00",
       "temp_chamber_c": 90.4,
-      "temp_bath_c": 42.1,
+      "temp_bath_c": 42.7,
       "flow_l_per_min": 182.8,
       "clarity": "clear",
       "smell": "normal",
@@ -118,9 +123,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-09T07:10:00+09:00",
+      "logged_at": "2026-09-10T07:10:00+09:00",
       "temp_chamber_c": 91.3,
-      "temp_bath_c": 40.8,
+      "temp_bath_c": 41.8,
       "flow_l_per_min": 183.1,
       "clarity": "clear",
       "smell": "normal",
@@ -130,9 +135,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-09T23:12:00+09:00",
+      "logged_at": "2026-09-10T23:12:00+09:00",
       "temp_chamber_c": 91.9,
-      "temp_bath_c": 41.8,
+      "temp_bath_c": 42.5,
       "flow_l_per_min": 191,
       "clarity": "clear",
       "smell": "normal",
@@ -142,9 +147,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-10T07:17:00+09:00",
+      "logged_at": "2026-09-11T07:17:00+09:00",
       "temp_chamber_c": 92.7,
-      "temp_bath_c": 42.3,
+      "temp_bath_c": 42.8,
       "flow_l_per_min": 186.3,
       "clarity": "clear",
       "smell": "normal",
@@ -154,9 +159,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-10T23:20:00+09:00",
+      "logged_at": "2026-09-11T23:20:00+09:00",
       "temp_chamber_c": 89.4,
-      "temp_bath_c": 40.8,
+      "temp_bath_c": 41.8,
       "flow_l_per_min": 184.4,
       "clarity": "clear",
       "smell": "normal",
@@ -166,9 +171,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-11T07:04:00+09:00",
+      "logged_at": "2026-09-12T07:04:00+09:00",
       "temp_chamber_c": 90.2,
-      "temp_bath_c": 42.1,
+      "temp_bath_c": 42.7,
       "flow_l_per_min": 181.8,
       "clarity": "clear",
       "smell": "normal",
@@ -178,9 +183,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-12T07:24:00+09:00",
+      "logged_at": "2026-09-13T07:24:00+09:00",
       "temp_chamber_c": 92.3,
-      "temp_bath_c": 40.5,
+      "temp_bath_c": 41.6,
       "flow_l_per_min": 198.6,
       "clarity": "slightly_cloudy",
       "smell": "normal",
@@ -190,9 +195,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-13T07:05:00+09:00",
+      "logged_at": "2026-09-14T07:05:00+09:00",
       "temp_chamber_c": 90.7,
-      "temp_bath_c": 40.8,
+      "temp_bath_c": 41.8,
       "flow_l_per_min": 188.6,
       "clarity": "clear",
       "smell": "normal",
@@ -202,9 +207,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-14T07:33:00+09:00",
+      "logged_at": "2026-09-15T07:33:00+09:00",
       "temp_chamber_c": 90.7,
-      "temp_bath_c": 40.8,
+      "temp_bath_c": 41.8,
       "flow_l_per_min": 189.9,
       "clarity": "clear",
       "smell": "normal",
@@ -214,9 +219,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-14T23:15:00+09:00",
+      "logged_at": "2026-09-15T23:15:00+09:00",
       "temp_chamber_c": 89.2,
-      "temp_bath_c": 42.3,
+      "temp_bath_c": 42.8,
       "flow_l_per_min": 184.6,
       "clarity": "clear",
       "smell": "normal",
@@ -226,9 +231,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-15T07:14:00+09:00",
+      "logged_at": "2026-09-16T07:14:00+09:00",
       "temp_chamber_c": 90.7,
-      "temp_bath_c": 40.5,
+      "temp_bath_c": 41.6,
       "flow_l_per_min": 180.3,
       "clarity": "clear",
       "smell": "normal",
@@ -238,9 +243,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-16T07:29:00+09:00",
+      "logged_at": "2026-09-17T07:29:00+09:00",
       "temp_chamber_c": 92,
-      "temp_bath_c": 40.7,
+      "temp_bath_c": 41.7,
       "flow_l_per_min": 188.3,
       "clarity": "clear",
       "smell": "normal",
@@ -250,9 +255,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-17T07:18:00+09:00",
+      "logged_at": "2026-09-18T07:18:00+09:00",
       "temp_chamber_c": 91.8,
-      "temp_bath_c": 40.8,
+      "temp_bath_c": 41.8,
       "flow_l_per_min": 196.3,
       "clarity": "slightly_cloudy",
       "smell": "normal",
@@ -262,9 +267,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-18T07:19:00+09:00",
+      "logged_at": "2026-09-19T07:19:00+09:00",
       "temp_chamber_c": 92.3,
-      "temp_bath_c": 40.6,
+      "temp_bath_c": 41.7,
       "flow_l_per_min": 189.9,
       "clarity": "clear",
       "smell": "normal",
@@ -274,9 +279,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-19T07:22:00+09:00",
+      "logged_at": "2026-09-20T07:22:00+09:00",
       "temp_chamber_c": 91.9,
-      "temp_bath_c": 41.6,
+      "temp_bath_c": 42.4,
       "flow_l_per_min": 187.8,
       "clarity": "clear",
       "smell": "normal",
@@ -286,9 +291,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-19T23:20:00+09:00",
+      "logged_at": "2026-09-20T23:20:00+09:00",
       "temp_chamber_c": 90.8,
-      "temp_bath_c": 41.9,
+      "temp_bath_c": 42.6,
       "flow_l_per_min": 184.6,
       "clarity": "clear",
       "smell": "normal",
@@ -298,9 +303,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-20T07:08:00+09:00",
+      "logged_at": "2026-09-21T07:08:00+09:00",
       "temp_chamber_c": 92.8,
-      "temp_bath_c": 40.7,
+      "temp_bath_c": 41.8,
       "flow_l_per_min": 197,
       "clarity": "clear",
       "smell": "normal",
@@ -310,9 +315,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-20T23:33:00+09:00",
+      "logged_at": "2026-09-21T23:33:00+09:00",
       "temp_chamber_c": 90.6,
-      "temp_bath_c": 40.8,
+      "temp_bath_c": 41.8,
       "flow_l_per_min": 192.5,
       "clarity": "slightly_cloudy",
       "smell": "normal",
@@ -322,9 +327,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-21T07:38:00+09:00",
+      "logged_at": "2026-09-22T07:38:00+09:00",
       "temp_chamber_c": 90.2,
-      "temp_bath_c": 40.8,
+      "temp_bath_c": 41.8,
       "flow_l_per_min": 190.3,
       "clarity": "clear",
       "smell": "normal",
@@ -334,9 +339,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-21T23:07:00+09:00",
+      "logged_at": "2026-09-22T23:07:00+09:00",
       "temp_chamber_c": 90,
-      "temp_bath_c": 41.6,
+      "temp_bath_c": 42.3,
       "flow_l_per_min": 186.2,
       "clarity": "clear",
       "smell": "normal",
@@ -346,9 +351,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-22T07:22:00+09:00",
+      "logged_at": "2026-09-23T07:22:00+09:00",
       "temp_chamber_c": 90.7,
-      "temp_bath_c": 41.3,
+      "temp_bath_c": 42.2,
       "flow_l_per_min": 195.2,
       "clarity": "slightly_cloudy",
       "smell": "normal",
@@ -358,9 +363,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-23T07:38:00+09:00",
+      "logged_at": "2026-09-24T07:38:00+09:00",
       "temp_chamber_c": 91.9,
-      "temp_bath_c": 42,
+      "temp_bath_c": 42.6,
       "flow_l_per_min": 183.8,
       "clarity": "clear",
       "smell": "normal",
@@ -370,9 +375,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-24T07:23:00+09:00",
+      "logged_at": "2026-09-25T07:23:00+09:00",
       "temp_chamber_c": 91.2,
-      "temp_bath_c": 41.2,
+      "temp_bath_c": 42.1,
       "flow_l_per_min": 186.6,
       "clarity": "clear",
       "smell": "normal",
@@ -382,9 +387,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-25T07:12:00+09:00",
+      "logged_at": "2026-09-26T07:12:00+09:00",
       "temp_chamber_c": 92.8,
-      "temp_bath_c": 42.4,
+      "temp_bath_c": 43,
       "flow_l_per_min": 189.8,
       "clarity": "clear",
       "smell": "normal",
@@ -394,9 +399,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-26T07:36:00+09:00",
+      "logged_at": "2026-09-27T07:36:00+09:00",
       "temp_chamber_c": 92.5,
-      "temp_bath_c": 41.5,
+      "temp_bath_c": 42.3,
       "flow_l_per_min": 180.9,
       "clarity": "clear",
       "smell": "normal",
@@ -406,9 +411,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-27T07:31:00+09:00",
+      "logged_at": "2026-09-28T07:31:00+09:00",
       "temp_chamber_c": 91.5,
-      "temp_bath_c": 40.9,
+      "temp_bath_c": 41.9,
       "flow_l_per_min": 184.6,
       "clarity": "clear",
       "smell": "normal",
@@ -418,9 +423,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-28T07:39:00+09:00",
+      "logged_at": "2026-09-29T07:39:00+09:00",
       "temp_chamber_c": 91.7,
-      "temp_bath_c": 42.5,
+      "temp_bath_c": 43,
       "flow_l_per_min": 184.5,
       "clarity": "clear",
       "smell": "normal",
@@ -430,9 +435,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-29T07:37:00+09:00",
+      "logged_at": "2026-09-30T07:37:00+09:00",
       "temp_chamber_c": 90.9,
-      "temp_bath_c": 40.7,
+      "temp_bath_c": 41.7,
       "flow_l_per_min": 169.3,
       "clarity": "clear",
       "smell": "normal",
@@ -442,9 +447,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-09-30T07:29:00+09:00",
+      "logged_at": "2026-10-01T07:29:00+09:00",
       "temp_chamber_c": 91.9,
-      "temp_bath_c": 40.7,
+      "temp_bath_c": 41.7,
       "flow_l_per_min": 169.2,
       "clarity": "clear",
       "smell": "normal",
@@ -454,9 +459,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-01T07:27:00+09:00",
+      "logged_at": "2026-10-02T07:27:00+09:00",
       "temp_chamber_c": 90.5,
-      "temp_bath_c": 41.7,
+      "temp_bath_c": 42.4,
       "flow_l_per_min": 167.7,
       "clarity": "clear",
       "smell": "normal",
@@ -466,9 +471,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-02T07:36:00+09:00",
+      "logged_at": "2026-10-03T07:36:00+09:00",
       "temp_chamber_c": 92,
-      "temp_bath_c": 42.3,
+      "temp_bath_c": 42.9,
       "flow_l_per_min": 182.1,
       "clarity": "clear",
       "smell": "normal",
@@ -478,9 +483,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-03T07:34:00+09:00",
+      "logged_at": "2026-10-04T07:34:00+09:00",
       "temp_chamber_c": 91.3,
-      "temp_bath_c": 41.9,
+      "temp_bath_c": 42.6,
       "flow_l_per_min": 186.8,
       "clarity": "clear",
       "smell": "normal",
@@ -490,9 +495,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-03T23:15:00+09:00",
+      "logged_at": "2026-10-04T23:15:00+09:00",
       "temp_chamber_c": 91.1,
-      "temp_bath_c": 41.7,
+      "temp_bath_c": 42.4,
       "flow_l_per_min": 180.7,
       "clarity": "clear",
       "smell": "normal",
@@ -502,9 +507,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-04T07:16:00+09:00",
+      "logged_at": "2026-10-05T07:16:00+09:00",
       "temp_chamber_c": 90.3,
-      "temp_bath_c": 40.7,
+      "temp_bath_c": 41.7,
       "flow_l_per_min": 188.6,
       "clarity": "clear",
       "smell": "normal",
@@ -514,9 +519,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-04T23:11:00+09:00",
+      "logged_at": "2026-10-05T23:11:00+09:00",
       "temp_chamber_c": 91.3,
-      "temp_bath_c": 40.6,
+      "temp_bath_c": 41.7,
       "flow_l_per_min": 183,
       "clarity": "clear",
       "smell": "normal",
@@ -526,9 +531,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-05T07:24:00+09:00",
+      "logged_at": "2026-10-06T07:24:00+09:00",
       "temp_chamber_c": 91.6,
-      "temp_bath_c": 42.1,
+      "temp_bath_c": 42.7,
       "flow_l_per_min": 184.4,
       "clarity": "clear",
       "smell": "normal",
@@ -538,9 +543,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-05T23:23:00+09:00",
+      "logged_at": "2026-10-06T23:23:00+09:00",
       "temp_chamber_c": 89,
-      "temp_bath_c": 42.4,
+      "temp_bath_c": 42.9,
       "flow_l_per_min": 186.3,
       "clarity": "clear",
       "smell": "normal",
@@ -550,9 +555,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-06T07:02:00+09:00",
+      "logged_at": "2026-10-07T07:02:00+09:00",
       "temp_chamber_c": 92.2,
-      "temp_bath_c": 41.7,
+      "temp_bath_c": 42.4,
       "flow_l_per_min": 192.8,
       "clarity": "clear",
       "smell": "normal",
@@ -562,9 +567,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-07T07:08:00+09:00",
+      "logged_at": "2026-10-08T07:08:00+09:00",
       "temp_chamber_c": 91.5,
-      "temp_bath_c": 40.5,
+      "temp_bath_c": 41.6,
       "flow_l_per_min": 193,
       "clarity": "slightly_cloudy",
       "smell": "normal",
@@ -574,9 +579,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-08T07:06:00+09:00",
+      "logged_at": "2026-10-09T07:06:00+09:00",
       "temp_chamber_c": 90.6,
-      "temp_bath_c": 41.9,
+      "temp_bath_c": 42.6,
       "flow_l_per_min": 183.6,
       "clarity": "clear",
       "smell": "normal",
@@ -586,9 +591,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-09T07:03:00+09:00",
+      "logged_at": "2026-10-10T07:03:00+09:00",
       "temp_chamber_c": 91.8,
-      "temp_bath_c": 41,
+      "temp_bath_c": 41.9,
       "flow_l_per_min": 193.6,
       "clarity": "slightly_cloudy",
       "smell": "normal",
@@ -598,9 +603,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-09T23:29:00+09:00",
+      "logged_at": "2026-10-10T23:29:00+09:00",
       "temp_chamber_c": 90.4,
-      "temp_bath_c": 41.4,
+      "temp_bath_c": 42.3,
       "flow_l_per_min": 193.3,
       "clarity": "slightly_cloudy",
       "smell": "normal",
@@ -610,9 +615,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-10T07:32:00+09:00",
+      "logged_at": "2026-10-11T07:32:00+09:00",
       "temp_chamber_c": 92.8,
-      "temp_bath_c": 42.2,
+      "temp_bath_c": 42.8,
       "flow_l_per_min": 185.9,
       "clarity": "clear",
       "smell": "normal",
@@ -622,9 +627,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-11T07:31:00+09:00",
+      "logged_at": "2026-10-12T07:31:00+09:00",
       "temp_chamber_c": 91.2,
-      "temp_bath_c": 40.7,
+      "temp_bath_c": 41.7,
       "flow_l_per_min": 183.5,
       "clarity": "clear",
       "smell": "normal",
@@ -634,9 +639,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-12T07:36:00+09:00",
+      "logged_at": "2026-10-13T07:36:00+09:00",
       "temp_chamber_c": 90.3,
-      "temp_bath_c": 40.9,
+      "temp_bath_c": 41.9,
       "flow_l_per_min": 198.6,
       "clarity": "clear",
       "smell": "normal",
@@ -646,9 +651,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-12T23:37:00+09:00",
+      "logged_at": "2026-10-13T23:37:00+09:00",
       "temp_chamber_c": 90.5,
-      "temp_bath_c": 41.2,
+      "temp_bath_c": 42.1,
       "flow_l_per_min": 189.3,
       "clarity": "slightly_cloudy",
       "smell": "normal",
@@ -658,9 +663,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-13T07:16:00+09:00",
+      "logged_at": "2026-10-14T07:16:00+09:00",
       "temp_chamber_c": 92.1,
-      "temp_bath_c": 42.1,
+      "temp_bath_c": 42.7,
       "flow_l_per_min": 187,
       "clarity": "clear",
       "smell": "normal",
@@ -670,9 +675,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-14T07:05:00+09:00",
+      "logged_at": "2026-10-15T07:05:00+09:00",
       "temp_chamber_c": 90.2,
-      "temp_bath_c": 42.5,
+      "temp_bath_c": 43,
       "flow_l_per_min": 185.1,
       "clarity": "clear",
       "smell": "normal",
@@ -682,9 +687,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-15T07:33:00+09:00",
+      "logged_at": "2026-10-16T07:33:00+09:00",
       "temp_chamber_c": 92.8,
-      "temp_bath_c": 41.5,
+      "temp_bath_c": 42.3,
       "flow_l_per_min": 189.9,
       "clarity": "clear",
       "smell": "normal",
@@ -694,9 +699,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-15T23:11:00+09:00",
+      "logged_at": "2026-10-16T23:11:00+09:00",
       "temp_chamber_c": 89.9,
-      "temp_bath_c": 40.7,
+      "temp_bath_c": 41.7,
       "flow_l_per_min": 181.6,
       "clarity": "clear",
       "smell": "normal",
@@ -706,9 +711,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-16T07:29:00+09:00",
+      "logged_at": "2026-10-17T07:29:00+09:00",
       "temp_chamber_c": 91.1,
-      "temp_bath_c": 42.2,
+      "temp_bath_c": 42.8,
       "flow_l_per_min": 190.6,
       "clarity": "clear",
       "smell": "different",
@@ -718,9 +723,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-16T23:30:00+09:00",
+      "logged_at": "2026-10-17T23:30:00+09:00",
       "temp_chamber_c": 89.8,
-      "temp_bath_c": 41,
+      "temp_bath_c": 41.9,
       "flow_l_per_min": 188.9,
       "clarity": "clear",
       "smell": "normal",
@@ -730,9 +735,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-17T07:05:00+09:00",
+      "logged_at": "2026-10-18T07:05:00+09:00",
       "temp_chamber_c": 92.1,
-      "temp_bath_c": 41.6,
+      "temp_bath_c": 42.3,
       "flow_l_per_min": 198.3,
       "clarity": "slightly_cloudy",
       "smell": "stronger",
@@ -742,9 +747,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-17T23:24:00+09:00",
+      "logged_at": "2026-10-18T23:24:00+09:00",
       "temp_chamber_c": 89.1,
-      "temp_bath_c": 41.7,
+      "temp_bath_c": 42.5,
       "flow_l_per_min": 191.2,
       "clarity": "slightly_cloudy",
       "smell": "normal",
@@ -754,9 +759,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-18T07:20:00+09:00",
+      "logged_at": "2026-10-19T07:20:00+09:00",
       "temp_chamber_c": 90.9,
-      "temp_bath_c": 41.9,
+      "temp_bath_c": 42.6,
       "flow_l_per_min": 193.3,
       "clarity": "slightly_cloudy",
       "smell": "normal",
@@ -766,9 +771,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-19T07:22:00+09:00",
+      "logged_at": "2026-10-20T07:22:00+09:00",
       "temp_chamber_c": 91.5,
-      "temp_bath_c": 41.3,
+      "temp_bath_c": 42.2,
       "flow_l_per_min": 184.7,
       "clarity": "clear",
       "smell": "normal",
@@ -778,9 +783,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-19T23:01:00+09:00",
+      "logged_at": "2026-10-20T23:01:00+09:00",
       "temp_chamber_c": 90,
-      "temp_bath_c": 41.8,
+      "temp_bath_c": 42.5,
       "flow_l_per_min": 181.9,
       "clarity": "clear",
       "smell": "normal",
@@ -790,9 +795,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-20T07:22:00+09:00",
+      "logged_at": "2026-10-21T07:22:00+09:00",
       "temp_chamber_c": 90.8,
-      "temp_bath_c": 41.7,
+      "temp_bath_c": 42.4,
       "flow_l_per_min": 188.6,
       "clarity": "clear",
       "smell": "normal",
@@ -802,9 +807,9 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-20T23:01:00+09:00",
+      "logged_at": "2026-10-21T23:01:00+09:00",
       "temp_chamber_c": 89.8,
-      "temp_bath_c": 40.8,
+      "temp_bath_c": 41.8,
       "flow_l_per_min": 182.2,
       "clarity": "clear",
       "smell": "normal",
@@ -814,21 +819,69 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-21T07:28:00+09:00",
+      "logged_at": "2026-10-22T07:28:00+09:00",
       "temp_chamber_c": 92.5,
-      "temp_bath_c": 41.7,
-      "flow_l_per_min": 185.3,
+      "temp_bath_c": 40.5,
+      "flow_l_per_min": 186.9,
+      "clarity": "clear",
+      "smell": "normal",
+      "actions": "",
+      "note": "浴槽の温度が上がりにくい",
+      "weather": "sunny",
+      "is_simulated": true
+    },
+    {
+      "logged_at": "2026-10-22T23:12:00+09:00",
+      "temp_chamber_c": 88.6,
+      "temp_bath_c": 40.7,
+      "flow_l_per_min": 186.4,
+      "clarity": "clear",
+      "smell": "normal",
+      "actions": "",
+      "note": "浴槽の温度が上がりにくい",
+      "weather": "sunny",
+      "is_simulated": true
+    },
+    {
+      "logged_at": "2026-10-23T07:14:00+09:00",
+      "temp_chamber_c": 90.5,
+      "temp_bath_c": 40.7,
+      "flow_l_per_min": 182.2,
+      "clarity": "clear",
+      "smell": "normal",
+      "actions": "",
+      "note": "浴槽の温度が上がりにくい",
+      "weather": "sunny",
+      "is_simulated": true
+    },
+    {
+      "logged_at": "2026-10-23T23:28:00+09:00",
+      "temp_chamber_c": 89.5,
+      "temp_bath_c": 40.4,
+      "flow_l_per_min": 181.8,
+      "clarity": "clear",
+      "smell": "normal",
+      "actions": "",
+      "note": "浴槽の温度が上がりにくい",
+      "weather": "sunny",
+      "is_simulated": true
+    },
+    {
+      "logged_at": "2026-10-24T07:34:00+09:00",
+      "temp_chamber_c": 90.9,
+      "temp_bath_c": 42.1,
+      "flow_l_per_min": 185.9,
       "clarity": "clear",
       "smell": "normal",
       "actions": "",
       "note": "",
-      "weather": "rain",
+      "weather": "sunny",
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-21T23:12:00+09:00",
-      "temp_chamber_c": 88.6,
-      "temp_bath_c": 40.5,
+      "logged_at": "2026-10-25T07:36:00+09:00",
+      "temp_chamber_c": 90.3,
+      "temp_bath_c": 41.8,
       "flow_l_per_min": 190.1,
       "clarity": "clear",
       "smell": "normal",
@@ -838,47 +891,95 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-22T07:16:00+09:00",
-      "temp_chamber_c": 90.5,
-      "temp_bath_c": 41.9,
-      "flow_l_per_min": 199.2,
+      "logged_at": "2026-10-26T07:38:00+09:00",
+      "temp_chamber_c": 92.3,
+      "temp_bath_c": 41.6,
+      "flow_l_per_min": 200,
       "clarity": "slightly_cloudy",
       "smell": "normal",
       "actions": "",
-      "note": "",
-      "weather": "rain",
-      "is_simulated": true
-    },
-    {
-      "logged_at": "2026-10-22T23:11:00+09:00",
-      "temp_chamber_c": 91.3,
-      "temp_bath_c": 41,
-      "flow_l_per_min": 190.9,
-      "clarity": "slightly_cloudy",
-      "smell": "normal",
-      "actions": "",
-      "note": "",
-      "weather": "rain",
-      "is_simulated": true
-    },
-    {
-      "logged_at": "2026-10-23T07:35:00+09:00",
-      "temp_chamber_c": 91.5,
-      "temp_bath_c": 42.5,
-      "flow_l_per_min": 197.2,
-      "clarity": "clear",
-      "smell": "normal",
-      "actions": "清掃",
       "note": "",
       "weather": "sunny",
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-23T23:00:00+09:00",
-      "temp_chamber_c": 91.5,
-      "temp_bath_c": 42.3,
-      "flow_l_per_min": 196.7,
+      "logged_at": "2026-10-27T07:28:00+09:00",
+      "temp_chamber_c": 91.9,
+      "temp_bath_c": 42.7,
+      "flow_l_per_min": 182.8,
       "clarity": "clear",
+      "smell": "normal",
+      "actions": "",
+      "note": "",
+      "weather": "sunny",
+      "is_simulated": true
+    },
+    {
+      "logged_at": "2026-10-28T07:03:00+09:00",
+      "temp_chamber_c": 90.7,
+      "temp_bath_c": 42.1,
+      "flow_l_per_min": 187.9,
+      "clarity": "cloudy",
+      "smell": "normal",
+      "actions": "",
+      "note": "雨は降っていないが濁りが残る",
+      "weather": "sunny",
+      "is_simulated": true
+    },
+    {
+      "logged_at": "2026-10-28T23:26:00+09:00",
+      "temp_chamber_c": 90.6,
+      "temp_bath_c": 42.7,
+      "flow_l_per_min": 187,
+      "clarity": "cloudy",
+      "smell": "normal",
+      "actions": "",
+      "note": "雨は降っていないが濁りが残る",
+      "weather": "sunny",
+      "is_simulated": true
+    },
+    {
+      "logged_at": "2026-10-29T07:36:00+09:00",
+      "temp_chamber_c": 90.9,
+      "temp_bath_c": 42.2,
+      "flow_l_per_min": 182.3,
+      "clarity": "cloudy",
+      "smell": "normal",
+      "actions": "",
+      "note": "雨は降っていないが濁りが残る",
+      "weather": "sunny",
+      "is_simulated": true
+    },
+    {
+      "logged_at": "2026-10-30T07:08:00+09:00",
+      "temp_chamber_c": 91.5,
+      "temp_bath_c": 42.7,
+      "flow_l_per_min": 180.1,
+      "clarity": "clear",
+      "smell": "normal",
+      "actions": "",
+      "note": "",
+      "weather": "rain",
+      "is_simulated": true
+    },
+    {
+      "logged_at": "2026-10-31T07:39:00+09:00",
+      "temp_chamber_c": 91.3,
+      "temp_bath_c": 42.1,
+      "flow_l_per_min": 196.1,
+      "clarity": "slightly_cloudy",
+      "smell": "normal",
+      "actions": "",
+      "note": "",
+      "weather": "sunny",
+      "is_simulated": true
+    },
+    {
+      "logged_at": "2026-10-31T23:27:00+09:00",
+      "temp_chamber_c": 89.7,
+      "temp_bath_c": 42.7,
+      "flow_l_per_min": 189.3,
+      "clarity": "slightly_cloudy",
       "smell": "normal",
       "actions": "",
       "note": "いつも通り",
@@ -886,181 +987,61 @@
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-24T07:09:00+09:00",
-      "temp_chamber_c": 91.5,
+      "logged_at": "2026-11-01T07:17:00+09:00",
+      "temp_chamber_c": 90.3,
       "temp_bath_c": 42.4,
-      "flow_l_per_min": 190.6,
+      "flow_l_per_min": 186.1,
       "clarity": "clear",
       "smell": "normal",
       "actions": "",
       "note": "",
-      "weather": "rain",
+      "weather": "sunny",
       "is_simulated": true
     },
     {
-      "logged_at": "2026-10-25T07:18:00+09:00",
-      "temp_chamber_c": 92.5,
+      "logged_at": "2026-11-02T07:17:00+09:00",
+      "temp_chamber_c": 92.3,
+      "temp_bath_c": 42.7,
+      "flow_l_per_min": 185.1,
+      "clarity": "clear",
+      "smell": "normal",
+      "actions": "",
+      "note": "特になし",
+      "weather": "sunny",
+      "is_simulated": true
+    },
+    {
+      "logged_at": "2026-11-03T07:13:00+09:00",
+      "temp_chamber_c": 92.6,
+      "temp_bath_c": 42.5,
+      "flow_l_per_min": 186.1,
+      "clarity": "clear",
+      "smell": "normal",
+      "actions": "",
+      "note": "",
+      "weather": "sunny",
+      "is_simulated": true
+    },
+    {
+      "logged_at": "2026-11-03T23:38:00+09:00",
+      "temp_chamber_c": 89.6,
+      "temp_bath_c": 42.4,
+      "flow_l_per_min": 188.6,
+      "clarity": "clear",
+      "smell": "normal",
+      "actions": "",
+      "note": "",
+      "weather": "sunny",
+      "is_simulated": true
+    },
+    {
+      "logged_at": "2026-11-04T07:33:00+09:00",
+      "temp_chamber_c": 92.7,
       "temp_bath_c": 41.9,
-      "flow_l_per_min": 192.4,
-      "clarity": "slightly_cloudy",
-      "smell": "normal",
-      "actions": "",
-      "note": "",
-      "weather": "sunny",
-      "is_simulated": true
-    },
-    {
-      "logged_at": "2026-10-25T23:17:00+09:00",
-      "temp_chamber_c": 88.8,
-      "temp_bath_c": 41.7,
-      "flow_l_per_min": 198.7,
-      "clarity": "slightly_cloudy",
-      "smell": "normal",
-      "actions": "",
-      "note": "",
-      "weather": "sunny",
-      "is_simulated": true
-    },
-    {
-      "logged_at": "2026-10-26T07:19:00+09:00",
-      "temp_chamber_c": 91.3,
-      "temp_bath_c": 40.9,
-      "flow_l_per_min": 186.3,
-      "clarity": "clear",
-      "smell": "normal",
-      "actions": "",
-      "note": "",
-      "weather": "sunny",
-      "is_simulated": true
-    },
-    {
-      "logged_at": "2026-10-26T23:13:00+09:00",
-      "temp_chamber_c": 91.4,
-      "temp_bath_c": 40.9,
-      "flow_l_per_min": 188.3,
-      "clarity": "clear",
-      "smell": "normal",
-      "actions": "",
-      "note": "",
-      "weather": "sunny",
-      "is_simulated": true
-    },
-    {
-      "logged_at": "2026-10-27T07:17:00+09:00",
-      "temp_chamber_c": 91.1,
-      "temp_bath_c": 41.7,
-      "flow_l_per_min": 187.3,
-      "clarity": "cloudy",
-      "smell": "normal",
-      "actions": "",
-      "note": "雨は降っていないが濁りが残る",
-      "weather": "sunny",
-      "is_simulated": true
-    },
-    {
-      "logged_at": "2026-10-28T07:00:00+09:00",
-      "temp_chamber_c": 91.2,
-      "temp_bath_c": 41.8,
-      "flow_l_per_min": 188.8,
-      "clarity": "cloudy",
-      "smell": "normal",
-      "actions": "配管確認",
-      "note": "雨は降っていないが濁りが残る",
-      "weather": "sunny",
-      "is_simulated": true
-    },
-    {
-      "logged_at": "2026-10-29T07:38:00+09:00",
-      "temp_chamber_c": 92,
-      "temp_bath_c": 42,
-      "flow_l_per_min": 180.8,
-      "clarity": "clear",
-      "smell": "normal",
-      "actions": "",
-      "note": "",
-      "weather": "rain",
-      "is_simulated": true
-    },
-    {
-      "logged_at": "2026-10-30T07:23:00+09:00",
-      "temp_chamber_c": 91.3,
-      "temp_bath_c": 42.2,
-      "flow_l_per_min": 198.3,
-      "clarity": "slightly_cloudy",
-      "smell": "normal",
-      "actions": "清掃",
-      "note": "",
-      "weather": "sunny",
-      "is_simulated": true
-    },
-    {
-      "logged_at": "2026-10-31T07:24:00+09:00",
-      "temp_chamber_c": 90.8,
-      "temp_bath_c": 42.3,
-      "flow_l_per_min": 187.6,
-      "clarity": "clear",
-      "smell": "normal",
-      "actions": "",
-      "note": "",
-      "weather": "sunny",
-      "is_simulated": true
-    },
-    {
-      "logged_at": "2026-11-01T07:38:00+09:00",
-      "temp_chamber_c": 90.9,
-      "temp_bath_c": 41.1,
-      "flow_l_per_min": 186.9,
-      "clarity": "clear",
-      "smell": "normal",
-      "actions": "",
-      "note": "",
-      "weather": "sunny",
-      "is_simulated": true
-    },
-    {
-      "logged_at": "2026-11-01T23:04:00+09:00",
-      "temp_chamber_c": 88.4,
-      "temp_bath_c": 41,
       "flow_l_per_min": 188.7,
       "clarity": "clear",
       "smell": "normal",
-      "actions": "",
-      "note": "",
-      "weather": "sunny",
-      "is_simulated": true
-    },
-    {
-      "logged_at": "2026-11-02T07:07:00+09:00",
-      "temp_chamber_c": 92.4,
-      "temp_bath_c": 40.6,
-      "flow_l_per_min": 186.6,
-      "clarity": "clear",
-      "smell": "normal",
       "actions": "清掃",
-      "note": "",
-      "weather": "sunny",
-      "is_simulated": true
-    },
-    {
-      "logged_at": "2026-11-02T23:17:00+09:00",
-      "temp_chamber_c": 90.7,
-      "temp_bath_c": 40.7,
-      "flow_l_per_min": 187.1,
-      "clarity": "clear",
-      "smell": "normal",
-      "actions": "",
-      "note": "",
-      "weather": "sunny",
-      "is_simulated": true
-    },
-    {
-      "logged_at": "2026-11-03T07:01:00+09:00",
-      "temp_chamber_c": 91.5,
-      "temp_bath_c": 42.2,
-      "flow_l_per_min": 190.5,
-      "clarity": "clear",
-      "smell": "normal",
-      "actions": "",
       "note": "",
       "weather": "sunny",
       "is_simulated": true
