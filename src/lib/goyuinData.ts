@@ -2,6 +2,7 @@
 import { and, asc, desc, eq, lte } from "drizzle-orm";
 import { db, schema } from "@/db";
 import type { SpringClass } from "@/db/schema";
+import type { Variant } from "./goyuinVariant";
 
 export type AreaView = {
   code: string;
@@ -83,4 +84,40 @@ export function getFacilityName(areaCode: string): string | null {
   const facility = db.select().from(schema.facility)
     .where(and(eq(schema.facility.onsenAreaId, area.id), eq(schema.facility.hasAiYumori, true))).get();
   return facility?.name ?? null;
+}
+
+/** 都道府県名だけ（未所持でも見せてよい公開情報）。無ければ null */
+export function getPrefecture(code: string): string | null {
+  return db.select({ prefecture: schema.onsenArea.prefecture }).from(schema.onsenArea).where(eq(schema.onsenArea.code, code)).get()?.prefecture ?? null;
+}
+
+/**
+ * 端末ごとに見せてよい温泉地。未所持は code と都道府県名だけで、温泉地名・キャラ画像・泉質・特徴・出典は含めない
+ * （画面で隠すのではなく、レスポンスに入れない。御湯印図鑑の「未所持は秘密」）。
+ */
+export type AreaPublic =
+  | { owned: false; code: string; prefecture: string }
+  | (AreaView & { owned: true; variants: Variant[] });
+
+export function maskAreas(areas: AreaView[], ownedVariants: Map<string, Variant[]>): AreaPublic[] {
+  return areas.map((a) => {
+    const v = ownedVariants.get(a.code);
+    return v ? { ...a, owned: true as const, variants: v } : { owned: false as const, code: a.code, prefecture: a.prefecture };
+  });
+}
+
+/** この匿名キーが取得した温泉地ごとの柄（取得順・重複なし）。キーが無ければ空 */
+export function ownedVariantsOf(userKey: string | null): Map<string, Variant[]> {
+  const out = new Map<string, Variant[]>();
+  if (!userKey) return out;
+  const idToCode = new Map(db.select().from(schema.onsenArea).all().map((a) => [a.id, a.code]));
+  const rows = db.select().from(schema.goyuin).where(eq(schema.goyuin.userKey, userKey)).orderBy(asc(schema.goyuin.obtainedAt), asc(schema.goyuin.id)).all();
+  for (const r of rows) {
+    const code = idToCode.get(r.onsenAreaId);
+    if (!code) continue;
+    const list = out.get(code) ?? [];
+    if (!list.includes(r.variant)) list.push(r.variant);
+    out.set(code, list);
+  }
+  return out;
 }

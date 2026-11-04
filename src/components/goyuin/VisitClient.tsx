@@ -22,7 +22,7 @@ const dateFmt = new Intl.DateTimeFormat("ja-JP", { timeZone: "Asia/Tokyo", year:
  * 入口。URL に ?reset=1 が付いていたら、この端末の匿名キーを作り直してから始める。
  * ※ reset=1 は撮影・開発用（同じ端末で何度も「初めて」を撮るため）。本番の機能ではない。
  */
-export function VisitEntry(props: { area: AreaView; facility: string | null }) {
+export function VisitEntry(props: { code: string; prefecture: string }) {
   const [ready, setReady] = useState(false);
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -37,7 +37,7 @@ export function VisitEntry(props: { area: AreaView; facility: string | null }) {
   return <VisitClient {...props} />;
 }
 
-function VisitClient({ area, facility }: { area: AreaView; facility: string | null }) {
+function VisitClient({ code, prefecture }: { code: string; prefecture: string }) {
   const { status, userKey, items, refresh } = useOwned();
   const [phase, setPhase] = useState<"idle" | "arriving" | "result">("idle");
   const [visit, setVisit] = useState<Visit | null>(null);
@@ -45,20 +45,20 @@ function VisitClient({ area, facility }: { area: AreaView; facility: string | nu
   const restored = useRef(false);
 
   const post = () =>
-    fetch("/api/visit", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code: area.code, user_key: userKey }) });
+    fetch("/api/visit", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code, user_key: userKey }) });
 
   // 今日この温泉地をもう受け取っていたら、その結果をそのまま見せる（サーバー側も同じ結果を返す）
   useEffect(() => {
     if (status !== "ready" || restored.current || !userKey) return;
     const today = jstDate(new Date());
-    if (!items.some((i) => i.code === area.code && i.obtainedVia === "visit" && jstDate(new Date(i.obtainedAt)) === today)) return;
+    if (!items.some((i) => i.code === code && i.obtainedVia === "visit" && jstDate(new Date(i.obtainedAt)) === today)) return;
     restored.current = true;
     void (async () => {
       const res = await post();
       if (res.ok) { setVisit(await res.json()); setPhase("result"); }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, items, userKey, area.code]);
+  }, [status, items, userKey, code]);
 
   async function arrive() {
     if (!userKey) return;
@@ -86,14 +86,12 @@ function VisitClient({ area, facility }: { area: AreaView; facility: string | nu
 
   return (
     <div className="space-y-5 px-4 pb-16 pt-6">
+      {/* 着くまで、温泉地名もキャラも見せない（取得した瞬間が初対面） */}
       <div className="goshuin-card visit-stage relative mx-auto max-w-sm space-y-3 p-5 text-center" data-variant="washi" aria-live="polite">
-        <p className="text-xs tracking-widest text-[var(--ink-soft)]">ようこそ</p>
-        {facility && <p className="text-sm">{facility}</p>}
-        <h2 className="text-2xl font-bold tracking-wider">{area.name}</h2>
-        <p className="text-xs text-[var(--ink-soft)]">{area.reading}　{area.prefecture}</p>
-        <div className={phase === "arriving" ? "visit-char-fade" : undefined}>
-          <CharacterImage area={area} priority sizes="(max-width: 640px) 70vw, 320px" />
-        </div>
+        <p className="text-xs tracking-widest text-[var(--ink-soft)]">No.{code}</p>
+        <h2 className="text-2xl font-bold tracking-wider">{prefecture}</h2>
+        <p className="text-sm text-[var(--ink-soft)]">に着きました</p>
+        <div className={`mx-auto grid aspect-square w-3/5 place-items-center rounded-sm border border-dashed border-[#c9bb94] text-6xl text-[var(--ink-soft)] ${phase === "arriving" ? "visit-char-fade" : ""}`} aria-hidden>？</div>
         {phase === "arriving" && (
           <>
             {[10, 30, 50, 70].map((left, i) => (
@@ -114,7 +112,7 @@ function VisitClient({ area, facility }: { area: AreaView; facility: string | nu
         </button>
         {error && <p role="alert" className="text-sm text-red-800">{error}</p>}
         {status === "error" && <p role="alert" className="text-sm text-red-800">所持の状況を読み込めませんでした。通信を確かめてください。</p>}
-        <p className="text-xs text-[var(--ink-soft)]">この温泉地の御湯印は、1日1回もらえます。柄は4種のうちからひとつ決まります。</p>
+        <p className="text-xs text-[var(--ink-soft)]">どんな温泉地かは、もらってからのお楽しみ。この温泉地の御湯印は1日1回、柄は4種のうちからひとつ決まります。</p>
       </div>
     </div>
   );

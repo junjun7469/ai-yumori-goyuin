@@ -1,12 +1,20 @@
 import { NextResponse } from "next/server";
-import { getArea, getTodayYu } from "@/lib/goyuinData";
+import { isValidUserKey } from "@/lib/gachaLogic";
+import { getArea, getTodayYu, ownedVariantsOf, sourceLabel } from "@/lib/goyuinData";
 
 export const dynamic = "force-dynamic";
 
-/** 詳細。AI湯守を導入した施設がある温泉地（今は杖立）だけ today（今日の湯）を含む */
-export async function GET(_req: Request, ctx: { params: Promise<{ code: string }> }) {
+/**
+ * 詳細：GET /api/areas/43?user_key=…
+ * 所持していれば温泉地の情報と（導入施設があれば）今日の湯、未所持なら code と都道府県名だけ
+ */
+export async function GET(req: Request, ctx: { params: Promise<{ code: string }> }) {
   const { code } = await ctx.params;
   const area = /^\d{2}$/.test(code) ? getArea(code) : null;
   if (!area) return NextResponse.json({ error: "見つかりません" }, { status: 404 });
-  return NextResponse.json({ area, today: getTodayYu(code) });
+
+  const key = new URL(req.url).searchParams.get("user_key");
+  const variants = ownedVariantsOf(isValidUserKey(key) ? key : null).get(code);
+  if (!variants) return NextResponse.json({ owned: false, code, prefecture: area.prefecture });
+  return NextResponse.json({ owned: true, area, variants, source: sourceLabel(area), today: getTodayYu(code) });
 }

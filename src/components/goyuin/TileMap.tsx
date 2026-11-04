@@ -1,18 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import type { SpringClass } from "@/db/schema";
+import type { AreaPublic } from "@/lib/goyuinData";
 import type { Variant } from "@/lib/goyuinVariant";
 import { shortAreaName, TILE_COLS, TILE_ROW_HEIGHTS, TILES } from "@/lib/tileMap";
 import { CharacterImage } from "./CharacterImage";
 
-export type MapArea = { code: string; name: string; characterImage: string | null; springTypeClass: SpringClass };
-
 /**
  * 47都道府県の四角いタイルで描く日本列島（座標は tileMap.ts）。
- * 所持：台紙の色・短い温泉地名・小さなキャラ。未所持：都道府県名と「？」だけ。タップで詳細へ。
+ * 所持：台紙の色・短い温泉地名・小さなキャラ。未所持：都道府県名と「？」だけ（名前や絵は、そもそも渡されない）。タップで詳細へ。
  */
-export function TileMap({ areas, owned, variants }: { areas: MapArea[]; owned: Set<string>; variants: Map<string, Variant> }) {
+export function TileMap({ areas, variants }: { areas: AreaPublic[]; variants: Map<string, Variant> }) {
   const byCode = new Map(areas.map((a) => [a.code, a]));
   return (
     <div
@@ -24,9 +22,8 @@ export function TileMap({ areas, owned, variants }: { areas: MapArea[]; owned: S
       {TILES.map((tile) => {
         const area = byCode.get(tile.code);
         if (!area) return null;
-        const has = owned.has(tile.code);
         const place = { gridColumn: tile.col, gridRow: tile.row };
-        if (!has) {
+        if (!area.owned) {
           return (
             <Link key={tile.code} href={`/goyuin/${tile.code}`} role="listitem" aria-label={`${tile.pref}（未所持）`}
               className="map-tile map-tile--empty" style={place}>
