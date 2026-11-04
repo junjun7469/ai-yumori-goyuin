@@ -48,7 +48,7 @@ cp .env.example .env   # APIキーを記入
 npm install
 npm run sim    # 模擬計測データを生成（data/maruso_daily_sim.json）
 npm run seed   # DB 初期化と投入（DBを作り直すので、入力済みの記録は消える。キャラ画像の有無もここで決まる）
-npm run dev    # http://localhost:3000/dashboard/log
+npm run dev    # http://localhost:3000/dashboard/log （注意：npm run build は dev と同じ .next を書き換える。実行するなら先に dev を止め、後で dev を起動し直す。止めずに動かすと、CSS が 404 になり画面の装飾が消える）
 npm run check:api   # Claude API への接続確認（1回だけ小さく呼ぶ）
 npm run eval -- --only S01,S02   # 変化検知の評価（Claude API を使う。引数なしで全20件）
 npm run backfill                 # 模擬日誌への変化検知（Claude API を使う）。結果は data/maruso_detections_sim.json に保存され、seed が読み込む
