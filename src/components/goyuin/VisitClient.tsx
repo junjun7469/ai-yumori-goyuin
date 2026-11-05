@@ -138,7 +138,7 @@ function VisitResultCard({ v, gain }: { v: Visit; gain: Gain | null }) {
   return (
     <div className="space-y-4 px-5 pb-10 pt-5">
       {gain?.leveledUp && (
-        <p className="reveal mx-auto max-w-sm rounded-2xl border-2 border-[var(--vermilion)] bg-[var(--paper-card)] px-4 py-3 text-center" role="status">
+        <p className="levelup reveal mx-auto max-w-sm rounded-2xl border-2 border-[var(--vermilion)] bg-[var(--paper-card)] px-4 py-3 text-center" role="status">
           <span className="block text-lg font-bold tracking-widest text-[var(--vermilion)]">レベルアップ！</span>
           <span className="text-sm">Lv.{gain.level}　{gain.title}</span>
         </p>

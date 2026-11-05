@@ -233,31 +233,41 @@
 @media (prefers-reduced-motion: reduce) { .intro-screen, .intro-blink { animation: none; } }
 
 /* ============================================================
-   レトロ携帯機風テーマ（html[data-theme="retro"]・既定）
-   4階調の緑 #0f380f / #306230 / #8bac0f / #9bbc0f ＋ 枠の暗色。すべて自前の CSS。
-   色・書体・角丸・影・罫線は変数と、このブロックだけで差し替える（washi は上のまま残る）。
+   レトロ携帯機風テーマ（html[data-theme="retro"]・既定）― 後期のレトロ機風の配色
+   背景 薄いクリーム #f4ecd3、文字・罫線 濃紺 #1a1a2e。タブ色：図鑑 朱 / QR 藍 / 今日の湯 橙 / わたし 松葉。
+   補助色：金 #e5b84b（実績・レベルアップ）、灰 #9a9a9a（未所持・未達成）。起動演出だけは4階調の緑のまま（上の .intro-*）。
+   すべて自前の CSS。washi は上の定義のまま残り、data-theme で切り替わる。
    ============================================================ */
-/* アイコン・朱印・画像の出し分け（washi の線画／retro のドット絵） */
+/* アイコン・朱印の出し分け（washi の線画／retro のドット絵） */
 html:not([data-theme="retro"]) .only-retro { display: none !important; }
 html[data-theme="retro"] .only-washi { display: none !important; }
 
 html[data-theme="retro"] .goyuin-theme {
-  --paper: #8bac0f; /* 内側の面（数字の枠など） */
-  --paper-card: #9bbc0f; /* カード・画面の地 */
-  --ink: #0f380f;
-  --ink-soft: #0f380f; /* 小さな注記も最も暗い緑（読みやすさ優先） */
-  --vermilion: #0f380f; /* 強調：最暗色の太い面・反転 */
-  --indigo: #0f380f;
-  --gold: #306230;
-  --line: #0f380f;
-  --track: #8bac0f;
+  --paper: #e9dfbd; /* 内側の面（数字の枠など） */
+  --paper-card: #fbf6e4; /* カード・画面の地 */
+  --ink: #1a1a2e;
+  --ink-soft: #4a4a63; /* 小さな注記（クリーム地で十分なコントラスト） */
+  --vermilion: #1a1a2e; /* 強調の文字は濃紺。色は線・面・帯で使う（橙などはクリーム地で文字にすると読みにくいため） */
+  --indigo: #1a1a2e;
+  --gold: #e5b84b;
+  --line: #1a1a2e;
+  --track: #e3d8b4;
+  --tab: #d94a38; --tab-fg: #f4ecd3; /* 既定は図鑑の朱。画面ごとに下で差し替える */
   font-family: "DotGothic16", "Hiragino Kaku Gothic ProN", "Hiragino Sans", monospace;
-  background-color: #9bbc0f;
+  background-color: #f4ecd3;
   font-size: 15px;
   letter-spacing: 0.02em;
 }
-html[data-theme="retro"] body:has(.goyuin-theme) { background: #9bbc0f; }
-html[data-theme="retro"] body:has(.goyuin-theme) .mock-banner { background: #0f380f; color: #9bbc0f; font-family: "DotGothic16", monospace; font-size: 12px; }
+html[data-theme="retro"] .goyuin-theme[data-tab="zukan"] { --tab: #d94a38; --tab-fg: #f4ecd3; }
+html[data-theme="retro"] .goyuin-theme[data-tab="qr"] { --tab: #2f5fa8; --tab-fg: #f4ecd3; }
+/* 橙の上のクリーム文字はコントラスト比が約2.3で読みにくいので、橙の塗りの上の文字だけ濃紺にする */
+html[data-theme="retro"] .goyuin-theme[data-tab="today"] { --tab: #e08a2e; --tab-fg: #1a1a2e; }
+html[data-theme="retro"] .goyuin-theme[data-tab="me"] { --tab: #3f8f4a; --tab-fg: #f4ecd3; }
+html[data-theme="retro"] body:has(.goyuin-theme) { background: #f4ecd3; }
+html[data-theme="retro"] body:has(.goyuin-theme) .mock-banner { background: #f6e27a; color: #1a1a2e; font-family: "DotGothic16", monospace; font-size: 12px; }
+
+/* 画面上部の見出し帯：その画面のタブ色 */
+html[data-theme="retro"] .goyuin-theme .screen-band { background: var(--tab); color: var(--tab-fg); font-size: 14px; letter-spacing: 0.12em; border-bottom: 3px solid #1a1a2e; }
 
 /* 角丸なし・影なし・フェードなし・太字なし（ドット書体の太字は崩れる） */
 html[data-theme="retro"] .goyuin-theme *,
@@ -271,109 +281,112 @@ html[data-theme="retro"] .goyuin-theme *::after {
 }
 html[data-theme="retro"] .goyuin-theme a { text-decoration: underline; text-underline-offset: 3px; }
 html[data-theme="retro"] .goyuin-theme h1 { font-size: 28px; letter-spacing: 0.1em; }
-html[data-theme="retro"] .goyuin-theme h2 { font-size: 22px; }
-/* 小さすぎる文字は 12px まで引き上げる */
+html[data-theme="retro"] .goyuin-theme h2 { font-size: 22px; display: inline-block; border-bottom: 3px solid var(--tab); }
+html[data-theme="retro"] .goyuin-theme h3 { border-bottom: 2px solid var(--tab); padding-bottom: 1px; }
 html[data-theme="retro"] .goyuin-theme [class*="text-[10px]"],
 html[data-theme="retro"] .goyuin-theme [class*="text-[11px]"] { font-size: 12px !important; }
 html[data-theme="retro"] .goyuin-theme .bg-white { background-color: var(--paper-card) !important; }
-html[data-theme="retro"] .goyuin-theme .text-white { color: #9bbc0f !important; }
-html[data-theme="retro"] .goyuin-theme .text-red-800 { color: #0f380f !important; }
+html[data-theme="retro"] .goyuin-theme .text-white { color: var(--tab-fg) !important; }
+html[data-theme="retro"] .goyuin-theme .text-red-800 { color: #1a1a2e !important; }
 html[data-theme="retro"] .goyuin-theme [class~="border"] { border-width: 2px; }
-html[data-theme="retro"] .goyuin-theme [class*="border-[#d3c6ab]"] { border-color: #0f380f !important; border-style: solid !important; }
-html[data-theme="retro"] .goyuin-theme [class*="bg-[#f3e9d7]"] { background-color: #8bac0f !important; border: 2px solid #0f380f; }
-html[data-theme="retro"] .goyuin-theme [class*="text-amber"] { color: #0f380f !important; }
-/* 「要確認」「模擬データ」のバッジ：最暗色の地に明るい文字（反転） */
+/* 未所持・未達成は灰 */
+html[data-theme="retro"] .goyuin-theme [class*="border-[#d3c6ab]"] { border-color: #9a9a9a !important; border-style: solid !important; border-width: 3px !important; background: #e9dfbd; color: #1a1a2e; }
+html[data-theme="retro"] .goyuin-theme [class*="bg-[#f3e9d7]"] { background-color: #e9dfbd !important; border: 2px solid #1a1a2e; }
+html[data-theme="retro"] .goyuin-theme [class*="text-amber"] { color: #1a1a2e !important; }
+/* 「要確認」「模擬データ」のバッジ：濃紺の地にクリーム文字 */
 html[data-theme="retro"] .goyuin-theme [class*="bg-amber"],
-html[data-theme="retro"] .goyuin-theme [class*="bg-emerald"] { background: #0f380f !important; color: #9bbc0f !important; border-color: #0f380f !important; }
+html[data-theme="retro"] .goyuin-theme [class*="bg-emerald"] { background: #1a1a2e !important; color: #f4ecd3 !important; border-color: #1a1a2e !important; }
 
-/* カード・枠：3px の実線 */
-html[data-theme="retro"] .goyuin-theme .goshuin-card { background: var(--paper-card); border: 3px solid #0f380f; }
-html[data-theme="retro"] .goyuin-theme .rule-gold { height: 3px; background: repeating-linear-gradient(90deg, #0f380f 0 6px, transparent 6px 9px); opacity: 1; }
-html[data-theme="retro"] .goyuin-theme [aria-label="今日の湯"] { border: 3px solid #0f380f; }
+/* カード・枠：3px の実線（画面のタブ色） */
+html[data-theme="retro"] .goyuin-theme .goshuin-card { background: var(--paper-card); border: 3px solid var(--tab); }
+html[data-theme="retro"] .goyuin-theme .rule-gold { height: 3px; background: repeating-linear-gradient(90deg, #1a1a2e 0 6px, transparent 6px 9px); opacity: 1; }
+html[data-theme="retro"] .goyuin-theme [aria-label="今日の湯"] { border: 3px solid var(--tab); }
+html[data-theme="retro"] .goyuin-theme .yumark { color: var(--tab); }
 
-/* 御湯印の台紙 4 柄：緑の範囲で模様を変える（点描・縞・市松・波） */
-html[data-theme="retro"] .goyuin-theme .stamp-card,
-html[data-theme="retro"] .goyuin-theme .goshuin-card[data-variant] { border: 3px solid #0f380f; }
-html[data-theme="retro"] .goyuin-theme .stamp-card::after { border: 2px solid #306230; inset: 4px; }
+/* 御湯印の台紙 4 柄（2〜3色）：和紙＝クリームに点描、朝湯＝薄橙に縞、夕湯＝薄朱に市松、雪見＝薄藍に波 */
+html[data-theme="retro"] .goyuin-theme .stamp-card { border: 3px solid var(--tab); }
+html[data-theme="retro"] .goyuin-theme .stamp-card::after { border: 2px solid rgba(26, 26, 46, 0.22); inset: 4px; }
 html[data-theme="retro"] .goyuin-theme [data-variant="washi"]:not(.map-tile) {
-  background: radial-gradient(#8bac0f 1.6px, transparent 1.8px) 0 0 / 8px 8px, radial-gradient(#8bac0f 1.6px, transparent 1.8px) 4px 4px / 8px 8px, #9bbc0f;
+  background: radial-gradient(#d3c081 1.5px, transparent 1.8px) 0 0 / 8px 8px, radial-gradient(#d3c081 1.5px, transparent 1.8px) 4px 4px / 8px 8px, #f6efd6;
 }
-html[data-theme="retro"] .goyuin-theme [data-variant="asayu"]:not(.map-tile) {
-  background: repeating-linear-gradient(0deg, #8bac0f 0 3px, #9bbc0f 3px 7px);
-}
-html[data-theme="retro"] .goyuin-theme [data-variant="yuuyu"]:not(.map-tile) {
-  background: conic-gradient(#8bac0f 25%, #9bbc0f 0 50%, #8bac0f 0 75%, #9bbc0f 0) 0 0 / 12px 12px;
-}
+html[data-theme="retro"] .goyuin-theme [data-variant="asayu"]:not(.map-tile) { background: repeating-linear-gradient(0deg, #f2c68d 0 3px, #f9dcb6 3px 7px); }
+html[data-theme="retro"] .goyuin-theme [data-variant="yuuyu"]:not(.map-tile) { background: conic-gradient(#f0b5a6 25%, #f8d3c9 0 50%, #f0b5a6 0 75%, #f8d3c9 0) 0 0 / 12px 12px; }
 html[data-theme="retro"] .goyuin-theme [data-variant="yukimi"]:not(.map-tile) {
-  background: #9bbc0f url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='10' viewBox='0 0 16 10'%3E%3Cpath d='M0 6q4-5 8 0t8 0' fill='none' stroke='%238bac0f' stroke-width='2'/%3E%3C/svg%3E") 0 0 / 16px 10px;
+  background: #d3e0f3 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='10' viewBox='0 0 16 10'%3E%3Cpath d='M0 6q4-5 8 0t8 0' fill='none' stroke='%239fb8e0' stroke-width='2'/%3E%3C/svg%3E") 0 0 / 16px 10px;
 }
+html[data-theme="retro"] .goyuin-theme a.stamp-card { text-decoration: none; }
+html[data-theme="retro"] .goyuin-theme .stamp-card p { word-break: keep-all; }
+html[data-theme="retro"] .goyuin-theme a.no-underline,
+html[data-theme="retro"] .goyuin-theme a.rbtn { text-decoration: none; }
 
-/* 地図：罫線で区切った方眼。所持は塗りつぶし、未所持は「？」だけ */
-html[data-theme="retro"] .goyuin-theme .tile-grid { gap: 0 !important; border: 3px solid #0f380f; }
-html[data-theme="retro"] .goyuin-theme .map-tile { border: 1px solid #0f380f; background: #0f380f !important; color: #9bbc0f; }
-html[data-theme="retro"] .goyuin-theme .map-tile--empty { background: #9bbc0f !important; color: #0f380f; }
+/* 地図：罫線の方眼。所持は台紙色で塗り、未所持はクリーム地に「？」 */
+html[data-theme="retro"] .goyuin-theme .tile-grid { gap: 0 !important; border: 3px solid var(--tab); }
+html[data-theme="retro"] .goyuin-theme .map-tile { border: 1px solid #1a1a2e; color: #1a1a2e; background: #e9dcae; }
+html[data-theme="retro"] .goyuin-theme .map-tile[data-variant="washi"] { background: #e9dcae; }
+html[data-theme="retro"] .goyuin-theme .map-tile[data-variant="asayu"] { background: #f6c98b; }
+html[data-theme="retro"] .goyuin-theme .map-tile[data-variant="yuuyu"] { background: #f3a99a; }
+html[data-theme="retro"] .goyuin-theme .map-tile[data-variant="yukimi"] { background: #a9c2ea; }
+html[data-theme="retro"] .goyuin-theme .map-tile--empty { background: #f4ecd3 !important; }
 html[data-theme="retro"] .goyuin-theme .map-tile--empty > span:first-child { display: none; }
-html[data-theme="retro"] .goyuin-theme .map-tile--empty > span:last-child { margin: 0; font-size: 16px; }
+html[data-theme="retro"] .goyuin-theme .map-tile--empty > span:last-child { margin: 0; font-size: 16px; color: #9a9a9a; }
 html[data-theme="retro"] .goyuin-theme .map-tile span { font-size: 9px !important; }
+html[data-theme="retro"] .goyuin-theme .map-tile .char-wrap { border: 0; background: transparent; }
 
-/* 進捗バー：四角いブロックが並ぶ */
-html[data-theme="retro"] .goyuin-theme .bar-track { border: 3px solid #0f380f; background: #9bbc0f; padding: 2px; height: 22px !important; }
-html[data-theme="retro"] .goyuin-theme .bar-fill {
-  background: repeating-linear-gradient(90deg, #0f380f 0 9px, transparent 9px 12px) !important;
-}
-html[data-theme="retro"] .goyuin-theme li > .bar-track { height: 16px !important; padding: 2px; }
-html[data-theme="retro"] .goyuin-theme circle[stroke-linecap] { stroke-linecap: butt; }
+/* 進捗バー：四角いブロック。色は画面のタブ色 */
+html[data-theme="retro"] .goyuin-theme .bar-track { border: 3px solid #1a1a2e; background: #fbf6e4; padding: 2px; height: 22px !important; }
+html[data-theme="retro"] .goyuin-theme .bar-fill { background: repeating-linear-gradient(90deg, var(--tab) 0 9px, transparent 9px 12px) !important; }
+html[data-theme="retro"] .goyuin-theme li > .bar-track { height: 16px !important; }
+html[data-theme="retro"] .goyuin-theme circle[stroke-linecap] { stroke-linecap: butt; stroke: var(--tab); }
 
-/* タブ・チップ：枠で囲み、選択中は反転（暗い地に明るい文字） */
-html[data-theme="retro"] .goyuin-theme [role="tablist"] { border: 3px solid #0f380f; background: #9bbc0f; padding: 0 !important; }
-html[data-theme="retro"] .goyuin-theme [role="tab"] { background: transparent; color: #0f380f; }
-html[data-theme="retro"] .goyuin-theme [role="tab"][aria-selected="true"] { background: #0f380f !important; color: #9bbc0f !important; box-shadow: none; }
-html[data-theme="retro"] .goyuin-theme [aria-pressed] { border: 2px solid #0f380f; }
-html[data-theme="retro"] .goyuin-theme [aria-pressed="true"] { background: #0f380f !important; color: #9bbc0f !important; }
+/* タブ・チップ：枠で囲み、選択中はタブ色で塗りつぶし */
+html[data-theme="retro"] .goyuin-theme [role="tablist"] { border: 3px solid #1a1a2e; background: #fbf6e4; padding: 0 !important; }
+html[data-theme="retro"] .goyuin-theme [role="tab"] { background: transparent; color: #1a1a2e; }
+html[data-theme="retro"] .goyuin-theme [role="tab"][aria-selected="true"] { background: var(--tab) !important; color: var(--tab-fg) !important; }
+html[data-theme="retro"] .goyuin-theme [aria-pressed] { border: 2px solid #1a1a2e; background: #fbf6e4; color: #1a1a2e; }
+html[data-theme="retro"] .goyuin-theme [aria-pressed="true"] { background: var(--tab) !important; color: var(--tab-fg) !important; }
 
-/* ボタンは「▶」付きの文字風。押している間は反転 */
+/* ボタンは「▶」付きの文字風。押している間はタブ色に反転 */
 html[data-theme="retro"] .goyuin-theme .rbtn {
-  background: transparent !important; color: #0f380f !important; border: 3px solid #0f380f !important;
+  background: #fbf6e4 !important; color: #1a1a2e !important; border: 3px solid #1a1a2e !important;
   padding: 12px 16px !important; font-size: 17px !important; letter-spacing: 0.08em; text-align: center; cursor: pointer;
 }
 html[data-theme="retro"] .goyuin-theme .rbtn::before { content: "▶ "; }
 html[data-theme="retro"] .goyuin-theme .rbtn:active,
-html[data-theme="retro"] .goyuin-theme .rbtn:focus-visible { background: #0f380f !important; color: #9bbc0f !important; outline: none; }
-html[data-theme="retro"] .goyuin-theme .rbtn:disabled { opacity: 1; border-style: dotted !important; }
-html[data-theme="retro"] .goyuin-theme .rbtn--onDark { color: #9bbc0f !important; border-color: #9bbc0f !important; }
+html[data-theme="retro"] .goyuin-theme .rbtn:focus-visible { background: var(--tab) !important; color: var(--tab-fg) !important; outline: none; }
+html[data-theme="retro"] .goyuin-theme .rbtn:disabled { border-style: dotted !important; color: #4a4a63 !important; }
+html[data-theme="retro"] .goyuin-theme .rbtn--onDark { background: transparent !important; color: #f4ecd3 !important; border-color: #f4ecd3 !important; }
 
-/* 下タブ */
-html[data-theme="retro"] .goyuin-theme nav[aria-label="御湯印図鑑のメニュー"] { background: #9bbc0f; border-top: 3px solid #0f380f; }
-html[data-theme="retro"] .goyuin-theme nav[aria-label="御湯印図鑑のメニュー"] a { color: #0f380f !important; font-size: 12px !important; text-decoration: none; }
-html[data-theme="retro"] .goyuin-theme nav[aria-label="御湯印図鑑のメニュー"] a[aria-current="page"] { background: #0f380f; color: #9bbc0f !important; }
+/* 下タブ：非選択は濃紺の線画、選択中は「そのタブ色で塗りつぶし＋文字」 */
+html[data-theme="retro"] .goyuin-theme nav[aria-label="御湯印図鑑のメニュー"] { background: #fbf6e4; border-top: 3px solid #1a1a2e; }
+html[data-theme="retro"] .goyuin-theme nav[aria-label="御湯印図鑑のメニュー"] a { color: #1a1a2e !important; font-size: 13px !important; text-decoration: none; }
+html[data-theme="retro"] .goyuin-theme nav a[data-tab="zukan"] { --c: #d94a38; --cfg: #f4ecd3; }
+html[data-theme="retro"] .goyuin-theme nav a[data-tab="qr"] { --c: #2f5fa8; --cfg: #f4ecd3; }
+html[data-theme="retro"] .goyuin-theme nav a[data-tab="today"] { --c: #e08a2e; --cfg: #1a1a2e; }
+html[data-theme="retro"] .goyuin-theme nav a[data-tab="me"] { --c: #3f8f4a; --cfg: #f4ecd3; }
+html[data-theme="retro"] .goyuin-theme nav a[aria-current="page"] { background: var(--c); color: var(--cfg) !important; }
 
-/* キャラ画像：緑の4階調＋ドットのまま拡大（元画像は変えない）。思い出の写真には当てない */
-html[data-theme="retro"] .goyuin-theme .char-pixel { image-rendering: pixelated; filter: url(#gb4); }
-html[data-theme="retro"] .goyuin-theme .closed-book { filter: url(#gb4); image-rendering: pixelated; }
-html[data-theme="retro"] .goyuin-theme .photo-frame { border: 3px solid #0f380f; background: #8bac0f; }
-html[data-theme="retro"] .goyuin-theme .camera-mark { background: #9bbc0f; border: 2px solid #0f380f; width: 28px; height: 28px; }
+/* キャラ画像はフルカラーのまま、枠だけ太い実線。思い出の写真も加工せず枠だけ */
+html[data-theme="retro"] .goyuin-theme .char-wrap { border: 3px solid #1a1a2e; background: #fbf6e4; }
+html[data-theme="retro"] .goyuin-theme .stamp-card .char-wrap { border-width: 2px; }
+html[data-theme="retro"] .goyuin-theme .photo-frame { border: 3px solid #1a1a2e; background: #e9dfbd; }
+html[data-theme="retro"] .goyuin-theme .camera-mark { background: #fbf6e4; color: #1a1a2e; border: 2px solid #1a1a2e; width: 28px; height: 28px; }
 
-/* わたし：メダル（達成＝塗りつぶし／未達成＝枠だけ） */
-html[data-theme="retro"] .goyuin-theme .medal { background: #9bbc0f !important; border: 3px solid #0f380f; }
-html[data-theme="retro"] .goyuin-theme .medal[data-achieved="true"] { background: #0f380f !important; }
-html[data-theme="retro"] .goyuin-theme .medal-inner { background: transparent !important; border: 2px solid #0f380f !important; color: #0f380f !important; }
-html[data-theme="retro"] .goyuin-theme .medal[data-achieved="true"] .medal-inner { border-color: #9bbc0f !important; color: #9bbc0f !important; }
+/* わたし：メダル（達成＝金／未達成＝灰）、レベルアップは金 */
+html[data-theme="retro"] .goyuin-theme .medal { background: #9a9a9a !important; border: 3px solid #1a1a2e; }
+html[data-theme="retro"] .goyuin-theme .medal[data-achieved="true"] { background: #e5b84b !important; }
+html[data-theme="retro"] .goyuin-theme .medal-inner { background: transparent !important; border: 2px solid #1a1a2e !important; color: #1a1a2e !important; }
+html[data-theme="retro"] .goyuin-theme .levelup { background: #e5b84b; border: 3px solid #1a1a2e; }
 
-/* QR の擬似スキャン枠：暗い画面に明るい四隅、読み取りラインは数コマで動く */
-html[data-theme="retro"] .goyuin-theme .scan-frame { background: #0f380f; border: 3px solid #0f380f; }
-html[data-theme="retro"] .goyuin-theme .scan-qr-hint { color: rgba(155, 188, 15, 0.25); }
-html[data-theme="retro"] .goyuin-theme .scan-corner { border-color: #9bbc0f; }
-html[data-theme="retro"] .goyuin-theme .scan-line { background: #9bbc0f; height: 4px; animation: scan-move 1.2s steps(8, end) infinite alternate; }
+/* QR の擬似スキャン枠：濃紺の画面に、金の四隅と読み取りライン（数コマで動く） */
+html[data-theme="retro"] .goyuin-theme .scan-frame { background: #1a1a2e; border: 3px solid #1a1a2e; }
+html[data-theme="retro"] .goyuin-theme .scan-qr-hint { color: rgba(244, 236, 211, 0.22); }
+html[data-theme="retro"] .goyuin-theme .scan-corner { border-color: #e5b84b; }
+html[data-theme="retro"] .goyuin-theme .scan-line { background: #e5b84b; height: 4px; animation: scan-move 1.2s steps(8, end) infinite alternate; }
 html[data-theme="retro"] .goyuin-theme .scan-frame--active .scan-line { animation-duration: 0.5s; }
 
-/* 動き：点滅（1秒周期）とコマ送りだけ。ふわっと出る・拡大する動きは使わない */
+/* 動き：点滅（1秒周期）とコマ送りだけ */
 html[data-theme="retro"] .goyuin-theme .reveal,
 html[data-theme="retro"] .goyuin-theme .stamp-in { animation: none; }
 html[data-theme="retro"] .goyuin-theme .visit-char-fade { animation: retro-blink 1s steps(1, end) 2; }
-html[data-theme="retro"] .goyuin-theme .steam-puff { width: 3rem; height: 3rem; background: #306230; animation: steam-rise 1.2s steps(3, end) infinite; }
+html[data-theme="retro"] .goyuin-theme .steam-puff { width: 3rem; height: 3rem; background: #9fb8e0; animation: steam-rise 1.2s steps(3, end) infinite; }
 @keyframes retro-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0.2; } }
-
-/* 御湯印カード：下線なし、「雪見」などの柄名が文字の途中で折れないようにする */
-html[data-theme="retro"] .goyuin-theme a.stamp-card { text-decoration: none; }
-html[data-theme="retro"] .goyuin-theme .stamp-card p { word-break: keep-all; }
-html[data-theme="retro"] .goyuin-theme a.no-underline, html[data-theme="retro"] .goyuin-theme a.rbtn { text-decoration: none; }
