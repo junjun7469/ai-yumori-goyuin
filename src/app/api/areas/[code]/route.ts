@@ -1,5 +1,6 @@
 import { and, asc, eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
+import { getPersonality } from "@/agents/store";
 import { db, schema } from "@/db";
 import { isValidUserKey } from "@/lib/gachaLogic";
 import { getSpringProfile } from "@/lib/springProfile";
@@ -29,5 +30,5 @@ export async function GET(req: Request, ctx: { params: Promise<{ code: string }>
   const key = new URL(req.url).searchParams.get("user_key");
   const variants = ownedVariantsOf(isValidUserKey(key) ? key : null).get(code);
   if (!variants) return NextResponse.json({ owned: false, code, prefecture: area.prefecture });
-  return NextResponse.json({ owned: true, area, variants, source: sourceLabel(area), today: getTodayYu(code), spring: getSpringProfile(code, area.springType), memories: isValidUserKey(key) ? photoSummary(key, code) : null, hasArt: hasArtFile(code), firstObtainedAt: isValidUserKey(key) ? firstObtainedAt(key, code) : null });
+  return NextResponse.json({ owned: true, area, variants, source: sourceLabel(area), today: getTodayYu(code), spring: getSpringProfile(code, area.springType), personality: getPersonality(code), memories: isValidUserKey(key) ? photoSummary(key, code) : null, hasArt: hasArtFile(code), firstObtainedAt: isValidUserKey(key) ? firstObtainedAt(key, code) : null });
 }

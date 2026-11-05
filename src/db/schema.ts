@@ -130,3 +130,19 @@ export const maintenanceEvent = sqliteTable("maintenance_event", {
   note: text("note").notNull().default(""),
   ...timestamps,
 });
+
+/**
+ * 御湯印の詳細画面に出す「湯の個性」説明文のキャッシュ（src/agents/ が生成）。画面は読むだけで、API は呼ばない。
+ * kind：analysis＝分析書あり（杖立）／class_only＝代表泉質のみ。citation は LLM ではなくコードが付けた出典
+ */
+export const onsenPersonality = sqliteTable("onsen_personality", {
+  code: text("code").primaryKey(), // onsen_area.code（"01"〜"47"）
+  body: text("body").notNull(),
+  citation: text("citation").notNull(),
+  kind: text("kind", { enum: ["analysis", "class_only"] }).notNull(),
+  models: text("models").notNull(), // 例：writer=claude-sonnet-5-5 / safety-checker=claude-haiku-5-5
+  rewrites: integer("rewrites").notNull().default(0), // writer への差し戻しの回数
+  log: text("log", { mode: "json" }).notNull().$type<unknown[]>(), // 各回の下書き・指摘
+  costUsd: real("cost_usd"),
+  ...timestamps,
+});

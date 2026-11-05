@@ -57,6 +57,13 @@
       "when": 1793875951740,
       "tag": "0007_yunoko",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1793896051917,
+      "tag": "0008_onsen_personality",
+      "breakpoints": true
     }
   ]
 }

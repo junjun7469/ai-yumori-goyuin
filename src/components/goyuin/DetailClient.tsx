@@ -9,13 +9,14 @@ import { CharacterImage } from "./CharacterImage";
 import { FlipCard } from "./FlipCard";
 import { GoyuinArt } from "./GoyuinArt";
 import { MemoryPhotos, type Memories } from "./MemoryPhotos";
+import { PersonalitySection, type PersonalityData } from "./PersonalitySection";
 import { SpringSection } from "./SpringSection";
 import type { SpringProfile } from "@/lib/springAnalysis";
 import { TodayYuCard } from "./TodayYuCard";
 
 type Detail =
   | { owned: false }
-  | { owned: true; area: AreaView; variants: Variant[]; source: { text: string; verified: boolean; href: string | null }; today: TodayYu | null; memories: Memories | null; spring: SpringProfile; hasArt: boolean; firstObtainedAt: string | null };
+  | { owned: true; area: AreaView; variants: Variant[]; source: { text: string; verified: boolean; href: string | null }; today: TodayYu | null; memories: Memories | null; spring: SpringProfile; personality: PersonalityData | null; hasArt: boolean; firstObtainedAt: string | null };
 
 const dateFmt = new Intl.DateTimeFormat("ja-JP", { timeZone: "Asia/Tokyo", year: "numeric", month: "long", day: "numeric" });
 
@@ -111,6 +112,8 @@ function Owned({ code, regionLabel, d }: { code: string; regionLabel: string; d:
           <p className="text-[11px] text-[var(--ink-soft)]">この温泉地の絵はまだありません。泉質の分類から作った仮の絵を表示しています。</p>
         )}
       </div>
+
+      <PersonalitySection data={d.personality} />
 
       <SpringSection profile={d.spring} />
 

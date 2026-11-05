@@ -57,8 +57,19 @@
 | フック（pre-commit） | `.claude/hooks/` | `.env` の混入、`sk-ant-` の実キー、模擬データを出す画面の「模擬」欠落があればコミットを止める（`npm run check:commit` で全体を点検。`npm install` で有効化） |
 | プロダクト内（Messages API + tool use） | `src/lib/detection.ts` ほか | 基準値・履歴・天候のツールを与え、変化検知→説明→要確認項目を構造化出力。禁止語は出力後にも検査 |
 | MCP サーバー `yumori` | `mcp/yumori-server/`、`.mcp.json` | 湯日誌 DB を読み取り専用で公開。Claude Code から「先週の湯量の推移は？」「浴槽が40℃を切った日は？前回の引湯管清掃から何日？」と聞ける。返す値すべてに「模擬データ／湯守の入力」の区別が付く |
+| Agent SDK（`@anthropic-ai/claude-agent-sdk`） | `src/agents/`、`npm run personality` | 御湯印の詳細画面の「湯の個性」（泉質を200字で言い換えた説明文）を、3段で生成して DB にキャッシュ。①writer（Sonnet）が書く → ②safety-checker（コードの検査＋Haiku）が「効く・治る・安全・保証・必ず」などの医療・安全保証表現、渡していない数値、文字数を点検し、あれば writer に差し戻す（最大3回）→ ③citer が出典（杖立は分析書番号と分析日、他46件は「代表泉質のみ・要確認」）をコードで末尾に付ける。画面は DB を読むだけで、API は呼ばない |
 
 エージェントは、判断を置き換えるものではなく見落としを減らすためのものです。指摘が正しいかは人が確認します。
+
+### 湯の個性（Agent SDK）の使い方
+
+```
+npm run personality -- --code 43      # 杖立だけ（分析書あり）
+npm run personality -- --all          # 47件（生成済みは飛ばす。API を使う）
+npm run personality -- --all --force  # 作り直し
+```
+
+入力は、杖立は `data/maruso_analysis_2014.json`、他46件は `data/onsen_master_47.csv` の代表泉質だけです。数値は出典のあるものだけで、杖立の pH は分析書に要確認の印があるため渡していません。点検を通らなかった温泉地は保存せず、失敗として表示します。各回の下書きと指摘は DB（`onsen_personality.log`）に残ります。説明文は AI が書いたもので、医療上の効能を示すものではありません。
 
 ### 湯日誌 MCP の使い方
 
