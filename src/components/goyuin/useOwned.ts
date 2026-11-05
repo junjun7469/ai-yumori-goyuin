@@ -14,6 +14,8 @@ export type OwnedState = {
   photoCodes: Set<string>;
   /** 湯の子がなりかわった温泉地（通い湯バッジ）と、なりかわった回数 */
   kayoiCodes: Set<string>;
+  /** 御湯印の絵のファイルがある温泉地 */
+  artCodes: Set<string>;
   evolutions: number;
   /** 今日すでに引いたガチャ（無ければ null） */
   drewToday: { code: string; obtainedAt: string } | null;
@@ -23,13 +25,13 @@ export type OwnedState = {
 /** この端末の所持状況（/api/goyuin）を読む */
 export function useOwned(): OwnedState {
   const [state, setState] = useState<Omit<OwnedState, "refresh">>({
-    status: "loading", userKey: null, owned: new Set(), items: [], photoCodes: new Set(), kayoiCodes: new Set(), evolutions: 0, drewToday: null,
+    status: "loading", userKey: null, owned: new Set(), items: [], photoCodes: new Set(), kayoiCodes: new Set(), artCodes: new Set(), evolutions: 0, drewToday: null,
   });
 
   const load = useCallback(async () => {
     const key = getOrCreateUserKey();
     if (!key) {
-      setState({ status: "nokey", userKey: null, owned: new Set(), items: [], photoCodes: new Set(), kayoiCodes: new Set(), evolutions: 0, drewToday: null });
+      setState({ status: "nokey", userKey: null, owned: new Set(), items: [], photoCodes: new Set(), kayoiCodes: new Set(), artCodes: new Set(), evolutions: 0, drewToday: null });
       return;
     }
     try {
@@ -42,11 +44,12 @@ export function useOwned(): OwnedState {
         items: data.items,
         photoCodes: new Set<string>(data.photoCodes ?? []),
         kayoiCodes: new Set<string>(data.kayoiCodes ?? []),
+        artCodes: new Set<string>(data.artCodes ?? []),
         evolutions: data.evolutions ?? 0,
         drewToday: data.drewToday ?? null,
       });
     } catch {
-      setState({ status: "error", userKey: key, owned: new Set(), items: [], photoCodes: new Set(), kayoiCodes: new Set(), evolutions: 0, drewToday: null });
+      setState({ status: "error", userKey: key, owned: new Set(), items: [], photoCodes: new Set(), kayoiCodes: new Set(), artCodes: new Set(), evolutions: 0, drewToday: null });
     }
   }, []);
 

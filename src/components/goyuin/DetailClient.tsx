@@ -6,6 +6,8 @@ import type { AreaView, TodayYu } from "@/lib/goyuinData";
 import { VARIANT_LABEL, VARIANTS, type Variant } from "@/lib/goyuinVariant";
 import { getOrCreateUserKey } from "@/lib/userKey";
 import { CharacterImage } from "./CharacterImage";
+import { FlipCard } from "./FlipCard";
+import { GoyuinArt } from "./GoyuinArt";
 import { MemoryPhotos, type Memories } from "./MemoryPhotos";
 import { SpringSection } from "./SpringSection";
 import type { SpringProfile } from "@/lib/springAnalysis";
@@ -13,7 +15,9 @@ import { TodayYuCard } from "./TodayYuCard";
 
 type Detail =
   | { owned: false }
-  | { owned: true; area: AreaView; variants: Variant[]; source: { text: string; verified: boolean; href: string | null }; today: TodayYu | null; memories: Memories | null; spring: SpringProfile };
+  | { owned: true; area: AreaView; variants: Variant[]; source: { text: string; verified: boolean; href: string | null }; today: TodayYu | null; memories: Memories | null; spring: SpringProfile; hasArt: boolean; firstObtainedAt: string | null };
+
+const dateFmt = new Intl.DateTimeFormat("ja-JP", { timeZone: "Asia/Tokyo", year: "numeric", month: "long", day: "numeric" });
 
 /** G3 詳細。この端末が持っていない御湯印は、名前もキャラも成分も出さない（API も返さない） */
 export function DetailClient({ code, prefecture, regionLabel }: { code: string; prefecture: string; regionLabel: string }) {
@@ -67,7 +71,10 @@ function Owned({ code, regionLabel, d }: { code: string; regionLabel: string; d:
           <span className="rounded border border-[var(--vermilion)] px-2 py-0.5 text-xs font-bold text-[var(--vermilion)]">所持</span>
         </header>
 
-        <CharacterImage area={area} priority sizes="(max-width: 640px) 85vw, 400px" />
+        <FlipCard
+          front={<CharacterImage area={area} priority sizes="(max-width: 640px) 85vw, 400px" />}
+          back={<GoyuinArt code={code} name={area.name} variant={variants[0] ?? "washi"} obtainedAt={d.firstObtainedAt ?? new Date().toISOString()} hasFile={d.hasArt} />} />
+        {d.firstObtainedAt && <p className="text-center text-xs text-[var(--ink-soft)]">取得日　{dateFmt.format(new Date(d.firstObtainedAt))}</p>}
         <div className="rule-gold" />
 
         <dl className="space-y-3 text-sm leading-relaxed">

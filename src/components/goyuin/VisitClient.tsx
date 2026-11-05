@@ -9,6 +9,8 @@ import { pointsFor, summarizePoints } from "@/lib/progress";
 import { EVOLUTION_POINTS, progressText, STAGE_NAME, type SpiritTone, type Stage } from "@/lib/yunoko";
 import { resetUserKey } from "@/lib/userKey";
 import { CharacterImage } from "./CharacterImage";
+import { FlipCard } from "./FlipCard";
+import { GoyuinArt } from "./GoyuinArt";
 import { YuMark } from "./YuMark";
 import { TodayYuCard } from "./TodayYuCard";
 import { useOwned } from "./useOwned";
@@ -19,7 +21,7 @@ import { VisitBlocks } from "./YunokoClient";
 type Gain = { points: number; leveledUp: boolean; level: number; title: string };
 
 type YunokoGrowth = { grew: boolean; evolved: boolean; stage: Stage; visits: number; boundCode: string | null; tone: SpiritTone | null };
-type Visit = { already: boolean; area: AreaView; facility: string | null; variant: Variant; obtainedAt: string; snapshot: TodayYu | null; yunoko: YunokoGrowth };
+type Visit = { already: boolean; area: AreaView; facility: string | null; variant: Variant; obtainedAt: string; snapshot: TodayYu | null; yunoko: YunokoGrowth; hasArt: boolean };
 
 /** 演出の長さ（約2秒）。「動きを減らす」設定のときはほぼ省略 */
 const ARRIVE_MS = 2000;
@@ -159,7 +161,10 @@ function VisitResultCard({ v, gain, onNext }: { v: Visit; gain: Gain | null; onN
           <YuMark size={46} className="stamp-in" />
         </header>
 
-        <CharacterImage area={a} variant={v.variant} priority sizes="(max-width: 640px) 80vw, 360px" />
+        {/* 取得演出のあと、自動で1回めくって御湯印の絵を見せ、2秒後に戻す（タップでも何度でもめくれる） */}
+        <FlipCard peek={!v.already}
+          front={<CharacterImage area={a} variant={v.variant} priority sizes="(max-width: 640px) 80vw, 360px" />}
+          back={<GoyuinArt code={a.code} name={a.name} variant={v.variant} obtainedAt={v.obtainedAt} hasFile={v.hasArt} />} />
         <div className="rule-gold" />
 
         <p className="text-center text-sm tracking-widest">取得日　{dateFmt.format(new Date(v.obtainedAt))}</p>

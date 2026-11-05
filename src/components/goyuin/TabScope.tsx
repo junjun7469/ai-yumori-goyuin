@@ -1,7 +1,6 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { MockBanner } from "@/components/MockBanner";
 import { bandLabel, tabOf } from "@/lib/tabs";
 
 /**
@@ -17,7 +16,6 @@ export function TabScope({ children, tabs }: { children: React.ReactNode; tabs: 
         <div className="phone-frame">
           <div className="phone-screen">
             <div className="phone-scroll">
-              <MockBanner className="phone-banner" />
               <div className="screen-band only-retro" role="presentation">
                 <div className="mx-auto max-w-[480px] px-5 py-1.5">■ {bandLabel(path)}</div>
               </div>

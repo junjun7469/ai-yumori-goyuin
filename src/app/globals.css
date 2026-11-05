@@ -264,7 +264,6 @@ html[data-theme="retro"] .goyuin-theme[data-tab="qr"] { --tab: #2f5fa8; --tab-fg
 html[data-theme="retro"] .goyuin-theme[data-tab="today"] { --tab: #e08a2e; --tab-fg: #1a1a2e; }
 html[data-theme="retro"] .goyuin-theme[data-tab="me"] { --tab: #3f8f4a; --tab-fg: #f4ecd3; }
 html[data-theme="retro"] body:has(.goyuin-theme) { background: #f4ecd3; }
-html[data-theme="retro"] body:has(.goyuin-theme) .mock-banner { background: #f6e27a; color: #1a1a2e; font-family: "DotGothic16", monospace; font-size: 12px; }
 
 /* 画面上部の見出し帯：その画面のタブ色 */
 html[data-theme="retro"] .goyuin-theme .screen-band { background: var(--tab); color: var(--tab-fg); font-size: 14px; letter-spacing: 0.12em; border-bottom: 3px solid #1a1a2e; }
@@ -454,11 +453,10 @@ html[data-theme="retro"] .goyuin-theme .tab-hero { padding: 0; }
   .goyuin-theme .phone-frame,
   .goyuin-theme .phone-screen,
   .goyuin-theme .phone-scroll { display: contents; }
-  .goyuin-theme .phone-camera, .goyuin-theme .phone-home, .goyuin-theme .phone-caption, .goyuin-theme .phone-banner { display: none; }
+  .goyuin-theme .phone-camera, .goyuin-theme .phone-home, .goyuin-theme .phone-caption { display: none; }
 }
 @media (min-width: 768px) {
   html:has(.phone-stage) { overflow: hidden; }
-  body:has(.phone-stage) > .mock-banner { display: none; } /* 枠の内側に同じ帯を出すので、枠の外のは隠す */
   .goyuin-theme { min-height: 0; }
   .phone-stage { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: #ddd3bf; }
   html[data-theme="retro"] .phone-stage { background: #d8cdaa; }
@@ -485,5 +483,35 @@ html[data-theme="retro"] .goyuin-theme .tab-hero { padding: 0; }
 html[data-theme="retro"] .goyuin-theme .intro-bezel { border-radius: 28px !important; box-shadow: 0 0 0 6px #262a26, 0 18px 40px rgba(0, 0, 0, 0.5) !important; }
 html[data-theme="retro"] .goyuin-theme .intro-screen { border-radius: 10px !important; box-shadow: inset 0 0 0 3px #306230 !important; }
 html[data-theme="retro"] .goyuin-theme .intro-root { font-family: "DotGothic16", monospace; }
-/* 枠の中に出した模擬データの帯は、retro でも黄色地に濃紺文字のまま（バッジの反転色の規則を当てない） */
-html[data-theme="retro"] .goyuin-theme .mock-banner { background: #f6e27a !important; color: #1a1a2e !important; font-family: "DotGothic16", monospace; font-size: 12px; }
+
+/* ===== 御湯印のカードをめくる（キャラ画像 ⇄ 御湯印の絵）：CSS の3D反転 0.6秒 ===== */
+.flip { perspective: 1000px; width: 100%; aspect-ratio: 3 / 4; cursor: pointer; outline-offset: 2px; }
+.flip-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.6s ease; }
+.flip[data-flipped="true"] .flip-inner { transform: rotateY(180deg); }
+.flip-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; overflow: hidden; display: grid; place-items: center; }
+.flip-back { transform: rotateY(180deg); }
+.flip-front > * { width: 100%; }
+@media (prefers-reduced-motion: reduce) { .flip-inner { transition: none; } }
+/* retro の「動きなし」の例外：めくりの0.6秒だけは動かす */
+html[data-theme="retro"] .goyuin-theme .flip-inner { transition: transform 0.6s ease !important; }
+@media (prefers-reduced-motion: reduce) { html[data-theme="retro"] .goyuin-theme .flip-inner { transition: none !important; } }
+
+/* 御湯印の絵：ファイルの絵 */
+.gart-file { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* 自動生成の絵（和紙色の縦長の台紙）。大きさは絵の幅 cqw を基準にする */
+.gart { position: relative; width: 100%; height: 100%; container-type: inline-size; overflow: hidden; color: #3a2e22; }
+.gart-frame { position: absolute; inset: 3cqw; border: 1px solid rgba(90, 70, 40, 0.55); box-shadow: inset 0 0 0 1.5cqw transparent, 0 0 0 0.6cqw rgba(90, 70, 40, 0.18); }
+.gart-stamp { position: absolute; left: 50%; top: 52%; transform: translate(-50%, -50%) rotate(-8deg); opacity: 0.2; }
+.gart-name { position: absolute; left: 50%; top: 53%; transform: translate(-50%, -50%); writing-mode: vertical-rl; font-family: "Yuji Syuku", "Hiragino Mincho ProN", "Yu Mincho", serif; line-height: 1.12; letter-spacing: 0.06em; white-space: nowrap; }
+.gart-hoto { position: absolute; right: 8cqw; top: 8cqw; writing-mode: vertical-rl; font-family: "Yuji Syuku", "Hiragino Mincho ProN", serif; font-size: 8.5cqw; color: #b5543a; letter-spacing: 0.1em; }
+.gart-date { position: absolute; left: 8cqw; bottom: 8cqw; writing-mode: vertical-rl; font-family: "Yuji Syuku", "Hiragino Mincho ProN", serif; font-size: 5.4cqw; letter-spacing: 0.08em; white-space: nowrap; }
+.gart-corner { position: absolute; width: 14cqw; height: 14cqw; opacity: 0.45; }
+.gart-c1 { left: 4cqw; top: 4cqw; } .gart-c2 { right: 4cqw; top: 4cqw; transform: scaleX(-1); } .gart-c3 { left: 4cqw; bottom: 4cqw; transform: scaleY(-1); } .gart-c4 { right: 4cqw; bottom: 4cqw; transform: scale(-1, -1); }
+/* 「模擬」の小さな印 */
+.sim-tag { display: inline-block; }
+/* 御湯印カードの中のめくる領域：カードの地（柄）を見せる */
+.stamp-card .flip, .goshuin-card .flip { margin-bottom: 2px; }
+html[data-theme="retro"] .goyuin-theme .stamp-card a { text-decoration: none; }
+html[data-theme="retro"] .goyuin-theme .flip-face { background: transparent; }
+html[data-theme="retro"] .goyuin-theme .gart-name, html[data-theme="retro"] .goyuin-theme .gart-hoto, html[data-theme="retro"] .goyuin-theme .gart-date { font-family: "Yuji Syuku", "Hiragino Mincho ProN", serif; }
+.flip-front > .char-wrap { height: 100%; aspect-ratio: auto; }

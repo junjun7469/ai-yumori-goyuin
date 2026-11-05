@@ -16,6 +16,8 @@ export default function GoyuinLayout({ children }: { children: React.ReactNode }
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" precedence="default" />
+      {/* 御湯印の絵（自動生成）の筆文字 Yuji Syuku */}
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap" precedence="default" />
       {/* 起動演出のドット書体 DotGothic16（同じく閲覧するブラウザが取得） */}
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" precedence="default" />
       <div className="mx-auto max-w-[480px] pb-24">

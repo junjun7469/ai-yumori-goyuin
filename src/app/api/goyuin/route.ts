@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { db, schema } from "@/db";
+import { artCodesAmong } from "@/lib/goyuinArtFiles";
 import { codesWithPhotos } from "@/lib/photos";
 import { evolutionsOf } from "@/lib/yunokoDb";
 import { drewToday, isValidUserKey, nextDrawAt } from "@/lib/gachaLogic";
@@ -22,6 +23,7 @@ export function GET(req: Request) {
     items: rows.map((r) => ({ code: idToCode.get(r.onsenAreaId)!, obtainedVia: r.obtainedVia, obtainedAt: r.obtainedAt.toISOString(), variant: r.variant })),
     evolutions: evo.count,
     kayoiCodes: evo.codes, // 湯の子がなりかわった温泉地（図鑑の「通い湯」バッジ）
+    artCodes: artCodesAmong(rows.map((r) => idToCode.get(r.onsenAreaId)!)), // 御湯印の絵のファイルがある（所持の）温泉地
     photoCodes: [...withPhotos],
     drewToday: today ? { code: idToCode.get(today.onsenAreaId)!, obtainedAt: today.obtainedAt.toISOString() } : null,
     nextDrawAt: nextDrawAt(now).toISOString(),

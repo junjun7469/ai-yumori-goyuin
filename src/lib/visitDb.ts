@@ -3,6 +3,7 @@ import { and, eq } from "drizzle-orm";
 import { db, schema } from "@/db";
 import { visitedToday } from "./gachaLogic";
 import { getArea, getFacilityName, getTodayYu, type AreaView, type TodayYu } from "./goyuinData";
+import { hasArtFile } from "./goyuinArtFiles";
 import { currentYunoko, growYunoko, type YunokoGrowth } from "./yunokoDb";
 import { isVariant, pickVariant, type Variant } from "./goyuinVariant";
 
@@ -16,6 +17,8 @@ export type VisitResult = {
   snapshot: TodayYu | null;
   /** 湯の子の様子。grew が true なら今回の入浴で育った（なりかわったときは evolved も true） */
   yunoko: YunokoGrowth;
+  /** 御湯印の絵のファイル（public/goyuin/<code>.jpg）があるか */
+  hasArt: boolean;
 };
 
 /**
@@ -39,6 +42,7 @@ export function claimVisit(userKey: string, code: string, now: Date = new Date()
       obtainedAt: already.obtainedAt.toISOString(),
       snapshot: (already.snapshot as unknown as TodayYu | null) ?? null,
       yunoko: currentYunoko(userKey, now),
+      hasArt: hasArtFile(code),
     };
   }
 
@@ -50,5 +54,5 @@ export function claimVisit(userKey: string, code: string, now: Date = new Date()
   }).run();
   // 新しく御湯印を取れたときだけ湯の子が育つ（同じ日の同じ温泉地は上の already で止まるので、1回と数える）
   const yunoko = growYunoko(userKey, code, now);
-  return { already: false, area, facility, variant, obtainedAt: now.toISOString(), snapshot, yunoko };
+  return { already: false, area, facility, variant, obtainedAt: now.toISOString(), snapshot, yunoko, hasArt: hasArtFile(code) };
 }

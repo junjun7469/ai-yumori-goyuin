@@ -11,6 +11,8 @@ import { ClosedBook } from "./ClosedBook";
 import { CollectionProgress, TileMap } from "./TileMap";
 import { IntroOverlay } from "./IntroOverlay";
 import { CameraMark } from "./CameraMark";
+import { FlipCard } from "./FlipCard";
+import { GoyuinArt } from "./GoyuinArt";
 import { KayoiBadge } from "./KayoiBadge";
 import { YuMark } from "./YuMark";
 import { useCollection } from "./useCollection";
@@ -22,7 +24,7 @@ const dateFmt = new Intl.DateTimeFormat("ja-JP", { timeZone: "Asia/Tokyo", year:
  * 未所持の温泉地は、名前もキャラも（サーバーから）届かない
  */
 export function ZukanClient({ base }: { base: { code: string; prefecture: string }[] }) {
-  const { status, items, areas, loaded, photoCodes, kayoiCodes } = useCollection(base);
+  const { status, items, areas, loaded, photoCodes, kayoiCodes, artCodes } = useCollection(base);
   const [tab, setTab] = useState<"owned" | "search">("owned");
   const [view, setView] = useState<"map" | "list">("map");
   useEffect(() => {
@@ -81,14 +83,20 @@ export function ZukanClient({ base }: { base: { code: string; prefecture: string
           <ul className="grid grid-cols-2 gap-4">
             {stamps.map((st, i) => (
               <li key={`${st.code}-${st.obtainedAt}-${i}`}>
-                <Link href={`/goyuin/${st.code}`} className="stamp-card h-full" data-variant={st.variant}>
-                  <CharacterImage area={st.area} variant={st.variant} sizes="(max-width: 480px) 42vw, 200px" />
-                  <p className="mt-1 pr-9 text-[15px] font-bold leading-tight">{st.area.name}</p>
-                  <p className="mt-0.5 pr-9 text-[11px] text-[var(--ink-soft)]">{dateFmt.format(new Date(st.obtainedAt))}　{VARIANT_LABEL[st.variant]}</p>
+                <div className="stamp-card h-full" data-variant={st.variant}>
+                  {/* 絵の部分はタップでめくる（キャラ画像 ⇄ 御湯印の絵）。名前の部分が詳細へのリンク */}
+                  <FlipCard
+                    front={<CharacterImage area={st.area} variant={st.variant} sizes="(max-width: 480px) 42vw, 200px" />}
+                    back={<GoyuinArt code={st.code} name={st.area.name} variant={st.variant} obtainedAt={st.obtainedAt} hasFile={artCodes.has(st.code)} />}
+                  />
+                  <Link href={`/goyuin/${st.code}`} className="mt-1 block no-underline" style={{ color: "var(--ink)" }}>
+                    <p className="pr-9 text-[15px] font-bold leading-tight">{st.area.name}</p>
+                    <p className="mt-0.5 pr-9 text-[11px] text-[var(--ink-soft)]">{dateFmt.format(new Date(st.obtainedAt))}　{VARIANT_LABEL[st.variant]}</p>
+                  </Link>
                   <YuMark size={30} className="yumark" />
                   {kayoiCodes.has(st.code) && <KayoiBadge className="absolute left-2.5 top-2.5" />}
                   {photoCodes.has(st.code) && <CameraMark className="absolute right-2.5 top-2.5" />}
-                </Link>
+                </div>
               </li>
             ))}
           </ul>
