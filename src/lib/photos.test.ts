@@ -107,27 +107,28 @@ describe("思い出の写真", () => {
 });
 
 describe("demo-seed / demo-reset", () => {
-  it("記録を消したうえで、6温泉地を所持にする。杖立は今日・雪見。何度やっても6", async () => {
+  it("記録を消したうえで、6温泉地を所持にする（所持数6）。杖立は雪見・今日の湯つき。何度やっても同じ", async () => {
     const DEMO = "demo-user-key-0123456789";
     addRow(DEMO, "44"); // 消えるはずの既存の記録
     const now = new Date("2026-11-05T03:00:00Z");
     const r = demo.demoSeed(DEMO, now);
-    expect(r.added).toBe(6);
+    expect(r.owned).toBe(6);
     const rows = dbm.db.select().from(dbm.schema.goyuin).all();
-    expect(rows).toHaveLength(6); // 別の端末・古い記録も消えている
+    expect(rows).toHaveLength(r.added); // 別の端末・古い記録も消えている（蔵王3回・杖立2回ぶんを含む）
     expect(new Set(rows.map((x) => x.onsenAreaId)).size).toBe(6);
     expect(rows.every((x) => x.userKey === DEMO)).toBe(true);
 
     const idToCode = new Map(dbm.db.select().from(dbm.schema.onsenArea).all().map((a) => [a.id, a.code]));
-    const tsuetate = rows.find((x) => idToCode.get(x.onsenAreaId) === "43")!;
-    expect(tsuetate.variant).toBe("yukimi");
-    expect(tsuetate.obtainedAt.toISOString()).toBe(now.toISOString());
+    const tsuetate = rows.filter((x) => idToCode.get(x.onsenAreaId) === "43").sort((a, b) => b.obtainedAt.getTime() - a.obtainedAt.getTime());
+    expect(tsuetate).toHaveLength(2); // 杖立に2回通った
+    expect(tsuetate[0].variant).toBe("yukimi");
+    expect(now.getTime() - tsuetate[0].obtainedAt.getTime()).toBeGreaterThan(24 * 3600 * 1000); // 今日ではない＝次の /visit/43 が3回目として数えられる
     expect(new Set(rows.map((x) => x.variant)).size).toBe(4); // 4種が混ざる
     const oldest = Math.min(...rows.map((x) => x.obtainedAt.getTime()));
     expect(now.getTime() - oldest).toBeLessThanOrEqual(62 * 24 * 3600 * 1000); // 過去2か月以内
 
-    expect(demo.demoSeed(DEMO, now).added).toBe(6);
-    expect(dbm.db.select().from(dbm.schema.goyuin).all()).toHaveLength(6);
+    expect(demo.demoSeed(DEMO, now).owned).toBe(6);
+    expect(dbm.db.select().from(dbm.schema.goyuin).all()).toHaveLength(r.added);
     expect(demo.latestUserKey()).toBe(DEMO);
   });
 
@@ -135,18 +136,20 @@ describe("demo-seed / demo-reset", () => {
     const { summarizePoints, computeProgress } = await import("./progress");
     const idToCode = new Map(dbm.db.select().from(dbm.schema.onsenArea).all().map((a) => [a.id, a.code]));
     const records = dbm.db.select().from(dbm.schema.goyuin).all().map((r) => ({ code: idToCode.get(r.onsenAreaId)!, variant: r.variant, obtainedAt: r.obtainedAt.toISOString() }));
-    const p = summarizePoints(records);
-    expect(p.points).toBe(650); // 6枚×100 + 雪見50
-    expect(p.level).toBe(3);
+    const p = summarizePoints(records, 1); // 蔵王になりかわり1回
+    expect(p.points).toBe(1250); // 9枚×100 + 雪見50 + なりかわり300
+    expect(p.level).toBe(4);
     const areas = AREAS.map(([code]) => ({ code, prefecture: "テスト県" }));
-    const prog = computeProgress(records, areas);
+    const prog = computeProgress(records, areas, 1);
     expect(prog.ownedCount).toBe(6);
     expect(prog.badges.find((b) => b.id === "first")!.achieved).toBe(true); // 「はじめの湯」が点灯
+    expect(prog.badges.find((b) => b.id === "evolve")!.achieved).toBe(true); // 「はじめてのなりかわり」
     expect(prog.badges.find((b) => b.id === "ten")!.achieved).toBe(false); // 10か所には届かない
   });
 
   it("demo-reset は取得記録と写真を全部消す", () => {
-    expect(demo.demoReset()).toBe(6);
+    expect(demo.demoReset()).toBeGreaterThan(0);
+    expect(dbm.db.select().from(dbm.schema.yunoko).all()).toHaveLength(0);
     expect(dbm.db.select().from(dbm.schema.goyuin).all()).toHaveLength(0);
     expect(readdirSync(process.env.PHOTO_DIR!).filter((f) => f.endsWith(".jpg"))).toHaveLength(0);
   });

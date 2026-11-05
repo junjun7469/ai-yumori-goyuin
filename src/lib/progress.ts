@@ -1,6 +1,7 @@
 // 御湯印図鑑の「集めた記録」から計算するもの（ポイント・レベル・称号・地域の達成・実績バッジ）は、すべてここにまとめる。
 // DB にも画面にも依存しない純粋な関数。称号と実績の言葉は仮なので、定数（TITLES / BADGES）を直せば画面に反映される。
 import { VARIANTS, type Variant } from "./goyuinVariant";
+import { EVOLUTION_POINTS } from "./yunoko";
 import { REGIONS, regionOf, type RegionId } from "./regions";
 
 /** 取得の記録1件（goyuin テーブルの1行）。同じ温泉地を別の日に取れば、記録は増える */
@@ -44,8 +45,9 @@ export type Points = {
 };
 
 /** ポイント・レベル・称号だけ（QR着地のレベルアップ判定にも使う） */
-export function summarizePoints(records: Pick<StampRecord, "variant">[]): Points {
-  const points = records.reduce((sum, r) => sum + pointsFor(r), 0);
+/** evolutions：湯の子がなりかわった回数（1回＝300pt） */
+export function summarizePoints(records: Pick<StampRecord, "variant">[], evolutions = 0): Points {
+  const points = records.reduce((sum, r) => sum + pointsFor(r), 0) + evolutions * EVOLUTION_POINTS;
   const level = levelFor(points);
   return { points, level, title: titleFor(level), intoLevel: points - pointsToReach(level), levelSpan: pointsToReach(level + 1) - pointsToReach(level) };
 }
@@ -80,6 +82,7 @@ export const BADGE_DEFS = [
   { id: "ten", name: "十湯めぐり", condition: "御湯印が10枚（10か所）になる" },
   { id: "twenty-five", name: "二十五湯めぐり", condition: "御湯印が25枚（25か所）になる" },
   { id: "all", name: "全国湯めぐり", condition: "御湯印が47枚（47か所）になる" },
+  { id: "evolve", name: "はじめてのなりかわり", condition: "湯の子が、通った温泉地のキャラクターになりかわる" },
 ] as const;
 
 export type Progress = Points & {
@@ -91,7 +94,7 @@ export type Progress = Points & {
   badges: Badge[];
 };
 
-export function computeProgress(records: StampRecord[], areas: AreaRef[]): Progress {
+export function computeProgress(records: StampRecord[], areas: AreaRef[], evolutions = 0): Progress {
   const known = new Set(areas.map((a) => a.code));
   const mine = records.filter((r) => known.has(r.code));
   const ownedSet = new Set(mine.map((r) => r.code));
@@ -114,6 +117,7 @@ export function computeProgress(records: StampRecord[], areas: AreaRef[]): Progr
     ten: ownedSet.size >= 10,
     "twenty-five": ownedSet.size >= 25,
     all: ownedSet.size >= 47,
+    evolve: evolutions >= 1,
   };
   const badges: Badge[] = BADGE_DEFS.map((d) => ({
     ...d,
@@ -121,7 +125,7 @@ export function computeProgress(records: StampRecord[], areas: AreaRef[]): Progr
     detail: d.id === "region" && conquered.length ? conquered.map((r) => r.label).join("・") : undefined,
   }));
 
-  return { ...summarizePoints(mine), ownedCount: ownedSet.size, total: areas.length, regions, completeViews, badges };
+  return { ...summarizePoints(mine, evolutions), ownedCount: ownedSet.size, total: areas.length, regions, completeViews, badges };
 }
 
 /** 匿名キーの下4桁を、会員番号風に見せる（ログインなしの番号。本人確認には使わない） */

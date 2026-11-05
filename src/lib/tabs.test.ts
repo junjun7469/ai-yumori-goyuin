@@ -8,6 +8,7 @@ describe("画面ごとのタブ色", () => {
     expect(tabOf("/goyuin/gacha")).toBe("zukan");
     expect(tabOf("/goyuin/qr")).toBe("qr");
     expect(tabOf("/visit/43")).toBe("qr");
+    expect(tabOf("/goyuin/yunoko")).toBe("yunoko");
     expect(tabOf("/goyuin/today")).toBe("today");
     expect(tabOf("/goyuin/me")).toBe("me");
   });
@@ -15,6 +16,7 @@ describe("画面ごとのタブ色", () => {
     expect(bandLabel("/goyuin")).toBe("図鑑");
     expect(bandLabel("/goyuin/43")).toBe("図鑑　くわしく");
     expect(bandLabel("/goyuin/today")).toBe("今日の湯");
+    expect(bandLabel("/goyuin/yunoko")).toBe("湯の子");
     expect(bandLabel("/visit/43")).toBe("QR　到着");
   });
 });

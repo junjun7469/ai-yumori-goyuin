@@ -3,6 +3,7 @@ import { and, eq } from "drizzle-orm";
 import { db, schema } from "@/db";
 import { visitedToday } from "./gachaLogic";
 import { getArea, getFacilityName, getTodayYu, type AreaView, type TodayYu } from "./goyuinData";
+import { currentYunoko, growYunoko, type YunokoGrowth } from "./yunokoDb";
 import { isVariant, pickVariant, type Variant } from "./goyuinVariant";
 
 export type VisitResult = {
@@ -13,6 +14,8 @@ export type VisitResult = {
   obtainedAt: string; // ISO
   /** 取得したときの今日の湯（杖立のみ） */
   snapshot: TodayYu | null;
+  /** 湯の子の様子。grew が true なら今回の入浴で育った（なりかわったときは evolved も true） */
+  yunoko: YunokoGrowth;
 };
 
 /**
@@ -35,6 +38,7 @@ export function claimVisit(userKey: string, code: string, now: Date = new Date()
       variant: isVariant(already.variant) ? already.variant : "washi",
       obtainedAt: already.obtainedAt.toISOString(),
       snapshot: (already.snapshot as unknown as TodayYu | null) ?? null,
+      yunoko: currentYunoko(userKey, now),
     };
   }
 
@@ -44,5 +48,7 @@ export function claimVisit(userKey: string, code: string, now: Date = new Date()
     userKey, onsenAreaId: areaRow.id, obtainedVia: "visit", obtainedAt: now, variant,
     snapshot: snapshot ? (snapshot as unknown as Record<string, unknown>) : null,
   }).run();
-  return { already: false, area, facility, variant, obtainedAt: now.toISOString(), snapshot };
+  // 新しく御湯印を取れたときだけ湯の子が育つ（同じ日の同じ温泉地は上の already で止まるので、1回と数える）
+  const yunoko = growYunoko(userKey, code, now);
+  return { already: false, area, facility, variant, obtainedAt: now.toISOString(), snapshot, yunoko };
 }

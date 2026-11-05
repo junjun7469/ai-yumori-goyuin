@@ -390,3 +390,56 @@ html[data-theme="retro"] .goyuin-theme .stamp-in { animation: none; }
 html[data-theme="retro"] .goyuin-theme .visit-char-fade { animation: retro-blink 1s steps(1, end) 2; }
 html[data-theme="retro"] .goyuin-theme .steam-puff { width: 3rem; height: 3rem; background: #9fb8e0; animation: steam-rise 1.2s steps(3, end) infinite; }
 @keyframes retro-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0.2; } }
+
+/* ===== 湯の子（ゆのこ）：揺れ・湯けむり・なりかわりの演出。どちらのテーマでもコマ送り（なめらかに動かさない） ===== */
+.yunoko-bob { animation: yunoko-bob 1.6s steps(1, end) infinite alternate; }
+@keyframes yunoko-bob { 0% { transform: translateY(0); } 33.33% { transform: translateY(-4px); } 66.66% { transform: translateY(-8px); } }
+.ysteam { opacity: 0; animation: ysteam 0.9s steps(1, end) infinite; }
+.ysteam-1 { animation-delay: 0s; } .ysteam-2 { animation-delay: 0.3s; } .ysteam-3 { animation-delay: 0.6s; }
+@keyframes ysteam { 0% { opacity: 1; } 33.33%, 100% { opacity: 0; } }
+.yunoko-stage { min-height: 190px; }
+
+/* 通った回数のブロック（■■□）と、育つ順番 */
+.yblock { width: 44px; height: 20px; border: 3px solid var(--ink); border-radius: 6px; background: transparent; }
+.yblock[data-on="true"] { background: var(--tab, var(--vermilion)); }
+.ystep { border: 2px solid var(--line); padding: 2px 6px; border-radius: 9999px; opacity: 0.5; }
+.ystep[data-on="true"] { opacity: 1; background: var(--tab, var(--vermilion)); color: var(--tab-fg, #fff); border-color: var(--tab, var(--vermilion)); }
+
+/* なりかわり：湯の精が揺れて光り、キャラ画像に切り替わる（約2.8秒） */
+.evo-from { animation: evo-from 2.8s steps(1, end) forwards; }
+.evo-to { opacity: 0; animation: evo-to 2.8s steps(1, end) forwards; }
+.evo-glow { background: radial-gradient(circle, rgba(255, 244, 190, 0.95), rgba(255, 244, 190, 0) 70%); opacity: 0; animation: evo-glow 2.8s steps(1, end) forwards; pointer-events: none; }
+.evo-text { animation: evo-text 2.8s steps(1, end) both; }
+@keyframes evo-from { 0%, 57% { opacity: 1; } 58%, 100% { opacity: 0; } }
+@keyframes evo-to { 0%, 57% { opacity: 0; } 58%, 100% { opacity: 1; } }
+@keyframes evo-glow { 0%, 20% { opacity: 0; } 21%, 32% { opacity: 1; } 33%, 44% { opacity: 0.2; } 45%, 56% { opacity: 1; } 57%, 70% { opacity: 1; } 71%, 100% { opacity: 0; } }
+@keyframes evo-text { 0%, 57% { opacity: 0; } 58%, 100% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .yunoko-bob, .ysteam { animation: none; }
+  .ysteam-1 { opacity: 1; }
+  .evo-from, .evo-glow { animation: none; opacity: 0; }
+  .evo-to, .evo-text { animation: none; opacity: 1; }
+}
+
+/* 下タブ中央の「湯の子」：少し大きく、上にはみ出す */
+.tab-hero { display: grid; place-items: center; width: 54px; height: 54px; margin-top: -24px; background: #fff; border: 2px solid var(--line); border-radius: 9999px; color: inherit; }
+.tab-hero > svg { width: 30px; height: 30px; }
+.tab-center a[aria-current="page"] .tab-hero { background: var(--vermilion); color: #fff; border-color: var(--vermilion); }
+.kayoi-badge { display: inline-block; }
+
+/* retro：藤のタブ色。中央のタブは四角い枠が上にはみ出す */
+html[data-theme="retro"] .goyuin-theme[data-tab="yunoko"] { --tab: #8b6fc0; --tab-fg: #f4ecd3; }
+html[data-theme="retro"] .goyuin-theme nav a[data-tab="yunoko"] { --c: #8b6fc0; --cfg: #f4ecd3; }
+html[data-theme="retro"] .goyuin-theme .tab-hero { background: #fbf6e4; border: 3px solid #1a1a2e; width: 58px; height: 58px; margin-top: -26px; }
+html[data-theme="retro"] .goyuin-theme .tab-hero > svg { width: 34px; height: 34px; }
+html[data-theme="retro"] .goyuin-theme nav li.tab-center a[aria-current="page"] { background: transparent; }
+html[data-theme="retro"] .goyuin-theme nav li.tab-center a[aria-current="page"] .tab-hero { background: var(--c); color: var(--cfg); border-color: #1a1a2e; }
+html[data-theme="retro"] .goyuin-theme .yblock { border-radius: 0; }
+html[data-theme="retro"] .goyuin-theme .ystep { border-radius: 0 !important; border: 2px solid #1a1a2e; opacity: 1; background: #fbf6e4; color: #1a1a2e; }
+html[data-theme="retro"] .goyuin-theme .ystep[data-on="true"] { background: var(--tab); color: var(--tab-fg); }
+html[data-theme="retro"] .goyuin-theme .kayoi-badge { background: #e5b84b; color: #1a1a2e; border: 2px solid #1a1a2e; }
+
+/* 中央タブのドット絵の卵は少し大きく。カードの日付は文字の途中で折れないように */
+html[data-theme="retro"] .goyuin-theme .tab-hero > svg { width: 40px; height: 40px; }
+html[data-theme="retro"] .goyuin-theme .tab-hero { padding: 0; }
+.goyuin-theme [aria-label="これまでの湯の子"] li p { word-break: keep-all; }

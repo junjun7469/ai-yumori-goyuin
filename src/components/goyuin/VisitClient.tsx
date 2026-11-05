@@ -6,16 +6,20 @@ import type { AreaView, TodayYu } from "@/lib/goyuinData";
 import { jstDate } from "@/lib/gachaLogic";
 import { VARIANT_LABEL, type Variant } from "@/lib/goyuinVariant";
 import { pointsFor, summarizePoints } from "@/lib/progress";
+import { EVOLUTION_POINTS, progressText, STAGE_NAME, type SpiritTone, type Stage } from "@/lib/yunoko";
 import { resetUserKey } from "@/lib/userKey";
 import { CharacterImage } from "./CharacterImage";
 import { YuMark } from "./YuMark";
 import { TodayYuCard } from "./TodayYuCard";
 import { useOwned } from "./useOwned";
+import { EvolveFigure, YunokoFigure } from "./YunokoFigure";
+import { VisitBlocks } from "./YunokoClient";
 
 /** 今回もらって増えたポイントと、レベルが上がったか（新しく取ったときだけ） */
 type Gain = { points: number; leveledUp: boolean; level: number; title: string };
 
-type Visit = { already: boolean; area: AreaView; facility: string | null; variant: Variant; obtainedAt: string; snapshot: TodayYu | null };
+type YunokoGrowth = { grew: boolean; evolved: boolean; stage: Stage; visits: number; boundCode: string | null; tone: SpiritTone | null };
+type Visit = { already: boolean; area: AreaView; facility: string | null; variant: Variant; obtainedAt: string; snapshot: TodayYu | null; yunoko: YunokoGrowth };
 
 /** 演出の長さ（約2秒）。「動きを減らす」設定のときはほぼ省略 */
 const ARRIVE_MS = 2000;
@@ -43,8 +47,8 @@ export function VisitEntry(props: { code: string; prefecture: string }) {
 }
 
 function VisitClient({ code, prefecture }: { code: string; prefecture: string }) {
-  const { status, userKey, items, refresh } = useOwned();
-  const [phase, setPhase] = useState<"idle" | "arriving" | "result">("idle");
+  const { status, userKey, items, evolutions, refresh } = useOwned();
+  const [phase, setPhase] = useState<"idle" | "arriving" | "result" | "grow">("idle");
   const [visit, setVisit] = useState<Visit | null>(null);
   const [gain, setGain] = useState<Gain | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -78,9 +82,10 @@ function VisitClient({ code, prefecture }: { code: string; prefecture: string })
       const v: Visit = await res.json();
       if (!v.already) {
         // レベルアップの判定：取る前の記録と、今回の1件を足した記録で比べる
-        const before = summarizePoints(items);
-        const after = summarizePoints([...items, { variant: v.variant }]);
-        setGain({ points: pointsFor(v), leveledUp: after.level > before.level, level: after.level, title: after.title });
+        // なりかわりが起きたときは、その300ptも足す
+        const before = summarizePoints(items, evolutions);
+        const after = summarizePoints([...items, { variant: v.variant }], evolutions + (v.yunoko.evolved ? 1 : 0));
+        setGain({ points: pointsFor(v) + (v.yunoko.evolved ? EVOLUTION_POINTS : 0), leveledUp: after.level > before.level, level: after.level, title: after.title });
       }
       setVisit(v);
       setPhase("result");
@@ -96,7 +101,8 @@ function VisitClient({ code, prefecture }: { code: string; prefecture: string })
     return <p className="goshuin-card m-4 p-5 text-sm leading-relaxed">このブラウザでは、御湯印帳の印（匿名の端末キー）を保存できません。プライベートブラウズを解除するか、別のブラウザでお試しください。</p>;
   }
 
-  if (phase === "result" && visit) return <VisitResultCard v={visit} gain={gain} />;
+  if (phase === "grow" && visit) return <YunokoGrowCard v={visit} />;
+  if (phase === "result" && visit) return <VisitResultCard v={visit} gain={gain} onNext={visit.yunoko.grew && !visit.already ? () => setPhase("grow") : undefined} />;
 
   return (
     <div className="space-y-5 px-5 pb-10 pt-5">
@@ -133,7 +139,7 @@ function VisitClient({ code, prefecture }: { code: string; prefecture: string })
 }
 
 /** 台紙＋キャラ＋温泉地名＋取得日を、1枚の御湯印として見せる */
-function VisitResultCard({ v, gain }: { v: Visit; gain: Gain | null }) {
+function VisitResultCard({ v, gain, onNext }: { v: Visit; gain: Gain | null; onNext?: () => void }) {
   const a = v.area;
   return (
     <div className="space-y-4 px-5 pb-10 pt-5">
@@ -162,10 +168,45 @@ function VisitResultCard({ v, gain }: { v: Visit; gain: Gain | null }) {
         {v.snapshot && <TodayYuCard yu={v.snapshot} title="もらったときの今日の湯" />}
       </article>
 
+      {onNext && (
+        <p className="text-center">
+          <button type="button" onClick={onNext} className="rbtn rounded-full border border-[var(--vermilion)] bg-white px-6 py-3 text-base font-bold text-[var(--vermilion)]">湯の子のようすを見る</button>
+        </p>
+      )}
+
       <p className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-center text-sm">
         <Link href={`/goyuin/${a.code}`}>成分を見る</Link>
         <Link href="/goyuin">図鑑で見る</Link>
         <Link href="/goyuin/me">わたし</Link>
+      </p>
+    </div>
+  );
+}
+
+/** 御湯印の結果のあとに挟む「湯の子が育った」カード。3回目は、湯の子が揺れて光り、キャラ画像になりかわる（CSSだけ・音なし） */
+function YunokoGrowCard({ v }: { v: Visit }) {
+  const y = v.yunoko;
+  const a = v.area;
+  const t = progressText({ boundCode: y.boundCode, visits: y.visits }, a.name);
+  return (
+    <div className="space-y-4 px-5 pb-10 pt-5">
+      <section className="goshuin-card reveal mx-auto max-w-sm space-y-4 px-5 pb-6 pt-7 text-center" aria-live="polite" aria-label="湯の子が育った">
+        <p className="text-sm tracking-widest text-[var(--ink-soft)]">{y.evolved ? "なりかわり！" : "湯の子が育った"}</p>
+        <h2 className="text-2xl font-bold tracking-wider">{y.evolved ? `${a.name}のキャラクターに` : STAGE_NAME[y.stage]}</h2>
+        {y.evolved ? <EvolveFigure tone={y.tone} area={a} /> : <div className="mx-auto grid place-items-center"><YunokoFigure stage={y.stage} tone={y.tone} size={176} /></div>}
+        {y.evolved ? (
+          <p className="evo-text text-sm leading-relaxed [text-wrap:balance]">{a.name}に通った湯の子が、このキャラクターになりかわりました。図鑑に「通い湯」の印が付きます。新しい湯の子が生まれました。</p>
+        ) : (
+          <>
+            <p className="text-base font-bold">{t.title}</p>
+            <VisitBlocks visits={y.visits} />
+            <p className="text-sm">{t.hint}</p>
+          </>
+        )}
+      </section>
+      <p className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-center text-sm">
+        <Link href="/goyuin/yunoko">湯の子の画面へ</Link>
+        <Link href="/goyuin">図鑑で見る</Link>
       </p>
     </div>
   );

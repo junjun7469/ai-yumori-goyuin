@@ -21,6 +21,11 @@ const TABS = [
     icon: icon(<><rect x="4" y="4" width="6" height="6" /><rect x="14" y="4" width="6" height="6" /><rect x="4" y="14" width="6" height="6" /><path d="M14 14h2v2h-2zM18 18h2v2h-2zM14 18h2M18 14h2" /></>),
   },
   {
+    id: "yunoko", href: "/goyuin/yunoko", label: "湯の子", pixel: "egg" as PixelIconName, hero: true,
+    active: (p: string) => p.startsWith("/goyuin/yunoko"),
+    icon: icon(<path d="M12 3c3.6 0 6.5 5 6.5 9.5a6.5 6.5 0 0 1-13 0C5.5 8 8.4 3 12 3z M9.5 12.5v.01M14.5 12.5v.01" />),
+  },
+  {
     id: "today", href: "/goyuin/today", label: "今日の湯", pixel: "bowl" as PixelIconName,
     active: (p: string) => p.startsWith("/goyuin/today"),
     icon: icon(<><path d="M8 3c-1.5 2 1.5 3 0 5M12 3c-1.5 2 1.5 3 0 5M16 3c-1.5 2 1.5 3 0 5" /><path d="M4 12h16l-1.5 6a3 3 0 0 1-3 2.5H8.5a3 3 0 0 1-3-2.5z" /></>),
@@ -41,12 +46,21 @@ export function BottomTabs() {
         {TABS.map((t) => {
           const on = t.active(path);
           return (
-            <li key={t.href} className="flex-1">
+            <li key={t.href} className={`flex-1 ${"hero" in t ? "tab-center" : ""}`}>
               <Link href={t.href} data-tab={t.id} aria-current={on ? "page" : undefined}
                 className="flex flex-col items-center gap-0.5 pb-2 pt-2.5 text-[11px] no-underline"
                 style={{ color: on ? "var(--vermilion)" : "rgba(74, 58, 44, 0.55)", fontWeight: on ? 700 : 500 }}>
-                {t.icon}
-                <PixelArt name={t.pixel} size={26} className="only-retro" />
+                {"hero" in t ? (
+                  <span className="tab-hero">
+                    {t.icon}
+                    <PixelArt name={t.pixel} size={34} className="only-retro" />
+                  </span>
+                ) : (
+                  <>
+                    {t.icon}
+                    <PixelArt name={t.pixel} size={26} className="only-retro" />
+                  </>
+                )}
                 {t.label}
               </Link>
             </li>

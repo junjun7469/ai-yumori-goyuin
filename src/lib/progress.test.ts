@@ -120,3 +120,15 @@ describe("実績バッジ", () => {
     expect([s(9).ten, s(10).ten, s(24)["twenty-five"], s(25)["twenty-five"], s(46).all, s(47).all]).toEqual([false, true, false, true, false, true]);
   });
 });
+
+describe("湯の子のなりかわり", () => {
+  it("なりかわり1回＝300pt をレベルのポイントに足し、実績「はじめてのなりかわり」が点灯する", () => {
+    expect(summarizePoints([], 1).points).toBe(300);
+    expect(summarizePoints([{ variant: "washi" }], 1)).toMatchObject({ points: 400, level: 2 });
+    const none = computeProgress([], areas, 0);
+    const one = computeProgress([], areas, 1);
+    expect(none.badges.find((b) => b.id === "evolve")!.achieved).toBe(false);
+    expect(one.badges.find((b) => b.id === "evolve")!.achieved).toBe(true);
+    expect(one.badges.find((b) => b.id === "evolve")!.name).toBe("はじめてのなりかわり");
+  });
+});

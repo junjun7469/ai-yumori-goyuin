@@ -105,6 +105,19 @@ export const goyuin = sqliteTable("goyuin", {
   ...timestamps,
 });
 
+/** 湯の子。evolved_at が null のものが「いま育てている湯の子」（利用者ごとに1体）。なりかわり済みは行として残す */
+export const yunoko = sqliteTable("yunoko", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  userKey: text("user_key").notNull(),
+  boundOnsenCode: text("bound_onsen_code"), // 通い始めた温泉地。最初の入浴で決まる（たまごの間は null）
+  visits: integer("visits").notNull().default(0), // bound の温泉地に通った回数（0〜3）
+  stage: integer("stage").notNull().default(0), // 0 たまご／1 湯の子／2 湯の精／3 なりかわり
+  bornAt: integer("born_at", { mode: "timestamp" }).notNull(),
+  evolvedAt: integer("evolved_at", { mode: "timestamp" }),
+  evolvedOnsenCode: text("evolved_onsen_code"),
+  ...timestamps,
+});
+
 export const MAINTENANCE_TYPES = ["pipe_cleaning", "tank_cleaning", "inspection", "repair", "other"] as const;
 
 /** 設備メンテナンス記録（引湯管清掃など）。変化検知が「前回の清掃から何日か」を読む */

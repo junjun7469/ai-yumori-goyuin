@@ -8,7 +8,7 @@ import { useCollection } from "./useCollection";
 
 /** わたし：レベル・称号・統計・実績。計算は src/lib/progress.ts に集約している */
 export function MeClient({ base }: { base: { code: string; prefecture: string }[] }) {
-  const { status, userKey, items, areas, loaded } = useCollection(base);
+  const { status, userKey, items, areas, loaded, evolutions } = useCollection(base);
   const [theme, setTheme] = useState<Theme>("retro");
   useEffect(() => { setTheme(loadTheme(window.localStorage)); }, []);
   const choose = (t: Theme) => { setTheme(t); applyTheme(t, document.documentElement, window.localStorage); };
@@ -19,7 +19,7 @@ export function MeClient({ base }: { base: { code: string; prefecture: string }[
     return <p className="goshuin-card m-5 p-5 text-sm leading-relaxed">このブラウザでは、記録（匿名の端末キー）を保存できません。プライベートブラウズを解除するか、別のブラウザでお試しください。</p>;
   }
 
-  const p = computeProgress(items, areas);
+  const p = computeProgress(items, areas, evolutions);
   const next = nextTitleAfter(p.level);
   const pct = Math.round((p.intoLevel / p.levelSpan) * 100);
 
@@ -130,7 +130,7 @@ export function MeClient({ base }: { base: { code: string; prefecture: string }[
   );
 }
 
-const MEDAL_GLYPH: Record<string, string> = { first: "初", "four-views": "景", region: "地", ten: "十", "twenty-five": "廿五", all: "全" };
+const MEDAL_GLYPH: Record<string, string> = { first: "初", "four-views": "景", region: "地", ten: "十", "twenty-five": "廿五", all: "全", evolve: "化" };
 
 /** 丸いメダル。達成済みは金と赤茶、未達成はくすんだ灰色（自前の CSS グラデーション） */
 function Medal({ glyph, achieved }: { glyph: string; achieved: boolean }) {
