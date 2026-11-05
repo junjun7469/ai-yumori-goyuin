@@ -17,6 +17,17 @@ export default function GoyuinLayout({ children }: { children: React.ReactNode }
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" precedence="default" />
       {/* 起動演出のドット書体 DotGothic16（同じく閲覧するブラウザが取得） */}
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" precedence="default" />
+      {/* retro のキャラ画像用：明るさを4段に分けて、緑の4階調（#0f380f #306230 #8bac0f #9bbc0f）に置き換える SVG フィルタ */}
+      <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden focusable="false">
+        <filter id="gb4" colorInterpolationFilters="sRGB">
+          <feColorMatrix type="matrix" values="0.62 0.78 0.16 0 -0.22  0.62 0.78 0.16 0 -0.22  0.62 0.78 0.16 0 -0.22  0 0 0 1 0" />
+          <feComponentTransfer>
+            <feFuncR type="discrete" tableValues="0.059 0.188 0.545 0.608" />
+            <feFuncG type="discrete" tableValues="0.22 0.384 0.675 0.737" />
+            <feFuncB type="discrete" tableValues="0.059 0.188 0.059 0.059" />
+          </feComponentTransfer>
+        </filter>
+      </svg>
       <div className="mx-auto max-w-[480px] pb-24">
         <header className="px-5 pb-1 pt-6">
           <div className="flex items-center gap-3">

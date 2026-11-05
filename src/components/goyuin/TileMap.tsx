@@ -14,7 +14,7 @@ export function TileMap({ areas, variants }: { areas: AreaPublic[]; variants: Ma
   const byCode = new Map(areas.map((a) => [a.code, a]));
   return (
     <div
-      className="grid gap-[3px]"
+      className="tile-grid grid gap-[3px]"
       style={{ gridTemplateColumns: `repeat(${TILE_COLS}, minmax(0, 1fr))`, gridTemplateRows: TILE_ROW_HEIGHTS.map((h) => `${h}px`).join(" ") }}
       role="list"
       aria-label="日本地図の御湯印タイル"
@@ -57,8 +57,8 @@ export function CollectionProgress({ owned, total, loading = false }: { owned: n
           <span className="ml-1 text-base font-bold text-[var(--ink-soft)]">/ {total}</span>
         </span>
       </p>
-      <div className="h-3 overflow-hidden rounded-full bg-[var(--track)]" role="progressbar" aria-valuemin={0} aria-valuemax={total} aria-valuenow={loading ? 0 : owned}>
-        <div className="h-full rounded-full bg-[var(--vermilion)] transition-[width]" style={{ width: `${pct}%` }} />
+      <div className="bar-track h-3 overflow-hidden rounded-full bg-[var(--track)]" role="progressbar" aria-valuemin={0} aria-valuemax={total} aria-valuenow={loading ? 0 : owned}>
+        <div className="bar-fill h-full rounded-full bg-[var(--vermilion)] transition-[width]" style={{ width: `${pct}%` }} />
       </div>
     </section>
   );

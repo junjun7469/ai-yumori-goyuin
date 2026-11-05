@@ -120,7 +120,7 @@ function VisitClient({ code, prefecture }: { code: string; prefecture: string })
         <button
           onClick={arrive}
           disabled={phase !== "idle"}
-          className="w-full max-w-sm rounded-full bg-[var(--vermilion)] px-6 py-4 text-lg font-bold tracking-widest text-white shadow-[0_4px_12px_rgba(181,84,58,0.35)] disabled:opacity-40"
+          className="rbtn w-full max-w-sm rounded-full bg-[var(--vermilion)] px-6 py-4 text-lg font-bold tracking-widest text-white shadow-[0_4px_12px_rgba(181,84,58,0.35)] disabled:opacity-40"
         >
           到着！御湯印をもらう
         </button>

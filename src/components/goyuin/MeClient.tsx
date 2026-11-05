@@ -1,12 +1,18 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { computeProgress, memberNumber, nextTitleAfter, TITLES } from "@/lib/progress";
 import Link from "next/link";
+import { applyTheme, loadTheme, THEMES, type Theme } from "@/lib/theme";
 import { useCollection } from "./useCollection";
 
 /** わたし：レベル・称号・統計・実績。計算は src/lib/progress.ts に集約している */
 export function MeClient({ base }: { base: { code: string; prefecture: string }[] }) {
   const { status, userKey, items, areas, loaded } = useCollection(base);
+  const [theme, setTheme] = useState<Theme>("retro");
+  useEffect(() => { setTheme(loadTheme(window.localStorage)); }, []);
+  const choose = (t: Theme) => { setTheme(t); applyTheme(t, document.documentElement, window.localStorage); };
+
 
   if (status === "loading" || (!loaded && status === "ready")) return <p className="py-16 text-center text-sm text-[var(--ink-soft)]">御湯印帳をひらいています…</p>;
   if (status === "nokey") {
@@ -69,8 +75,8 @@ export function MeClient({ base }: { base: { code: string; prefecture: string }[
           {p.regions.map((r) => (
             <li key={r.id} className="flex items-center gap-3">
               <span className="w-[4.6rem] shrink-0 text-xs font-bold">{r.label}</span>
-              <span className="h-2.5 flex-1 overflow-hidden rounded-full bg-[var(--track)]">
-                <span className="block h-full rounded-full bg-[var(--vermilion)]" style={{ width: `${r.total ? (r.owned / r.total) * 100 : 0}%` }} />
+              <span className="bar-track h-2.5 flex-1 overflow-hidden rounded-full bg-[var(--track)]">
+                <span className="bar-fill block h-full rounded-full bg-[var(--vermilion)]" style={{ width: `${r.total ? (r.owned / r.total) * 100 : 0}%` }} />
               </span>
               <span className={`w-10 shrink-0 text-right text-xs tabular-nums ${r.complete ? "font-black text-[var(--vermilion)]" : "text-[var(--ink-soft)]"}`}>{r.owned}/{r.total}</span>
             </li>
@@ -94,9 +100,21 @@ export function MeClient({ base }: { base: { code: string; prefecture: string }[
         </ul>
       </section>
 
+      <section className="goshuin-card space-y-2 p-4" aria-label="見た目">
+        <p className="text-xs tracking-widest text-[var(--ink-soft)]">見た目</p>
+        <div role="group" aria-label="見た目の切り替え" className="flex gap-2">
+          {THEMES.map((t) => (
+            <button key={t.id} type="button" aria-pressed={theme === t.id} onClick={() => choose(t.id)}
+              className={`theme-btn flex-1 rounded-full border py-2 text-sm ${theme === t.id ? "border-[var(--vermilion)] bg-[var(--vermilion)] font-bold text-white" : "border-[var(--line)] bg-white"}`}>
+              {t.label}（{t.id}）
+            </button>
+          ))}
+        </div>
+      </section>
+
       <p className="text-center">
-        <Link href="/goyuin?intro=1" className="inline-block rounded-full border border-[var(--line)] bg-white px-5 py-2.5 text-sm font-bold no-underline" style={{ color: "var(--ink)" }}>
-          ▶ 起動演出をもう一度見る
+        <Link href="/goyuin?intro=1" className="rbtn inline-block rounded-full border border-[var(--line)] bg-white px-5 py-2.5 text-sm font-bold no-underline" style={{ color: "var(--ink)" }}>
+          起動演出をもう一度見る
         </Link>
       </p>
 
@@ -119,12 +137,13 @@ function Medal({ glyph, achieved }: { glyph: string; achieved: boolean }) {
   return (
     <span
       aria-hidden
-      className="grid h-[68px] w-[68px] place-items-center rounded-full"
+      data-achieved={achieved}
+      className="medal grid h-[68px] w-[68px] place-items-center rounded-full"
       style={achieved
         ? { background: "radial-gradient(circle at 32% 28%, #f6e3b4, #d9ad5e 58%, #b8863c)", boxShadow: "0 3px 8px rgba(120, 80, 20, 0.3), inset 0 0 0 3px rgba(255,255,255,0.35)" }
         : { background: "radial-gradient(circle at 32% 28%, #efeae0, #d9d2c4)", boxShadow: "inset 0 0 0 3px rgba(255,255,255,0.5)" }}
     >
-      <span className="grid h-[52px] w-[52px] place-items-center rounded-full border-2 text-[22px] font-black"
+      <span className="medal-inner grid h-[52px] w-[52px] place-items-center rounded-full border-2 text-[22px] font-black"
         style={achieved ? { borderColor: "#b5543a", color: "#b5543a", background: "rgba(255,253,248,0.85)" } : { borderColor: "#c4bcaa", color: "#a79f8e", background: "rgba(255,255,255,0.4)" }}>
         {achieved ? glyph : "？"}
       </span>

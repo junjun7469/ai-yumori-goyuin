@@ -72,7 +72,7 @@ export function ZukanClient({ base }: { base: { code: string; prefecture: string
           <p className="py-10 text-center text-sm text-[var(--ink-soft)]">御湯印帳をひらいています…</p>
         ) : stamps.length === 0 ? (
           <div className="goshuin-card flex flex-col items-center gap-3 px-6 pb-8 pt-7 text-center">
-            <ClosedBook className="w-44" />
+            <ClosedBook className="closed-book w-44" />
             <p className="text-base font-bold leading-relaxed [text-wrap:balance]">温泉地でQRを読んで<br />最初の1枚を</p>
             <p className="text-xs leading-relaxed text-[var(--ink-soft)]">御湯印は、その温泉地に着いてはじめて手に入ります。</p>
           </div>

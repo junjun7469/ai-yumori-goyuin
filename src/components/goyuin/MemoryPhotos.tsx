@@ -58,7 +58,7 @@ export function MemoryPhotos({ initial }: { initial: Memories | null }) {
         <ul className={`grid gap-2 ${m.photos.length === 1 ? "grid-cols-1" : "grid-cols-2"}`}>
           {m.photos.map((p) => (
             <li key={p.slot}>
-              <button type="button" onClick={() => setZoom(p.slot)} className="block w-full overflow-hidden rounded-xl border border-[var(--line)] bg-[var(--track)]" aria-label="写真を拡大">
+              <button type="button" onClick={() => setZoom(p.slot)} className="photo-frame block w-full overflow-hidden rounded-xl border border-[var(--line)] bg-[var(--track)]" aria-label="写真を拡大">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={src(p.slot)} alt="思い出の写真" className={`w-full object-cover ${m.photos.length === 1 ? "aspect-[4/3]" : "aspect-square"}`} loading="lazy" />
               </button>
@@ -72,8 +72,8 @@ export function MemoryPhotos({ initial }: { initial: Memories | null }) {
           <input ref={input} type="file" accept="image/*" className="hidden" disabled={busy}
             onChange={(e) => { const f = e.target.files?.[0]; if (f) void upload(f); }} />
           <button type="button" disabled={busy} onClick={() => input.current?.click()}
-            className="w-full rounded-full border border-[var(--vermilion)] py-2.5 text-sm font-bold text-[var(--vermilion)] disabled:opacity-50">
-            {busy ? "保存しています…" : "📷 思い出を残す"}
+            className="rbtn w-full rounded-full border border-[var(--vermilion)] py-2.5 text-sm font-bold text-[var(--vermilion)] disabled:opacity-50">
+            {busy ? "保存しています…" : "思い出を残す"}
           </button>
         </>
       )}
@@ -86,8 +86,8 @@ export function MemoryPhotos({ initial }: { initial: Memories | null }) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={src(zoomed.slot)} alt="思い出の写真（拡大）" className="max-h-[75vh] max-w-full rounded-xl object-contain" />
           <div className="flex gap-3" onClick={(e) => e.stopPropagation()}>
-            <button type="button" onClick={() => setZoom(null)} className="rounded-full bg-white px-5 py-2 text-sm font-bold">閉じる</button>
-            {!zoomed.demo && <button type="button" disabled={busy} onClick={() => void remove(zoomed.slot)} className="rounded-full border border-white px-5 py-2 text-sm text-white">消す</button>}
+            <button type="button" onClick={() => setZoom(null)} className="rbtn rounded-full bg-white px-5 py-2 text-sm font-bold">閉じる</button>
+            {!zoomed.demo && <button type="button" disabled={busy} onClick={() => void remove(zoomed.slot)} className="rbtn rbtn--onDark rounded-full border border-white px-5 py-2 text-sm text-white">消す</button>}
           </div>
         </div>
       )}

@@ -1,7 +1,11 @@
+import { PixelArt } from "./PixelArt";
+
 /** 丸い朱印風マーク：♨ を赤茶の円で囲んだ、自前の SVG（外部の印影・素材は使っていない） */
 export function YuMark({ size = 32, className = "", title }: { size?: number; className?: string; title?: string }) {
   return (
-    <svg viewBox="0 0 48 48" width={size} height={size} className={`yumark ${className}`} role={title ? "img" : undefined} aria-label={title} aria-hidden={title ? undefined : true}>
+    <>
+    <PixelArt name="stamp" size={size} className={`yumark only-retro ${className}`} title={title} />
+    <svg viewBox="0 0 48 48" width={size} height={size} className={`yumark only-washi ${className}`} role={title ? "img" : undefined} aria-label={title} aria-hidden={title ? undefined : true}>
       <circle cx="24" cy="24" r="21.5" fill="#b5543a" fillOpacity="0.1" stroke="#b5543a" strokeWidth="2.4" />
       <circle cx="24" cy="24" r="17.6" fill="none" stroke="#b5543a" strokeOpacity="0.45" strokeWidth="0.9" />
       <g fill="none" stroke="#b5543a" strokeWidth="2.3" strokeLinecap="round">
@@ -11,5 +15,6 @@ export function YuMark({ size = 32, className = "", title }: { size?: number; cl
       </g>
       <path d="M12.5 26.5h23c0 6.4-4.8 10.8-11.5 10.8s-11.5-4.4-11.5-10.8z" fill="#b5543a" />
     </svg>
+    </>
   );
 }
