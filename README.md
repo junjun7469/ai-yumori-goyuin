@@ -56,8 +56,22 @@
 | サブエージェント `data-consistency-reviewer` | `.claude/agents/` | 出典なしの数値、模擬ラベルの欠落、CSV と DB の不一致を探す。読み取り専用 |
 | フック（pre-commit） | `.claude/hooks/` | `.env` の混入、`sk-ant-` の実キー、模擬データを出す画面の「模擬」欠落があればコミットを止める（`npm run check:commit` で全体を点検。`npm install` で有効化） |
 | プロダクト内（Messages API + tool use） | `src/lib/detection.ts` ほか | 基準値・履歴・天候のツールを与え、変化検知→説明→要確認項目を構造化出力。禁止語は出力後にも検査 |
+| MCP サーバー `yumori` | `mcp/yumori-server/`、`.mcp.json` | 湯日誌 DB を読み取り専用で公開。Claude Code から「先週の湯量の推移は？」「浴槽が40℃を切った日は？前回の引湯管清掃から何日？」と聞ける。返す値すべてに「模擬データ／湯守の入力」の区別が付く |
 
 エージェントは、判断を置き換えるものではなく見落としを減らすためのものです。指摘が正しいかは人が確認します。
+
+### 湯日誌 MCP の使い方
+
+ツール：`get_latest_log`（最新の日誌と検知結果）／`query_logs`（期間の一覧）／`find_days`（条件に合う日。例：浴槽40℃未満、湯量が基準−8%以下）／`get_baseline`（分析書の基準値）／`get_maintenance`（メンテ記録と経過日数）／`get_yumori_rules`（湯守の判断基準）。どのツールも読み取り専用で、DB は書き換えません。
+
+接続手順：
+1. `npm install`（初回のみ。`@modelcontextprotocol/sdk` が入ります）。DB が無ければ `npm run seed`
+2. このリポジトリで `claude` を起動する。`.mcp.json` があるので、初回に「プロジェクトの MCP サーバー yumori を使いますか」と聞かれたら承認（`/mcp` で接続状況を確認できます）
+3. 「先週の湯量の推移は？」のように聞く。途中で `.mcp.json` を作った・変えたときは、`claude` を起動し直す
+
+起動し直さずに試すとき：`claude -p "先週の湯量の推移は？" --mcp-config .mcp.json --allowedTools "mcp__yumori__*"`。サーバー単体の確認は `npx tsx mcp/yumori-server/index.ts`（通信待ちになるので Ctrl+C で止める）。
+
+注意：`is_simulated: true` は模擬データ（実測ではない）、`false` は湯守が入力した記録。引湯管清掃の記録が未入力のときは「記録なし」と返し、日数は推測しません（`/dashboard/log` から入力）。
 
 ## 湯守の判断基準と評価セットの出典
 

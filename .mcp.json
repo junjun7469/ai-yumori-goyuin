@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "yumori": {
+      "command": "npx",
+      "args": ["tsx", "mcp/yumori-server/index.ts"],
+      "env": { "YUMORI_DB": "data/yumori.db" }
+    }
+  }
+}

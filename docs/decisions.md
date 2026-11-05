@@ -161,6 +161,17 @@
 - `.claude/hooks/pre-commit`：git の pre-commit。.env 混入・`sk-ant-` の実キー形式・「模擬」表示のない画面を止める。有効化は `npm install`（prepare）か `npm run hooks:install`。Claude Code の PreToolUse フックにはしない（`git add … && git commit` のように連結すると、フック実行時点でステージが空で検査をすり抜けるため）
 - 禁止語に「安心」「問題ありません」「大丈夫」を追加（safety-reviewer の指摘。湯の状態や入浴の安心を請け合う言い方になるため）。判断の根拠は絶対ルール3
 
+## 2026-11-06 湯日誌 DB を MCP サーバーとして公開（mcp/yumori-server/）
+
+- stdio 方式。同じ SQLite を `readonly: true` ＋ `query_only` で開く（書き込みは SQLite 側で拒否）。.mcp.json をリポジトリ直下に置き、Claude Code が自動で接続する
+- ツール6つ：get_latest_log／query_logs／find_days／get_baseline／get_maintenance／get_yumori_rules。返す行すべてに `is_simulated` と `source`（simulated／yumori_input）、`source_label`（模擬データ／湯守の入力）を付ける。湯守の判断基準の hypothetical は `source: hypothetical`（想定）で区別
+- find_days の条件は自由文ではなく構造（metric・op・value か vs_baseline_pct）。自由文を解釈させると、しきい値が人に見えないまま変わるため。しきい値と基準値は返却に含めて確認できるようにする
+- 浴槽温度に分析書の基準はないので、vs_baseline_pct は使えない（エラーにする）。40℃・38℃は湯守の判断基準（R1・R3）の値を value で渡す
+- メンテ記録が無いときは日数を作らず「記録なし」を返す。維持管理の記録には is_simulated の列がない。seed は作らず画面からの入力だけが書くので、すべて「湯守の入力」として返す
+- 書き込みのツールは作らない（日誌の入力は画面から。湯守の記録に AI が書き込まない）
+- 依存は @modelcontextprotocol/sdk と zod をルートの package.json に追加（別パッケージにしない）。ルートが CommonJS なので index.ts はトップレベル await と import.meta を使わない
+- Claude Code 自身での確認は `claude -p`（非対話実行）に `--mcp-config .mcp.json` を渡して行う。このセッションの Claude Code は起動時に .mcp.json を読まないため
+
 ## 捨てた案
 
 - 実センサー連携（機器なし。将来構想として README に1行）
