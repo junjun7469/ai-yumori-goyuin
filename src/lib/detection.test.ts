@@ -49,6 +49,8 @@ const use = (id: string, name: string, input: unknown): Anthropic.ToolUseBlock =
 describe("言い回しの検査", () => {
   it("禁止語を検出する", () => {
     expect(findForbiddenTerms({ ...good, explanation_guest: "肌に効くので安全です" })).toEqual(["効く", "安全"]);
+    // 安心・問題ありません・大丈夫も、湯の状態や入浴の安全を請け合う言い方として止める（safety-reviewer の指摘）
+    expect(findForbiddenTerms({ ...good, explanation_guest: "ご安心ください。大丈夫です" })).toEqual(["安心", "大丈夫"]);
     expect(findForbiddenTerms(good)).toEqual([]);
   });
   it("watch/check は『要確認』『管理者の確認を』が必須、normal は不要", () => {

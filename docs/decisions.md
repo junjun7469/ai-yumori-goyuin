@@ -154,6 +154,13 @@
 - **御湯印の絵の決め方は `src/lib/goyuinArt.ts` に集約**：(a) `public/goyuin/<code>.jpg` があればそれ（杖立は 43.jpg）。(b) なければ自動生成：和紙色の縦長の台紙（柄4種の色味を薄く反映）に、Yuji Syuku で温泉地名を縦書き、右上に「奉湯」、左下に取得日を漢数字で縦書き、中央に薄い朱印、四隅に湯けむり模様（CSS/SVG）。(a) の絵には日付を重ねず、取得日はカードの下に出す。出典は、`public/goyuin/` の絵＝「TOJISM 制作」、自動生成＝「アプリ生成」
 - ファイルの有無は、サーバーが `/api/goyuin`（所持の温泉地だけ）・詳細・QR着地の応答で伝える（画面から推測しない）
 
+## 2026-11-06 Claude の仕組み（Skill・サブエージェント・フック）を .claude/ に追加
+
+- `.claude/skills/onsen-sheet`：分析書画像→JSON の手順と、整合性の検査スクリプト（check.mjs）。検査は報告だけで、JSON や数値は書き換えない（自動書き込みは整形で差分が膨らみ、数値を黙って変える恐れがあるので捨てた）
+- `.claude/agents/safety-reviewer`・`data-consistency-reviewer`：読み取り専用（Read/Grep/Glob/Bash）。ファイルは直さず、指摘と修正案だけ返す
+- `.claude/hooks/pre-commit`：git の pre-commit。.env 混入・`sk-ant-` の実キー形式・「模擬」表示のない画面を止める。有効化は `npm install`（prepare）か `npm run hooks:install`。Claude Code の PreToolUse フックにはしない（`git add … && git commit` のように連結すると、フック実行時点でステージが空で検査をすり抜けるため）
+- 禁止語に「安心」「問題ありません」「大丈夫」を追加（safety-reviewer の指摘。湯の状態や入浴の安心を請け合う言い方になるため）。判断の根拠は絶対ルール3
+
 ## 捨てた案
 
 - 実センサー連携（機器なし。将来構想として README に1行）

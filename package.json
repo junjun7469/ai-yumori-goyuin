@@ -14,6 +14,10 @@
     "check:api": "tsx --env-file=.env scripts/check-api.ts",
     "demo-seed": "tsx scripts/demo-seed.ts",
     "demo-reset": "tsx scripts/demo-reset.ts",
+    "hooks:install": "git config core.hooksPath .claude/hooks",
+    "prepare": "git config core.hooksPath .claude/hooks || true",
+    "check:commit": "node .claude/hooks/pre-commit-check.mjs --all",
+    "check:sheet": "node .claude/skills/onsen-sheet/check.mjs data/maruso_analysis_2014.json",
     "backfill": "tsx --env-file=.env scripts/backfill-detections.ts"
   },
   "dependencies": {

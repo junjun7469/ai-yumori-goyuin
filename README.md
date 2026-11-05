@@ -46,6 +46,19 @@
   - `npm run demo-seed [-- <user_key>]` … 取得記録・湯の子・写真を消し、キャラ画像のある6温泉地（登別・酸ヶ湯・花巻・鳴子・蔵王・杖立）を所持にする。取得日は過去2か月に散らし、柄は4種が混ざる。**湯の子：杖立に2回通った湯の精（2/3）と、なりかわり済みの蔵王**を入れる（次に /visit/43 を取ると3回目でなりかわる。そのため杖立の最新の御湯印は今日ではなく3日前。雪見・今日の湯つき）。キーを省くと記録の最後の行のキー（ブラウザの localStorage `yumori_user_key` を渡してもよい）
   - `npm run demo-reset` … 取得記録（と写真）だけ全削除
 
+## Claude の使い分け
+
+| 仕組み | 場所 | 目的 |
+| --- | --- | --- |
+| CLAUDE.md | `CLAUDE.md` | 前提と禁止事項を毎回読ませる |
+| Skill `onsen-sheet` | `.claude/skills/onsen-sheet/` | 分析書の画像→構造化 JSON。mval% 合計・mg→mval の再計算・pH と泉質分類の整合・成分表と下段の不一致・分析から10年を検査し、要確認を付ける（`npm run check:sheet`） |
+| サブエージェント `safety-reviewer` | `.claude/agents/` | 画面文言・README・生成文の医療／安全表現（効く・治る・安全・保証・安心・必ず 等）を探し、修正案を出す。読み取り専用 |
+| サブエージェント `data-consistency-reviewer` | `.claude/agents/` | 出典なしの数値、模擬ラベルの欠落、CSV と DB の不一致を探す。読み取り専用 |
+| フック（pre-commit） | `.claude/hooks/` | `.env` の混入、`sk-ant-` の実キー、模擬データを出す画面の「模擬」欠落があればコミットを止める（`npm run check:commit` で全体を点検。`npm install` で有効化） |
+| プロダクト内（Messages API + tool use） | `src/lib/detection.ts` ほか | 基準値・履歴・天候のツールを与え、変化検知→説明→要確認項目を構造化出力。禁止語は出力後にも検査 |
+
+エージェントは、判断を置き換えるものではなく見落としを減らすためのものです。指摘が正しいかは人が確認します。
+
 ## 湯守の判断基準と評価セットの出典
 
 - `data/yumori_rules.json`：この施設の湯守が定めた判断基準。`origin: field` は湯守の実体験・判断基準、`hypothetical` はそこから派生させた想定。AI湯守の点検では field を優先して引用します

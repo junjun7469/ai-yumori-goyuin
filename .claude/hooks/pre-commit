@@ -1,0 +1,4 @@
+#!/bin/sh
+# git の pre-commit フック。検査の本体は pre-commit-check.mjs（Node）。
+# 有効化：npm install（prepare で core.hooksPath を設定）か、npm run hooks:install
+exec node "$(dirname "$0")/pre-commit-check.mjs" "$@"

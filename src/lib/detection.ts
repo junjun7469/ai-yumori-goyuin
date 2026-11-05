@@ -102,7 +102,7 @@ export function logView(l: LogRecord, base: { chamberTempC: number; flowLPerMin:
 
 // ---- 出力の言い回し検査（CLAUDE.md 絶対ルール3） -------------------------------
 
-export const FORBIDDEN_TERMS = ["効く", "効き", "効能", "効果", "治る", "治す", "治癒", "安全", "保証"] as const;
+export const FORBIDDEN_TERMS = ["効く", "効き", "効能", "効果", "治る", "治す", "治癒", "安全", "保証", "安心", "問題ありません", "大丈夫"] as const;
 
 export function findForbiddenTerms(r: DetectionResult): string[] {
   const text = [...r.reasons, ...r.next_checks, r.explanation_pro, r.explanation_guest].join("\n");
@@ -215,7 +215,7 @@ const SYSTEM_PROMPT_TAIL = `# 書き方
 - explanation_guest：宿泊者向け。やさしい言葉で1〜2文。不安をあおらず、断定もしない。
 - confidence：判断の確からしさ（low / medium / high）。データが少ない、または欠けているときは low か medium。
 - check と watch のときは、reasons や説明に「要確認」と「管理者の確認を」という言い回しを入れる。
-- 次の語は使わない：効く、効き、効能、効果、治る、治す、治癒、安全、保証。医療的な効能や安全性を述べない。「異常」「危険」と断定しない（湯守の判断基準の文言をそのまま引用する場合を除く）。
+- 次の語は使わない：効く、効き、効能、効果、治る、治す、治癒、安全、保証、安心、問題ありません、大丈夫。医療的な効能や安全性を述べず、入浴してよいかの判断も促さない。「異常」「危険」と断定しない（湯守の判断基準の文言をそのまま引用する場合を除く）。
 - 文中にツールの項目名や英語の値（bath_alert、clear、slightly_cloudy、null、last_pipe_cleaning など）をそのまま書かない。日本語で言い換える（例：透明、やや濁り、未入力、記録なし、41℃未満）。
 - reasons・next_checks・explanation_pro・explanation_guest は、それぞれ独立した自然な日本語の文章にする。JSON の記号やキー名（"explanation_guest" など）を文中に入れない。
 - 丸正旅館の計測値は模擬データを含む。実測と断定しない。`;
