@@ -209,3 +209,25 @@
   .steam-puff { animation: none; opacity: 0.6; }
   .reveal, .stamp-in { animation: none; }
 }
+
+/* 起動演出（自前の CSS。4階調の深緑のドット画面を、暗い角丸の枠で囲む） */
+.intro-root { background: #1a1d1a; }
+.intro-bezel { background: #0f380f; border-radius: 28px; box-shadow: 0 0 0 6px #262a26, 0 18px 40px rgba(0, 0, 0, 0.5); }
+.intro-screen {
+  background-color: #9bbc0f;
+  background-image: repeating-linear-gradient(0deg, rgba(15, 56, 15, 0.07) 0 1px, transparent 1px 3px);
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 3px #306230;
+  color: #0f380f;
+  animation: intro-light 0.7s steps(5, end) both;
+}
+.intro-title { font-family: "DotGothic16", "Hiragino Kaku Gothic ProN", monospace; font-weight: 400; }
+.intro-title span { transition: none; }
+.intro-blink { animation: intro-blink 0.9s steps(1, end) infinite; }
+@keyframes intro-light { 0% { filter: brightness(0.15); opacity: 0.2; } 100% { filter: brightness(1); opacity: 1; } }
+@keyframes intro-blink { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
+/* 生成り色にふわっと溶けて、図鑑へ */
+.intro-leave { animation: intro-leave 0.9s ease-in forwards; pointer-events: none; }
+.intro-leave .intro-bezel { transition: opacity 0.45s ease-in; opacity: 0; }
+@keyframes intro-leave { 0% { background: #1a1d1a; opacity: 1; } 50% { background: #f6f1e7; opacity: 1; } 100% { background: #f6f1e7; opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .intro-screen, .intro-blink { animation: none; } }

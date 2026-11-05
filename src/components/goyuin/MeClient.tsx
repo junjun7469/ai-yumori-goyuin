@@ -1,6 +1,7 @@
 "use client";
 
 import { computeProgress, memberNumber, nextTitleAfter, TITLES } from "@/lib/progress";
+import Link from "next/link";
 import { useCollection } from "./useCollection";
 
 /** わたし：レベル・称号・統計・実績。計算は src/lib/progress.ts に集約している */
@@ -92,6 +93,12 @@ export function MeClient({ base }: { base: { code: string; prefecture: string }[
           ))}
         </ul>
       </section>
+
+      <p className="text-center">
+        <Link href="/goyuin?intro=1" className="inline-block rounded-full border border-[var(--line)] bg-white px-5 py-2.5 text-sm font-bold no-underline" style={{ color: "var(--ink)" }}>
+          ▶ 起動演出をもう一度見る
+        </Link>
+      </p>
 
       {/* 会員番号風（ログインなし） */}
       <section className="rounded-2xl border border-dashed border-[var(--line)] px-4 py-3">

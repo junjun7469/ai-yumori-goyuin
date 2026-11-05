@@ -9,6 +9,7 @@ import { REGIONS, regionOf, type RegionId } from "@/lib/regions";
 import { CharacterImage } from "./CharacterImage";
 import { ClosedBook } from "./ClosedBook";
 import { CollectionProgress, TileMap } from "./TileMap";
+import { IntroOverlay } from "./IntroOverlay";
 import { CameraMark } from "./CameraMark";
 import { YuMark } from "./YuMark";
 import { useCollection } from "./useCollection";
@@ -51,6 +52,7 @@ export function ZukanClient({ base }: { base: { code: string; prefecture: string
 
   return (
     <div className="space-y-5 px-5 pb-10 pt-4">
+      <IntroOverlay />
       <CollectionProgress owned={ownedIn(areas)} total={areas.length} loading={status === "loading"} />
 
       <div role="tablist" aria-label="図鑑の切り替え" className="flex rounded-full bg-[var(--track)] p-1 text-center text-sm">
