@@ -443,3 +443,47 @@ html[data-theme="retro"] .goyuin-theme .kayoi-badge { background: #e5b84b; color
 html[data-theme="retro"] .goyuin-theme .tab-hero > svg { width: 40px; height: 40px; }
 html[data-theme="retro"] .goyuin-theme .tab-hero { padding: 0; }
 .goyuin-theme [aria-label="これまでの湯の子"] li p { word-break: keep-all; }
+
+/* ============================================================
+   PC 表示（幅 768px 以上）：利用者側の全画面を 390×844px の「スマホの枠」に収める。
+   汎用的な形（角丸の濃色の外枠・カメラ穴・ホームバー）。すべて CSS。768px 未満は枠なし。
+   枠の中の画面は transform を持つので、position: fixed の下タブ・起動演出・拡大表示は枠を基準にする。
+   ============================================================ */
+@media (max-width: 767.98px) {
+  .goyuin-theme .phone-stage,
+  .goyuin-theme .phone-frame,
+  .goyuin-theme .phone-screen,
+  .goyuin-theme .phone-scroll { display: contents; }
+  .goyuin-theme .phone-camera, .goyuin-theme .phone-home, .goyuin-theme .phone-caption, .goyuin-theme .phone-banner { display: none; }
+}
+@media (min-width: 768px) {
+  html:has(.phone-stage) { overflow: hidden; }
+  body:has(.phone-stage) > .mock-banner { display: none; } /* 枠の内側に同じ帯を出すので、枠の外のは隠す */
+  .goyuin-theme { min-height: 0; }
+  .phone-stage { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: #ddd3bf; }
+  html[data-theme="retro"] .phone-stage { background: #d8cdaa; }
+  .phone-frame { position: relative; background: #15151c; border-radius: 54px; padding: 36px 12px 30px; box-shadow: 0 18px 40px rgba(26, 26, 46, 0.3); }
+  .phone-screen {
+    position: relative; transform: translateZ(0); display: flex; flex-direction: column; overflow: hidden;
+    width: 390px; height: min(844px, calc(100vh - 36px - 30px - 64px));
+    border-radius: 30px; background: #f6f1e7;
+  }
+  html[data-theme="retro"] .phone-screen { background: #f4ecd3; }
+  .phone-scroll { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+  .phone-camera { position: absolute; top: 13px; left: 50%; width: 12px; height: 12px; margin-left: -6px; border-radius: 9999px; background: #050508; box-shadow: inset 0 0 0 2px #2b2b36; }
+  .phone-home { position: absolute; bottom: 11px; left: 50%; width: 120px; height: 5px; margin-left: -60px; border-radius: 9999px; background: #4a4a58; }
+  .phone-caption { position: fixed; right: 16px; bottom: 10px; margin: 0; font-size: 11px; line-height: 1.4; color: #5a5a6b; }
+
+  /* retro の「角丸なし・影なし」は枠そのものには当てない（枠は汎用的な丸い形） */
+  html[data-theme="retro"] .goyuin-theme .phone-frame { border-radius: 54px !important; box-shadow: 0 18px 40px rgba(26, 26, 46, 0.3) !important; }
+  html[data-theme="retro"] .goyuin-theme .phone-screen { border-radius: 30px !important; }
+  html[data-theme="retro"] .goyuin-theme .phone-camera,
+  html[data-theme="retro"] .goyuin-theme .phone-home { border-radius: 9999px !important; }
+  html[data-theme="retro"] .goyuin-theme .phone-camera { box-shadow: inset 0 0 0 2px #2b2b36 !important; }
+}
+/* 起動演出は枠（.goyuin-theme の中）に出るので、retro の「角丸なし・影なし」を打ち消して元のドット画面のまま */
+html[data-theme="retro"] .goyuin-theme .intro-bezel { border-radius: 28px !important; box-shadow: 0 0 0 6px #262a26, 0 18px 40px rgba(0, 0, 0, 0.5) !important; }
+html[data-theme="retro"] .goyuin-theme .intro-screen { border-radius: 10px !important; box-shadow: inset 0 0 0 3px #306230 !important; }
+html[data-theme="retro"] .goyuin-theme .intro-root { font-family: "DotGothic16", monospace; }
+/* 枠の中に出した模擬データの帯は、retro でも黄色地に濃紺文字のまま（バッジの反転色の規則を当てない） */
+html[data-theme="retro"] .goyuin-theme .mock-banner { background: #f6e27a !important; color: #1a1a2e !important; font-family: "DotGothic16", monospace; font-size: 12px; }

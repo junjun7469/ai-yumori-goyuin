@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 /** 御湯印図鑑（B2C）の共通の枠：御朱印帳のような和風の見た目。スマホ幅を優先し、下タブ4つで移る */
 export default function GoyuinLayout({ children }: { children: React.ReactNode }) {
   return (
-    <TabScope>
+    <TabScope tabs={<BottomTabs />}>
       {/* 書体 Zen Maru Gothic は、閲覧するブラウザが Google Fonts から必要な文字だけ取得する（建て込み時の取得は遅く不安定だったため）。取れないときは丸ゴシック系の代替書体になる */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -33,7 +33,6 @@ export default function GoyuinLayout({ children }: { children: React.ReactNode }
           温泉地の泉質は代表的な分類のみを載せています。出典の確認できていないものは「要確認」と表示します。
         </footer>
       </div>
-      <BottomTabs />
     </TabScope>
   );
 }

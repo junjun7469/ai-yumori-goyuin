@@ -30,10 +30,13 @@ export function IntroOverlay() {
   const [smoke, setSmoke] = useState(false);
   const [ready, setReady] = useState(false);
   const [frame, setFrame] = useState(0);
+  const [host, setHost] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
     let seen = false;
     try { seen = window.localStorage.getItem(INTRO_SEEN_KEY) !== null; } catch { /* 保存できない端末では毎回出さずに済むよう、見たことにする */ seen = true; }
+    // PC 表示ではスマホの枠（.phone-screen）の中に出す。枠がなければ body
+    setHost((document.querySelector(".phone-screen") as HTMLElement | null) ?? document.body);
     setPhase(shouldShowIntro(window.location.search, seen) ? "show" : "done");
   }, []);
 
@@ -70,8 +73,8 @@ export function IntroOverlay() {
     return () => window.removeEventListener("keydown", onKey);
   }, [phase, dismiss]);
 
-  if (phase === "check" || phase === "done") return null;
-  // 下タブ（別の重なり順の中にある）より前に出すため、body 直下に描く
+  if (phase === "check" || phase === "done" || !host) return null;
+  // 下タブより前に出すため、枠（または body）の直下に描く
   return createPortal(
     <div role="dialog" aria-modal="true" aria-label="御湯印図鑑の起動画面（タップで始める）" onClick={phase === "show" ? dismiss : undefined}
       className={`intro-root fixed inset-0 z-[200] grid cursor-pointer place-items-center p-4 ${phase === "leaving" ? "intro-leave" : ""}`}>
@@ -86,6 +89,6 @@ export function IntroOverlay() {
         <p className="mt-3 text-center text-[11px] tracking-widest text-[#8bac0f]">タップか Enter で始まります</p>
       </div>
     </div>,
-    document.body,
+    host,
   );
 }
