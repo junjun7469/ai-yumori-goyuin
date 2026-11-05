@@ -7,11 +7,13 @@ import { VARIANT_LABEL, VARIANTS, type Variant } from "@/lib/goyuinVariant";
 import { getOrCreateUserKey } from "@/lib/userKey";
 import { CharacterImage } from "./CharacterImage";
 import { MemoryPhotos, type Memories } from "./MemoryPhotos";
+import { SpringSection } from "./SpringSection";
+import type { SpringProfile } from "@/lib/springAnalysis";
 import { TodayYuCard } from "./TodayYuCard";
 
 type Detail =
   | { owned: false }
-  | { owned: true; area: AreaView; variants: Variant[]; source: { text: string; verified: boolean; href: string | null }; today: TodayYu | null; memories: Memories | null };
+  | { owned: true; area: AreaView; variants: Variant[]; source: { text: string; verified: boolean; href: string | null }; today: TodayYu | null; memories: Memories | null; spring: SpringProfile };
 
 /** G3 詳細。この端末が持っていない御湯印は、名前もキャラも成分も出さない（API も返さない） */
 export function DetailClient({ code, prefecture, regionLabel }: { code: string; prefecture: string; regionLabel: string }) {
@@ -102,6 +104,8 @@ function Owned({ code, regionLabel, d }: { code: string; regionLabel: string; d:
           <p className="text-[11px] text-[var(--ink-soft)]">この温泉地の絵はまだありません。泉質の分類から作った仮の絵を表示しています。</p>
         )}
       </div>
+
+      <SpringSection profile={d.spring} />
 
       <MemoryPhotos initial={d.memories} />
 

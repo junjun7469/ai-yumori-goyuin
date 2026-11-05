@@ -1,4 +1,6 @@
 import { TodayYuCard } from "@/components/goyuin/TodayYuCard";
+import { SpringSummary } from "@/components/goyuin/SpringSection";
+import { getAnalysisProfile } from "@/lib/springProfile";
 import { listTodayYus } from "@/lib/goyuinData";
 
 export const dynamic = "force-dynamic"; // 最新の湯日誌から
@@ -22,6 +24,7 @@ export default function TodayPage() {
             <p className="text-xs tracking-widest text-[var(--ink-soft)]">No.{l.areaCode}　{l.prefecture}</p>
             <h3 className="text-2xl font-black tracking-wider">{l.areaName}</h3>
             <TodayYuCard yu={l.yu} />
+            {l.areaCode === "43" && <SpringSummary p={getAnalysisProfile()} href="/goyuin/43" />}
           </section>
         ))
       )}
