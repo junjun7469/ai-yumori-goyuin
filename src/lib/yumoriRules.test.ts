@@ -3,8 +3,8 @@ import { loadYumoriRules, sortRules } from "./yumoriRules";
 
 describe("data/yumori_rules.json", () => {
   const rules = loadYumoriRules();
-  it("湯守の判断基準 R1〜R4 が現場由来(field)で入っている", () => {
-    expect(rules.map((r) => r.id)).toEqual(["R1", "R2", "R3", "R4"]);
+  it("湯守の判断基準 R1〜R6 が現場由来(field)で入っている", () => {
+    expect(rules.map((r) => r.id)).toEqual(["R1", "R2", "R3", "R4", "R5", "R6"]);
     expect(rules.every((r) => r.origin === "field")).toBe(true);
   });
   it("field を先に並べ替える（同じ origin 内の順序は保つ）", () => {

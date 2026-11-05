@@ -65,7 +65,7 @@ server.registerTool("get_baseline", {
 
 server.registerTool("get_maintenance", {
   title: "メンテナンス記録と経過日数",
-  description: "引湯管清掃などの設備メンテナンス記録と、今日（または as_of）までの経過日数を返す。引湯管清掃の記録がなければ、その旨を返す（日数を推測しない）",
+  description: "引湯管清掃などの設備メンテナンス記録と、今日（または as_of）までの経過日数を返す。引湯管清掃は、前回からの経過日数と、次回の目安（前回＋約90日。湯守の判断基準 R2 からの目安で、要否は管理者が判断）も返す。引湯管清掃の記録がなければ、その旨を返す（日数を推測しない）。各記録に is_simulated が付く（維持管理記録は画面から入力されたものだけなので、すべて湯守の入力）",
   inputSchema: {
     event_type: z.enum(["pipe_cleaning", "tank_cleaning", "inspection", "repair", "other"]).optional().describe("pipe_cleaning＝引湯管清掃 など。省略で全種類"),
     as_of: date.optional().describe("経過日数の基準日（省略で今日・日本時間）"),

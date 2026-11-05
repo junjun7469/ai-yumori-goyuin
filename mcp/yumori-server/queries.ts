@@ -181,22 +181,33 @@ export function findDays(db: DB, c: FindCondition) {
 
 // ---- ⑤ メンテナンス記録と経過日数 ------------------------------------------------------------
 type MaintRow = { id: number; event_type: string; event_date: string; vendor: string; note: string };
+export const MAINTENANCE_LABEL: Record<string, string> = { pipe_cleaning: "引湯管の清掃", tank_cleaning: "貯湯槽の清掃", inspection: "点検", repair: "修理", other: "その他" };
+/** 引湯管清掃の次回の目安：前回＋約90日（湯守の判断基準 R2「おおむね3か月に1度」）。目安であって期限ではない */
+export const PIPE_CLEANING_INTERVAL_DAYS = 90;
+export const addDaysYmd = (ymd: string, n: number) => new Date(dayStart(ymd) * 1000 + (n * 86400 + JST_SEC) * 1000).toISOString().slice(0, 10);
 export function getMaintenance(db: DB, opts: { event_type?: string; as_of?: string } = {}) {
   const asOf = opts.as_of ?? todayJst();
   const rows = db.prepare(`SELECT m.id, m.event_type, m.event_date, m.vendor, m.note FROM maintenance_event m JOIN facility f ON f.id = m.facility_id
     WHERE f.has_ai_yumori = 1 ${opts.event_type ? "AND m.event_type = ?" : ""} ORDER BY m.event_date DESC, m.id DESC`).all(...(opts.event_type ? [opts.event_type] : [])) as MaintRow[];
-  const events = rows.map((r) => ({ id: r.id, event_type: r.event_type, event_date: r.event_date, days_since: daysBetween(r.event_date, asOf), vendor: r.vendor, note: r.note,
-    // 維持管理記録は模擬データの生成には含まれず、画面（/dashboard/log）から入力されたものだけ
-    is_simulated: false, source: "yumori_input" as const, source_label: "湯守の入力" }));
+  const events = rows.map((r) => ({ id: r.id, event_type: r.event_type, event_label: MAINTENANCE_LABEL[r.event_type] ?? r.event_type, event_date: r.event_date, days_since: daysBetween(r.event_date, asOf), vendor: r.vendor, note: r.note,
+    // 維持管理記録に模擬の列はない。seed は作らず、画面（/dashboard/log）から入力されたものだけ
+    ...sourceOf(false) }));
   const last = (t: string) => events.find((e) => e.event_type === t) ?? null;
   const pipe = last("pipe_cleaning");
+  const nextDate = pipe ? addDaysYmd(pipe.event_date, PIPE_CLEANING_INTERVAL_DAYS) : null;
   return {
     notice: NOTICE,
     as_of: asOf,
     count: events.length,
-    last_pipe_cleaning: pipe ? { event_date: pipe.event_date, days_since: pipe.days_since, vendor: pipe.vendor } : null,
-    last_pipe_cleaning_message: pipe ? undefined : "引湯管清掃の記録がありません（未入力）。日数は推測できないので、湯守に日付の入力を依頼してください（/dashboard/log）",
-    rule_reference: "湯守の判断基準 R2：おおむね3か月に1度、専門業者に引湯管の清掃（get_yumori_rules）。経過日数はこの基準との比較材料で、清掃の要否は管理者が判断する",
+    last_pipe_cleaning: pipe ? {
+      event_date: pipe.event_date, days_since: pipe.days_since, vendor: pipe.vendor, note: pipe.note, ...sourceOf(false),
+      // 次回の目安は「前回＋約90日」（R2）。目安であって、清掃の要否・時期は管理者が判断する
+      next_target_date: nextDate,
+      days_until_next_target: nextDate ? daysBetween(asOf, nextDate) : null,
+      next_target_note: `次回の目安は前回の約${PIPE_CLEANING_INTERVAL_DAYS}日後（${nextDate} ごろ）。湯守の判断基準 R2「おおむね3か月に1度」からの目安で、実施の要否と時期は管理者が判断する。湯量が落ち始めたら前倒しを検討（R1・R2）`,
+    } : null,
+    last_pipe_cleaning_message: pipe ? undefined : "引湯管清掃の記録がありません（未入力）。日数も次回の目安も推測できないので、湯守に日付の入力を依頼してください（/dashboard/log）",
+    rule_reference: "湯守の判断基準 R2：おおむね3か月に1度、専門業者に引湯管の清掃（get_yumori_rules）。経過日数と次回の目安は比較材料で、断定ではない",
     events,
   };
 }

@@ -1,7 +1,7 @@
 import { describe, expect, it, beforeAll } from "vitest";
 import Database from "better-sqlite3";
 import path from "node:path";
-import { daysBetween, findDays, getBaseline, getLatestLog, getMaintenance, getYumoriRules, queryLogs } from "./queries";
+import { addDaysYmd, daysBetween, findDays, getBaseline, getLatestLog, getMaintenance, getYumoriRules, queryLogs } from "./queries";
 
 const jst = (d: string, hm = "07:00") => Date.parse(`${d}T${hm}:00+09:00`) / 1000;
 let db: Database.Database;
@@ -87,23 +87,26 @@ describe("基準値・メンテ・判断基準", () => {
     expect(r.needs_verification).toHaveLength(1);
     expect(r.is_simulated).toBe(false);
   });
-  it("get_maintenance：経過日数を日付から計算、別の施設は含めない", () => {
+  it("get_maintenance：前回の引湯管清掃からの経過日数と、次回の目安（前回＋約90日）。別の施設は含めない", () => {
     const r = getMaintenance(db, { as_of: "2026-11-06" });
     expect(r.count).toBe(2);
-    expect(r.last_pipe_cleaning).toMatchObject({ event_date: "2026-08-04", days_since: 94 });
-    expect(r.events.every((e) => e.is_simulated === false && e.source === "yumori_input")).toBe(true);
+    expect(r.last_pipe_cleaning).toMatchObject({ event_date: "2026-08-04", days_since: 94, next_target_date: "2026-11-02", days_until_next_target: -4, is_simulated: false, source: "yumori_input" });
+    expect(r.last_pipe_cleaning?.next_target_note).toContain("目安");
+    expect(r.last_pipe_cleaning?.next_target_note).toContain("管理者が判断");
     expect(daysBetween("2026-08-04", "2026-11-06")).toBe(94);
+    expect(addDaysYmd("2026-11-04", 90)).toBe("2027-02-02");
+    expect(addDaysYmd("2026-12-30", 3)).toBe("2027-01-02");
   });
   it("引湯管清掃の記録がなければ、日数を作らず『記録なし』を返す", () => {
     const empty = new Database(":memory:");
-    empty.exec("CREATE TABLE facility (id INTEGER PRIMARY KEY, has_ai_yumori INTEGER); CREATE TABLE maintenance_event (id INTEGER PRIMARY KEY, facility_id INTEGER, event_type TEXT, event_date TEXT, vendor TEXT, note TEXT); INSERT INTO facility VALUES (1,1);");
+    empty.exec("CREATE TABLE facility (id INTEGER PRIMARY KEY, has_ai_yumori INTEGER); CREATE TABLE maintenance_event (id INTEGER PRIMARY KEY, facility_id INTEGER, event_type TEXT, event_date TEXT, vendor TEXT, note TEXT, is_simulated INTEGER DEFAULT 0); INSERT INTO facility VALUES (1,1);");
     const r = getMaintenance(empty);
     expect(r.last_pipe_cleaning).toBeNull();
     expect(r.last_pipe_cleaning_message).toContain("記録がありません");
   });
   it("get_yumori_rules：field は湯守の入力として区別して返す", () => {
     const r = getYumoriRules(path.resolve(import.meta.dirname, "../../data/yumori_rules.json"));
-    expect(r.count).toBeGreaterThanOrEqual(4);
+    expect(r.count).toBeGreaterThanOrEqual(6);
     expect(r.rules.find((x) => x.id === "R1")).toMatchObject({ origin: "field", source: "yumori_input", is_simulated: false });
   });
 });
