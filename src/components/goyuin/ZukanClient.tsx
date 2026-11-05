@@ -9,6 +9,7 @@ import { REGIONS, regionOf, type RegionId } from "@/lib/regions";
 import { CharacterImage } from "./CharacterImage";
 import { ClosedBook } from "./ClosedBook";
 import { CollectionProgress, TileMap } from "./TileMap";
+import { CameraMark } from "./CameraMark";
 import { YuMark } from "./YuMark";
 import { useCollection } from "./useCollection";
 
@@ -19,7 +20,7 @@ const dateFmt = new Intl.DateTimeFormat("ja-JP", { timeZone: "Asia/Tokyo", year:
  * 未所持の温泉地は、名前もキャラも（サーバーから）届かない
  */
 export function ZukanClient({ base }: { base: { code: string; prefecture: string }[] }) {
-  const { status, items, areas, loaded } = useCollection(base);
+  const { status, items, areas, loaded, photoCodes } = useCollection(base);
   const [tab, setTab] = useState<"owned" | "search">("owned");
   const [view, setView] = useState<"map" | "list">("map");
   useEffect(() => {
@@ -82,6 +83,7 @@ export function ZukanClient({ base }: { base: { code: string; prefecture: string
                   <p className="mt-1 pr-9 text-[15px] font-bold leading-tight">{st.area.name}</p>
                   <p className="mt-0.5 pr-9 text-[11px] text-[var(--ink-soft)]">{dateFmt.format(new Date(st.obtainedAt))}　{VARIANT_LABEL[st.variant]}</p>
                   <YuMark size={30} className="yumark" />
+                  {photoCodes.has(st.code) && <CameraMark className="absolute right-2.5 top-2.5" />}
                 </Link>
               </li>
             ))}

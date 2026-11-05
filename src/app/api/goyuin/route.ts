@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { db, schema } from "@/db";
+import { codesWithPhotos } from "@/lib/photos";
 import { drewToday, isValidUserKey, nextDrawAt } from "@/lib/gachaLogic";
 
 export const dynamic = "force-dynamic";
@@ -14,8 +15,10 @@ export function GET(req: Request) {
   const rows = db.select().from(schema.goyuin).where(eq(schema.goyuin.userKey, userKey)).all();
   const now = new Date();
   const today = drewToday(rows, now);
+  const withPhotos = new Set(codesWithPhotos(userKey));
   return NextResponse.json({
     items: rows.map((r) => ({ code: idToCode.get(r.onsenAreaId)!, obtainedVia: r.obtainedVia, obtainedAt: r.obtainedAt.toISOString(), variant: r.variant })),
+    photoCodes: [...withPhotos],
     drewToday: today ? { code: idToCode.get(today.onsenAreaId)!, obtainedAt: today.obtainedAt.toISOString() } : null,
     nextDrawAt: nextDrawAt(now).toISOString(),
   });

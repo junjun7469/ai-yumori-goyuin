@@ -101,6 +101,7 @@ export const goyuin = sqliteTable("goyuin", {
   obtainedAt: integer("obtained_at", { mode: "timestamp" }).notNull(),
   snapshot: text("snapshot", { mode: "json" }).$type<Record<string, unknown> | null>(), // 丸正のみ
   variant: text("variant", { enum: VARIANTS }).notNull().default("washi"), // 御湯印の柄（G5）。既存の記録は washi
+  photoCount: integer("photo_count").notNull().default(0), // 思い出の写真の枚数（0〜2）。ファイルは data/photos
   ...timestamps,
 });
 

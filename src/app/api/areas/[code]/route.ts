@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { isValidUserKey } from "@/lib/gachaLogic";
+import { photoSummary } from "@/lib/photos";
 import { getArea, getTodayYu, ownedVariantsOf, sourceLabel } from "@/lib/goyuinData";
 
 export const dynamic = "force-dynamic";
@@ -16,5 +17,5 @@ export async function GET(req: Request, ctx: { params: Promise<{ code: string }>
   const key = new URL(req.url).searchParams.get("user_key");
   const variants = ownedVariantsOf(isValidUserKey(key) ? key : null).get(code);
   if (!variants) return NextResponse.json({ owned: false, code, prefecture: area.prefecture });
-  return NextResponse.json({ owned: true, area, variants, source: sourceLabel(area), today: getTodayYu(code) });
+  return NextResponse.json({ owned: true, area, variants, source: sourceLabel(area), today: getTodayYu(code), memories: isValidUserKey(key) ? photoSummary(key, code) : null });
 }

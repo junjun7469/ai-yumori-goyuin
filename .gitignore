@@ -8,3 +8,6 @@ node_modules/
 *.tsbuildinfo
 *.db-shm
 *.db-wal
+
+# 思い出の写真（端末ごとの私的なもの。git に入れない）
+data/photos/

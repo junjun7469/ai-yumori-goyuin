@@ -1,0 +1,1 @@
+ALTER TABLE `goyuin` ADD `photo_count` integer DEFAULT 0 NOT NULL;

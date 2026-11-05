@@ -12,6 +12,8 @@
     "eval": "tsx --env-file=.env scripts/eval.ts",
     "db:push": "drizzle-kit push",
     "check:api": "tsx --env-file=.env scripts/check-api.ts",
+    "demo-seed": "tsx scripts/demo-seed.ts",
+    "demo-reset": "tsx scripts/demo-reset.ts",
     "backfill": "tsx --env-file=.env scripts/backfill-detections.ts"
   },
   "dependencies": {
@@ -20,7 +22,8 @@
     "drizzle-orm": "^0.45.4",
     "next": "^15.5.28",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "sharp": "^0.35.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.4",

@@ -43,6 +43,13 @@
       "when": 1793788761825,
       "tag": "0005_goyuin_variant",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1793870631633,
+      "tag": "0006_goyuin_photo_count",
+      "breakpoints": true
     }
   ]
 }
