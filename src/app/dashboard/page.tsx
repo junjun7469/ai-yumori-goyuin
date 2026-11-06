@@ -9,6 +9,7 @@ export default function DashboardHome() {
         <li><Link className="text-sky-700 underline" href="/dashboard/baseline">D1 基準値（分析書）</Link></li>
         <li><Link className="text-sky-700 underline" href="/dashboard/trend">D3 推移と変化検知</Link></li>
         <li><Link className="text-sky-700 underline" href="/dashboard/handover">D4 引き継ぎメモ</Link></li>
+        <li><Link className="text-sky-700 underline" href="/dashboard/voices">湯の声（サンプル）</Link></li>
       </ul>
     </main>
   );
