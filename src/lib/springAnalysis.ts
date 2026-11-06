@@ -24,7 +24,7 @@ const NAMES: Record<string, string> = {
   OH: "水酸化物イオン", F: "フッ化物イオン", Cl: "塩化物イオン", Br: "臭化物イオン", I: "ヨウ化物イオン", HSO4: "硫酸水素イオン", SO4: "硫酸イオン", HCO3: "炭酸水素イオン",
   H2SiO3: "メタケイ酸", HBO2: "メタホウ酸", HAsO2: "メタ亜ヒ酸",
 };
-const labelOf = (k: string) => NAMES[k] ?? k;
+export const labelOf = (k: string) => NAMES[k] ?? k; // D1（baselineView.ts）でも使う
 
 /** 数値の項目だけを、多い順に並べて上位 n 件（total や未検出の null は除く） */
 export function topComponents(group: Record<string, unknown> | undefined, n: number): Component[] {
