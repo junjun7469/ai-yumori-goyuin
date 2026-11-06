@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { VoiceCommentPanel } from "@/components/dashboard/VoiceCommentPanel";
 import { VoicesChart } from "@/components/dashboard/VoicesChart";
 import { getVoicesPage } from "@/lib/voicesDb";
 
@@ -41,7 +42,10 @@ export default function VoicesPage() {
       ) : v.totals.voices === 0 && v.series.length === 0 ? (
         <p className="rounded-lg border bg-white p-4 text-sm text-stone-600">この期間の声がありません。npm run sim:voices → npm run seed で模擬データを入れられます。</p>
       ) : (
-        <VoicesChart series={v.series} voices={v.voices} period={v.period} />
+        <>
+          <VoicesChart series={v.series} voices={v.voices} period={v.period} />
+          <VoiceCommentPanel latest={v.latestComment} />
+        </>
       )}
     </main>
   );

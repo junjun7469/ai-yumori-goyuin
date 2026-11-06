@@ -43,3 +43,30 @@ export function getVoicesPage(now = new Date()): VoicesPage | null {
       : null,
   };
 }
+
+// ---- Claude のコメント（ボタンで生成。入力と出力を voice_comment に保存） ----------------------
+
+let generating = false; // 同時に何度も生成しない（費用と二重保存を防ぐ）
+
+export async function createVoiceComment(now = new Date()): Promise<"busy" | "no-facility" | { id: number; repairs: number; usage: unknown }> {
+  if (generating) return "busy";
+  const page = getVoicesPage(now);
+  if (!page) return "no-facility";
+  generating = true;
+  try {
+    const { buildVoiceInput, generateVoiceComment } = await import("./voiceComment");
+    const input = buildVoiceInput({ facility: page.facility, period: page.period, series: page.series, voices: page.voices, totals: page.totals });
+    const run = await generateVoiceComment(input);
+    const row = db.insert(schema.voiceComment).values({
+      facilityId: page.facilityId,
+      periodFrom: page.period.from,
+      periodTo: page.period.to,
+      input: input as unknown as Record<string, unknown>,
+      output: { ...run.output, repairs: run.repairs, usage: run.usage },
+      model: run.model,
+    }).returning({ id: schema.voiceComment.id }).get();
+    return { id: row.id, repairs: run.repairs, usage: run.usage };
+  } finally {
+    generating = false;
+  }
+}
