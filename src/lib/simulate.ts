@@ -27,7 +27,7 @@ export const BATH_NORMAL = { min: 41.5, max: 43 } as const;
 /** 異常「湯量減少」の閾値：基準の −8% 以下（DATA_MODEL §3 の check 条件と同じ） */
 export const FLOW_DECLINE_THRESHOLD = BASELINE.flow_l_per_min * 0.92;
 
-function mulberry32(seed: number) {
+export function mulberry32(seed: number) { // voiceSim.ts でも使う
   let a = seed >>> 0;
   return () => {
     a = (a + 0x6d2b79f5) >>> 0;

@@ -1,0 +1,2141 @@
+{
+  "is_simulated": true,
+  "notice": "これは模擬データ（サンプル）です。湯の声（評価とひとこと）は実際の利用者の声ではなく、浴槽別の温度も実測ではありません。浴槽別の温度は湯日誌の模擬データの浴槽温度を基準に生成しました。",
+  "source": "data/maruso_daily_sim.json",
+  "period": {
+    "from": "2026-09-06",
+    "to": "2026-11-04",
+    "days": 60
+  },
+  "bath_temps": [
+    {
+      "day": "2026-09-06",
+      "bath": "otoko",
+      "temp_c": 42.2,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-06",
+      "bath": "onna",
+      "temp_c": 42.3,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-07",
+      "bath": "otoko",
+      "temp_c": 42.5,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-07",
+      "bath": "onna",
+      "temp_c": 42.2,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-08",
+      "bath": "otoko",
+      "temp_c": 42,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-08",
+      "bath": "onna",
+      "temp_c": 42.1,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-09",
+      "bath": "otoko",
+      "temp_c": 42.4,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-09",
+      "bath": "onna",
+      "temp_c": 42.6,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-10",
+      "bath": "otoko",
+      "temp_c": 42,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-10",
+      "bath": "onna",
+      "temp_c": 42.1,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-11",
+      "bath": "otoko",
+      "temp_c": 42,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-11",
+      "bath": "onna",
+      "temp_c": 42.3,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-12",
+      "bath": "otoko",
+      "temp_c": 42.7,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-12",
+      "bath": "onna",
+      "temp_c": 42.7,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-13",
+      "bath": "otoko",
+      "temp_c": 41.4,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-13",
+      "bath": "onna",
+      "temp_c": 41.8,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-14",
+      "bath": "otoko",
+      "temp_c": 41.5,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-14",
+      "bath": "onna",
+      "temp_c": 41.8,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-15",
+      "bath": "otoko",
+      "temp_c": 42.3,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-15",
+      "bath": "onna",
+      "temp_c": 42.5,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-16",
+      "bath": "otoko",
+      "temp_c": 41.4,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-16",
+      "bath": "onna",
+      "temp_c": 40.1,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-17",
+      "bath": "otoko",
+      "temp_c": 42,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-17",
+      "bath": "onna",
+      "temp_c": 41.7,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-18",
+      "bath": "otoko",
+      "temp_c": 41.6,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-18",
+      "bath": "onna",
+      "temp_c": 41.6,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-19",
+      "bath": "otoko",
+      "temp_c": 42,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-19",
+      "bath": "onna",
+      "temp_c": 41.6,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-20",
+      "bath": "otoko",
+      "temp_c": 42.5,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-20",
+      "bath": "onna",
+      "temp_c": 42.8,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-21",
+      "bath": "otoko",
+      "temp_c": 42,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-21",
+      "bath": "onna",
+      "temp_c": 41.7,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-22",
+      "bath": "otoko",
+      "temp_c": 42.2,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-22",
+      "bath": "onna",
+      "temp_c": 40,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-23",
+      "bath": "otoko",
+      "temp_c": 41.9,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-23",
+      "bath": "onna",
+      "temp_c": 42,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-24",
+      "bath": "otoko",
+      "temp_c": 42.5,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-24",
+      "bath": "onna",
+      "temp_c": 42.7,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-25",
+      "bath": "otoko",
+      "temp_c": 42.2,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-25",
+      "bath": "onna",
+      "temp_c": 42.2,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-26",
+      "bath": "otoko",
+      "temp_c": 43.2,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-26",
+      "bath": "onna",
+      "temp_c": 43.1,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-27",
+      "bath": "otoko",
+      "temp_c": 42.5,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-27",
+      "bath": "onna",
+      "temp_c": 42.5,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-28",
+      "bath": "otoko",
+      "temp_c": 41.6,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-28",
+      "bath": "onna",
+      "temp_c": 41.8,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-29",
+      "bath": "otoko",
+      "temp_c": 42.9,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-29",
+      "bath": "onna",
+      "temp_c": 43.3,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-30",
+      "bath": "otoko",
+      "temp_c": 41.8,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-09-30",
+      "bath": "onna",
+      "temp_c": 41.5,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-01",
+      "bath": "otoko",
+      "temp_c": 41.5,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-01",
+      "bath": "onna",
+      "temp_c": 41.8,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-02",
+      "bath": "otoko",
+      "temp_c": 42.5,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-02",
+      "bath": "onna",
+      "temp_c": 42.4,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-03",
+      "bath": "otoko",
+      "temp_c": 42.7,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-03",
+      "bath": "onna",
+      "temp_c": 42.7,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-04",
+      "bath": "otoko",
+      "temp_c": 42.7,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-04",
+      "bath": "onna",
+      "temp_c": 42.7,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-05",
+      "bath": "otoko",
+      "temp_c": 42,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-05",
+      "bath": "onna",
+      "temp_c": 41.5,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-06",
+      "bath": "otoko",
+      "temp_c": 42.5,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-06",
+      "bath": "onna",
+      "temp_c": 40.5,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-07",
+      "bath": "otoko",
+      "temp_c": 42.1,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-07",
+      "bath": "onna",
+      "temp_c": 40.1,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-08",
+      "bath": "otoko",
+      "temp_c": 41.8,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-08",
+      "bath": "onna",
+      "temp_c": 41.9,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-09",
+      "bath": "otoko",
+      "temp_c": 42.4,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-09",
+      "bath": "onna",
+      "temp_c": 42.5,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-10",
+      "bath": "otoko",
+      "temp_c": 42.4,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-10",
+      "bath": "onna",
+      "temp_c": 40,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-11",
+      "bath": "otoko",
+      "temp_c": 42.6,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-11",
+      "bath": "onna",
+      "temp_c": 43,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-12",
+      "bath": "otoko",
+      "temp_c": 41.5,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-12",
+      "bath": "onna",
+      "temp_c": 41.8,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-13",
+      "bath": "otoko",
+      "temp_c": 41.9,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-13",
+      "bath": "onna",
+      "temp_c": 42.1,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-14",
+      "bath": "otoko",
+      "temp_c": 42.5,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-14",
+      "bath": "onna",
+      "temp_c": 42.8,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-15",
+      "bath": "otoko",
+      "temp_c": 43.1,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-15",
+      "bath": "onna",
+      "temp_c": 42.8,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-16",
+      "bath": "otoko",
+      "temp_c": 42.2,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-16",
+      "bath": "onna",
+      "temp_c": 41.8,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-17",
+      "bath": "otoko",
+      "temp_c": 42.4,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-17",
+      "bath": "onna",
+      "temp_c": 42.4,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-18",
+      "bath": "otoko",
+      "temp_c": 42.5,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-18",
+      "bath": "onna",
+      "temp_c": 42.3,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-19",
+      "bath": "otoko",
+      "temp_c": 42.4,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-19",
+      "bath": "onna",
+      "temp_c": 42.6,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-20",
+      "bath": "otoko",
+      "temp_c": 42.5,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-20",
+      "bath": "onna",
+      "temp_c": 40.6,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-21",
+      "bath": "otoko",
+      "temp_c": 41.8,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-21",
+      "bath": "onna",
+      "temp_c": 42.2,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-22",
+      "bath": "otoko",
+      "temp_c": 40.3,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-22",
+      "bath": "onna",
+      "temp_c": 40.5,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-23",
+      "bath": "otoko",
+      "temp_c": 40.4,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-23",
+      "bath": "onna",
+      "temp_c": 40.9,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-24",
+      "bath": "otoko",
+      "temp_c": 42.2,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-24",
+      "bath": "onna",
+      "temp_c": 42.4,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-25",
+      "bath": "otoko",
+      "temp_c": 42,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-25",
+      "bath": "onna",
+      "temp_c": 41.6,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-26",
+      "bath": "otoko",
+      "temp_c": 41.3,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-26",
+      "bath": "onna",
+      "temp_c": 39.7,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-27",
+      "bath": "otoko",
+      "temp_c": 42.7,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-27",
+      "bath": "onna",
+      "temp_c": 42.5,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-28",
+      "bath": "otoko",
+      "temp_c": 42.6,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-28",
+      "bath": "onna",
+      "temp_c": 40.8,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-29",
+      "bath": "otoko",
+      "temp_c": 41.9,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-29",
+      "bath": "onna",
+      "temp_c": 42.5,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-30",
+      "bath": "otoko",
+      "temp_c": 42.4,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-30",
+      "bath": "onna",
+      "temp_c": 42.8,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-31",
+      "bath": "otoko",
+      "temp_c": 42.4,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-10-31",
+      "bath": "onna",
+      "temp_c": 42.6,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-11-01",
+      "bath": "otoko",
+      "temp_c": 42.2,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-11-01",
+      "bath": "onna",
+      "temp_c": 42.4,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-11-02",
+      "bath": "otoko",
+      "temp_c": 42.6,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-11-02",
+      "bath": "onna",
+      "temp_c": 42.6,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-11-03",
+      "bath": "otoko",
+      "temp_c": 42.3,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-11-03",
+      "bath": "onna",
+      "temp_c": 42.7,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-11-04",
+      "bath": "otoko",
+      "temp_c": 42,
+      "is_simulated": true
+    },
+    {
+      "day": "2026-11-04",
+      "bath": "onna",
+      "temp_c": 42.1,
+      "is_simulated": true
+    }
+  ],
+  "voices": [
+    {
+      "visited_on": "2026-09-06",
+      "gender": "female",
+      "rating": 5,
+      "comment": "湯の香りがよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-06",
+      "gender": "male",
+      "rating": 5,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-06",
+      "gender": "male",
+      "rating": 5,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-06",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯の香りがよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-06",
+      "gender": "male",
+      "rating": 4,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-07",
+      "gender": "female",
+      "rating": 4,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-07",
+      "gender": "male",
+      "rating": 3,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-07",
+      "gender": "female",
+      "rating": 5,
+      "comment": "熱めの湯が好みなのでうれしいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-07",
+      "gender": "male",
+      "rating": 5,
+      "comment": "熱めの湯が好みなのでうれしいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-07",
+      "gender": "female",
+      "rating": 4,
+      "comment": "熱めの湯が好みなのでうれしいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-07",
+      "gender": "male",
+      "rating": 4,
+      "comment": "熱めの湯が好みなのでうれしいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-08",
+      "gender": "male",
+      "rating": 5,
+      "comment": "また入りに来たいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-08",
+      "gender": "female",
+      "rating": 4,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-08",
+      "gender": null,
+      "rating": 5,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-08",
+      "gender": "male",
+      "rating": 5,
+      "comment": "湯の香りがよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-08",
+      "gender": "male",
+      "rating": 5,
+      "comment": "湯上がりもぽかぽかしていました",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-09",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯の香りがよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-09",
+      "gender": "male",
+      "rating": 3,
+      "comment": "湯上がりもぽかぽかしていました",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-09",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-09",
+      "gender": "female",
+      "rating": 3,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-09",
+      "gender": "male",
+      "rating": 5,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-09",
+      "gender": "male",
+      "rating": 4,
+      "comment": "また入りに来たいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-10",
+      "gender": null,
+      "rating": 4,
+      "comment": "湯上がりもぽかぽかしていました",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-10",
+      "gender": "female",
+      "rating": 4,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-10",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-10",
+      "gender": "female",
+      "rating": 4,
+      "comment": "また入りに来たいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-11",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-11",
+      "gender": "male",
+      "rating": 5,
+      "comment": "湯上がりもぽかぽかしていました",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-11",
+      "gender": "male",
+      "rating": 4,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-11",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯の香りがよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-11",
+      "gender": "female",
+      "rating": 4,
+      "comment": "湯の香りがよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-12",
+      "gender": "female",
+      "rating": 5,
+      "comment": "湯の香りがよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-12",
+      "gender": "female",
+      "rating": 4,
+      "comment": "湯上がりもぽかぽかしていました",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-12",
+      "gender": "male",
+      "rating": 4,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-12",
+      "gender": "female",
+      "rating": 4,
+      "comment": "熱めの湯が好みなのでうれしいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-13",
+      "gender": "male",
+      "rating": 3,
+      "comment": "少しぬるめでしたが気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-13",
+      "gender": "male",
+      "rating": 3,
+      "comment": "ちょうどいい温度でした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-13",
+      "gender": "male",
+      "rating": 4,
+      "comment": "少しぬるめでしたが気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-13",
+      "gender": "female",
+      "rating": 4,
+      "comment": "また入りに来たいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-13",
+      "gender": "female",
+      "rating": 5,
+      "comment": "また入りに来たいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-14",
+      "gender": "female",
+      "rating": 4,
+      "comment": "湯の香りがよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-14",
+      "gender": "male",
+      "rating": 5,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-15",
+      "gender": "male",
+      "rating": 4,
+      "comment": "熱めの湯が好みなのでうれしいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-15",
+      "gender": "male",
+      "rating": 5,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-15",
+      "gender": "female",
+      "rating": 4,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-15",
+      "gender": "female",
+      "rating": 4,
+      "comment": "熱めの湯が好みなのでうれしいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-17",
+      "gender": "other",
+      "rating": 5,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-17",
+      "gender": null,
+      "rating": 4,
+      "comment": "湯上がりもぽかぽかしていました",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-17",
+      "gender": "female",
+      "rating": 4,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-17",
+      "gender": "other",
+      "rating": 4,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-17",
+      "gender": "other",
+      "rating": 4,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-17",
+      "gender": "female",
+      "rating": 5,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-19",
+      "gender": "male",
+      "rating": 4,
+      "comment": "熱めの湯が好みなのでうれしいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-19",
+      "gender": "female",
+      "rating": 4,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-19",
+      "gender": null,
+      "rating": 4,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-20",
+      "gender": "female",
+      "rating": 4,
+      "comment": "熱めの湯が好みなのでうれしいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-20",
+      "gender": "male",
+      "rating": 4,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-20",
+      "gender": "female",
+      "rating": 5,
+      "comment": "また入りに来たいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-20",
+      "gender": null,
+      "rating": 5,
+      "comment": "熱めの湯が好みなのでうれしいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-20",
+      "gender": "male",
+      "rating": 4,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-20",
+      "gender": "female",
+      "rating": 5,
+      "comment": "湯の香りがよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-21",
+      "gender": "male",
+      "rating": 5,
+      "comment": "熱めの湯が好みなのでうれしいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-21",
+      "gender": "male",
+      "rating": 5,
+      "comment": "また入りに来たいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-21",
+      "gender": "male",
+      "rating": 5,
+      "comment": "また入りに来たいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-21",
+      "gender": null,
+      "rating": 4,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-21",
+      "gender": "male",
+      "rating": 4,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-21",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯上がりもぽかぽかしていました",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-22",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯上がりもぽかぽかしていました",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-22",
+      "gender": "female",
+      "rating": 3,
+      "comment": "ぬるめで長く入れましたが、もう少し熱いほうが好みです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-22",
+      "gender": "male",
+      "rating": 3,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-22",
+      "gender": "female",
+      "rating": 3,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-22",
+      "gender": "male",
+      "rating": 5,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-23",
+      "gender": "male",
+      "rating": 5,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-23",
+      "gender": "female",
+      "rating": 4,
+      "comment": "熱めの湯が好みなのでうれしいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-23",
+      "gender": null,
+      "rating": 5,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-23",
+      "gender": "female",
+      "rating": 5,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-23",
+      "gender": "female",
+      "rating": 3,
+      "comment": "湯の香りがよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-24",
+      "gender": "female",
+      "rating": 5,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-24",
+      "gender": "female",
+      "rating": 4,
+      "comment": "また入りに来たいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-25",
+      "gender": "female",
+      "rating": 5,
+      "comment": "また入りに来たいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-25",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯上がりもぽかぽかしていました",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-26",
+      "gender": "other",
+      "rating": 5,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-26",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-26",
+      "gender": "male",
+      "rating": 4,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-26",
+      "gender": "other",
+      "rating": 4,
+      "comment": "湯上がりもぽかぽかしていました",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-27",
+      "gender": "female",
+      "rating": 4,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-27",
+      "gender": "female",
+      "rating": 4,
+      "comment": "熱めの湯が好みなのでうれしいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-27",
+      "gender": "female",
+      "rating": 4,
+      "comment": "湯の香りがよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-27",
+      "gender": "male",
+      "rating": 5,
+      "comment": "湯上がりもぽかぽかしていました",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-27",
+      "gender": null,
+      "rating": 4,
+      "comment": "また入りに来たいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-29",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯上がりもぽかぽかしていました",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-30",
+      "gender": "female",
+      "rating": 4,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-09-30",
+      "gender": "female",
+      "rating": 4,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-01",
+      "gender": "female",
+      "rating": 4,
+      "comment": "また入りに来たいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-01",
+      "gender": "female",
+      "rating": 4,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-01",
+      "gender": "female",
+      "rating": 4,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-03",
+      "gender": "female",
+      "rating": 4,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-03",
+      "gender": "other",
+      "rating": 4,
+      "comment": "熱めの湯が好みなのでうれしいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-03",
+      "gender": "male",
+      "rating": 5,
+      "comment": "熱めの湯が好みなのでうれしいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-03",
+      "gender": "male",
+      "rating": 4,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-04",
+      "gender": "male",
+      "rating": 3,
+      "comment": "また入りに来たいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-04",
+      "gender": "female",
+      "rating": 5,
+      "comment": "湯上がりもぽかぽかしていました",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-04",
+      "gender": "female",
+      "rating": 5,
+      "comment": "湯の香りがよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-04",
+      "gender": "other",
+      "rating": 4,
+      "comment": "湯上がりもぽかぽかしていました",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-04",
+      "gender": "female",
+      "rating": 4,
+      "comment": "熱めの湯が好みなのでうれしいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-05",
+      "gender": "male",
+      "rating": 5,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-05",
+      "gender": "male",
+      "rating": 5,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-06",
+      "gender": "male",
+      "rating": 4,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-06",
+      "gender": null,
+      "rating": 4,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-06",
+      "gender": "male",
+      "rating": 4,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-06",
+      "gender": "female",
+      "rating": 3,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-07",
+      "gender": "female",
+      "rating": 2,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-08",
+      "gender": "female",
+      "rating": 5,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-08",
+      "gender": null,
+      "rating": 4,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-09",
+      "gender": "female",
+      "rating": 4,
+      "comment": "湯の香りがよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-09",
+      "gender": "female",
+      "rating": 4,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-09",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-10",
+      "gender": "female",
+      "rating": 3,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-10",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯上がりもぽかぽかしていました",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-12",
+      "gender": "male",
+      "rating": 4,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-12",
+      "gender": null,
+      "rating": 5,
+      "comment": "湯上がりもぽかぽかしていました",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-12",
+      "gender": "female",
+      "rating": 5,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-12",
+      "gender": "male",
+      "rating": 4,
+      "comment": "また入りに来たいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-12",
+      "gender": "male",
+      "rating": 4,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-13",
+      "gender": "female",
+      "rating": 4,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-13",
+      "gender": "male",
+      "rating": 4,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-13",
+      "gender": "male",
+      "rating": 5,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-13",
+      "gender": "female",
+      "rating": 5,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-14",
+      "gender": null,
+      "rating": 4,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-14",
+      "gender": "female",
+      "rating": 4,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-14",
+      "gender": null,
+      "rating": 4,
+      "comment": "湯の香りがよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-14",
+      "gender": "other",
+      "rating": 4,
+      "comment": "また入りに来たいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-14",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-16",
+      "gender": "male",
+      "rating": 3,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-16",
+      "gender": "female",
+      "rating": 5,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-16",
+      "gender": "male",
+      "rating": 4,
+      "comment": "また入りに来たいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-17",
+      "gender": "female",
+      "rating": 5,
+      "comment": "熱めの湯が好みなのでうれしいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-17",
+      "gender": "female",
+      "rating": 4,
+      "comment": "また入りに来たいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-17",
+      "gender": "female",
+      "rating": 4,
+      "comment": "熱めの湯が好みなのでうれしいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-17",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-17",
+      "gender": "male",
+      "rating": 4,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-17",
+      "gender": "female",
+      "rating": 4,
+      "comment": "湯上がりもぽかぽかしていました",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-18",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯上がりもぽかぽかしていました",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-18",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯の香りがよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-18",
+      "gender": "other",
+      "rating": 5,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-18",
+      "gender": "male",
+      "rating": 5,
+      "comment": "熱めの湯が好みなのでうれしいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-18",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯の香りがよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-18",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-19",
+      "gender": "female",
+      "rating": 5,
+      "comment": "熱めの湯が好みなのでうれしいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-19",
+      "gender": null,
+      "rating": 4,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-20",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-20",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯の香りがよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-20",
+      "gender": "male",
+      "rating": 4,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-21",
+      "gender": "female",
+      "rating": 4,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-21",
+      "gender": "male",
+      "rating": 4,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-21",
+      "gender": "female",
+      "rating": 4,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-21",
+      "gender": "female",
+      "rating": 5,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-21",
+      "gender": "female",
+      "rating": 4,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-22",
+      "gender": "male",
+      "rating": 2,
+      "comment": "今日は湯がぬるめでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-23",
+      "gender": "female",
+      "rating": 3,
+      "comment": "肩まで浸かっても少し物足りない温度でした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-24",
+      "gender": "male",
+      "rating": 5,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-24",
+      "gender": "male",
+      "rating": 5,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-24",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯上がりもぽかぽかしていました",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-24",
+      "gender": "female",
+      "rating": 3,
+      "comment": "湯の香りがよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-25",
+      "gender": "male",
+      "rating": 5,
+      "comment": "熱めの湯が好みなのでうれしいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-25",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯上がりもぽかぽかしていました",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-25",
+      "gender": null,
+      "rating": 5,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-25",
+      "gender": "female",
+      "rating": 4,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-25",
+      "gender": "female",
+      "rating": 4,
+      "comment": "また入りに来たいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-26",
+      "gender": "male",
+      "rating": 3,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-26",
+      "gender": "male",
+      "rating": 5,
+      "comment": "今日は湯がぬるめでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-26",
+      "gender": "female",
+      "rating": 2,
+      "comment": "少しぬるく感じました",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-26",
+      "gender": null,
+      "rating": 4,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-26",
+      "gender": "other",
+      "rating": 4,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-26",
+      "gender": "male",
+      "rating": 3,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-27",
+      "gender": "male",
+      "rating": 5,
+      "comment": "また入りに来たいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-27",
+      "gender": "male",
+      "rating": 3,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-27",
+      "gender": "female",
+      "rating": 5,
+      "comment": "湯の香りがよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-27",
+      "gender": "female",
+      "rating": 4,
+      "comment": "熱めの湯が好みなのでうれしいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-28",
+      "gender": "male",
+      "rating": 5,
+      "comment": "また入りに来たいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-29",
+      "gender": "female",
+      "rating": 4,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-29",
+      "gender": "male",
+      "rating": 5,
+      "comment": "湯の香りがよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-29",
+      "gender": "female",
+      "rating": 4,
+      "comment": "湯上がりもぽかぽかしていました",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-29",
+      "gender": null,
+      "rating": 4,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-31",
+      "gender": null,
+      "rating": 3,
+      "comment": "湯けむりがきれいでした",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-10-31",
+      "gender": "male",
+      "rating": 4,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-11-01",
+      "gender": "other",
+      "rating": 4,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-11-01",
+      "gender": "female",
+      "rating": 5,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-11-01",
+      "gender": "male",
+      "rating": 4,
+      "comment": "湯上がりもぽかぽかしていました",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-11-01",
+      "gender": "male",
+      "rating": 5,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-11-01",
+      "gender": "female",
+      "rating": 4,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-11-01",
+      "gender": null,
+      "rating": 3,
+      "comment": "熱めの湯が好みなのでうれしいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-11-02",
+      "gender": "male",
+      "rating": 5,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-11-02",
+      "gender": "male",
+      "rating": 5,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-11-02",
+      "gender": "male",
+      "rating": 5,
+      "comment": "また入りに来たいです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-11-03",
+      "gender": "male",
+      "rating": 4,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-11-03",
+      "gender": "male",
+      "rating": 5,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-11-03",
+      "gender": "male",
+      "rating": 5,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-11-03",
+      "gender": "female",
+      "rating": 5,
+      "comment": "しっかり熱めで気持ちよかったです",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-11-04",
+      "gender": "male",
+      "rating": 4,
+      "comment": "",
+      "is_simulated": true
+    },
+    {
+      "visited_on": "2026-11-04",
+      "gender": "male",
+      "rating": 4,
+      "comment": "また入りに来たいです",
+      "is_simulated": true
+    }
+  ]
+}

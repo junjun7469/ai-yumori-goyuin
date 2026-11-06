@@ -64,6 +64,13 @@
       "when": 1793896051917,
       "tag": "0008_onsen_personality",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1793981522458,
+      "tag": "0009_bath_voice",
+      "breakpoints": true
     }
   ]
 }
