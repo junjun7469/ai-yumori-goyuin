@@ -11,7 +11,7 @@ export default function TrendPage() {
     <main className="mx-auto max-w-5xl space-y-5 p-4 pb-16">
       <header className="space-y-1">
         <Link href="/dashboard" className="text-xs text-sky-700 underline">← ダッシュボード</Link>
-        <h1 className="text-xl font-bold">推移と変化検知</h1>
+        <h1 className="text-xl font-bold">湯の状態</h1>
         {trend ? (
           <p className="text-sm text-stone-600">
             丸正旅館・直近60日　記録 {trend.counts.logs} 件（模擬データ {trend.counts.simulated}・入力した記録 {trend.counts.real}）　

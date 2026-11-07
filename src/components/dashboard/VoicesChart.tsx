@@ -76,7 +76,7 @@ export function VoicesChart({ series, voices, period }: { series: Series[]; voic
 
       <div className="overflow-x-auto rounded-lg border bg-white">
         <svg viewBox={`0 0 ${W} ${H}`} className="min-w-[640px]" role="img"
-          aria-label="日付ごとの浴槽温度（線）と湯の声の評価平均（点）。サンプル（模擬データ）">
+          aria-label="日付ごとの浴槽温度（線）とお客様の声の評価平均（点）。サンプル（模擬データ）">
           {/* 左軸：温度 */}
           {niceTicks(tDom[0], tDom[1], 5).map((t) => (
             <g key={`t${t}`}>

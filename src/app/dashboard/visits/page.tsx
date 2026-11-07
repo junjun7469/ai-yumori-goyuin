@@ -15,8 +15,8 @@ export default function VisitsPage() {
       <main className="mx-auto max-w-5xl space-y-5 px-4 pb-16 pt-6">
         <header className="space-y-1">
           <Link href="/dashboard" className="text-xs underline">← ダッシュボード</Link>
-          <h1 className="text-2xl font-black tracking-[0.12em]">来客と売上</h1>
-          <p className="text-sm text-[var(--ink-soft)]">御湯印で記録された訪問（湯の声と同じ記録。1訪問1件）を数えています。</p>
+          <h1 className="text-2xl font-black tracking-[0.12em]">ご来訪と売上</h1>
+          <p className="text-sm text-[var(--ink-soft)]">御湯印で記録された訪問（お客様の声と同じ記録。1訪問1件）を数えています。</p>
         </header>
 
         <section className="rounded-xl border border-amber-300 bg-amber-50 p-3 text-xs leading-relaxed text-amber-950">

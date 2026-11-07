@@ -25,18 +25,18 @@ const SimTag = () => <span className="ml-2 rounded-full border border-[var(--lin
 const VIEWS: { href: string; title: string; icon: React.ReactNode }[] = [
   {
     href: "/dashboard/trend",
-    title: "推移と変化検知",
+    title: "湯の状態",
     icon: <><path d="M4 30 L13 20 L20 25 L30 12 L36 16" /><circle cx="30" cy="12" r="2.5" fill="currentColor" /><path d="M4 36 H36" /></>,
   },
   {
-    href: "/dashboard/voices",
-    title: "湯の声",
-    icon: <><path d="M6 9 H34 A3 3 0 0 1 37 12 V25 A3 3 0 0 1 34 28 H17 L10 34 V28 H6 A3 3 0 0 1 3 25 V12 A3 3 0 0 1 6 9 Z" /><path d="M11 16 H29 M11 21 H23" /></>,
+    href: "/dashboard/visits",
+    title: "ご来訪と売上",
+    icon: <><path d="M4 36 H36" /><rect x="8" y="22" width="6" height="14" /><rect x="17" y="13" width="6" height="23" /><rect x="26" y="18" width="6" height="18" /></>,
   },
   {
-    href: "/dashboard/visits",
-    title: "来客と売上",
-    icon: <><path d="M4 36 H36" /><rect x="8" y="22" width="6" height="14" /><rect x="17" y="13" width="6" height="23" /><rect x="26" y="18" width="6" height="18" /></>,
+    href: "/dashboard/voices",
+    title: "お客様の声",
+    icon: <><path d="M6 9 H34 A3 3 0 0 1 37 12 V25 A3 3 0 0 1 34 28 H17 L10 34 V28 H6 A3 3 0 0 1 3 25 V12 A3 3 0 0 1 6 9 Z" /><path d="M11 16 H29 M11 21 H23" /></>,
   },
 ];
 
