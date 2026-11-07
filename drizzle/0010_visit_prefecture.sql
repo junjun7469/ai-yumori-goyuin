@@ -1,0 +1,1 @@
+ALTER TABLE `bath_voice` ADD `prefecture_code` text;

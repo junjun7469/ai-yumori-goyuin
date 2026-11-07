@@ -733,6 +733,7 @@
     {
       "visited_on": "2026-09-06",
       "gender": "female",
+      "prefecture_code": "40",
       "rating": 5,
       "comment": "湯の香りがよかったです",
       "is_simulated": true
@@ -740,6 +741,7 @@
     {
       "visited_on": "2026-09-06",
       "gender": "male",
+      "prefecture_code": "47",
       "rating": 5,
       "comment": "",
       "is_simulated": true
@@ -747,6 +749,7 @@
     {
       "visited_on": "2026-09-06",
       "gender": "male",
+      "prefecture_code": "12",
       "rating": 5,
       "comment": "",
       "is_simulated": true
@@ -754,6 +757,7 @@
     {
       "visited_on": "2026-09-06",
       "gender": "male",
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "湯の香りがよかったです",
       "is_simulated": true
@@ -761,6 +765,7 @@
     {
       "visited_on": "2026-09-06",
       "gender": "male",
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "",
       "is_simulated": true
@@ -768,6 +773,7 @@
     {
       "visited_on": "2026-09-07",
       "gender": "female",
+      "prefecture_code": "46",
       "rating": 4,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -775,6 +781,7 @@
     {
       "visited_on": "2026-09-07",
       "gender": "male",
+      "prefecture_code": "41",
       "rating": 3,
       "comment": "",
       "is_simulated": true
@@ -782,6 +789,7 @@
     {
       "visited_on": "2026-09-07",
       "gender": "female",
+      "prefecture_code": "23",
       "rating": 5,
       "comment": "熱めの湯が好みなのでうれしいです",
       "is_simulated": true
@@ -789,6 +797,7 @@
     {
       "visited_on": "2026-09-07",
       "gender": "male",
+      "prefecture_code": "43",
       "rating": 5,
       "comment": "熱めの湯が好みなのでうれしいです",
       "is_simulated": true
@@ -796,6 +805,7 @@
     {
       "visited_on": "2026-09-07",
       "gender": "female",
+      "prefecture_code": "34",
       "rating": 4,
       "comment": "熱めの湯が好みなのでうれしいです",
       "is_simulated": true
@@ -803,6 +813,7 @@
     {
       "visited_on": "2026-09-07",
       "gender": "male",
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "熱めの湯が好みなのでうれしいです",
       "is_simulated": true
@@ -810,6 +821,7 @@
     {
       "visited_on": "2026-09-08",
       "gender": "male",
+      "prefecture_code": "40",
       "rating": 5,
       "comment": "また入りに来たいです",
       "is_simulated": true
@@ -817,6 +829,7 @@
     {
       "visited_on": "2026-09-08",
       "gender": "female",
+      "prefecture_code": "34",
       "rating": 4,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -824,6 +837,7 @@
     {
       "visited_on": "2026-09-08",
       "gender": null,
+      "prefecture_code": "40",
       "rating": 5,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -831,6 +845,7 @@
     {
       "visited_on": "2026-09-08",
       "gender": "male",
+      "prefecture_code": "42",
       "rating": 5,
       "comment": "湯の香りがよかったです",
       "is_simulated": true
@@ -838,6 +853,7 @@
     {
       "visited_on": "2026-09-08",
       "gender": "male",
+      "prefecture_code": "01",
       "rating": 5,
       "comment": "湯上がりもぽかぽかしていました",
       "is_simulated": true
@@ -845,6 +861,7 @@
     {
       "visited_on": "2026-09-09",
       "gender": "male",
+      "prefecture_code": "43",
       "rating": 4,
       "comment": "湯の香りがよかったです",
       "is_simulated": true
@@ -852,6 +869,7 @@
     {
       "visited_on": "2026-09-09",
       "gender": "male",
+      "prefecture_code": "43",
       "rating": 3,
       "comment": "湯上がりもぽかぽかしていました",
       "is_simulated": true
@@ -859,6 +877,7 @@
     {
       "visited_on": "2026-09-09",
       "gender": "male",
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -866,6 +885,7 @@
     {
       "visited_on": "2026-09-09",
       "gender": "female",
+      "prefecture_code": "46",
       "rating": 3,
       "comment": "",
       "is_simulated": true
@@ -873,6 +893,7 @@
     {
       "visited_on": "2026-09-09",
       "gender": "male",
+      "prefecture_code": "13",
       "rating": 5,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -880,6 +901,7 @@
     {
       "visited_on": "2026-09-09",
       "gender": "male",
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "また入りに来たいです",
       "is_simulated": true
@@ -887,6 +909,7 @@
     {
       "visited_on": "2026-09-10",
       "gender": null,
+      "prefecture_code": "13",
       "rating": 4,
       "comment": "湯上がりもぽかぽかしていました",
       "is_simulated": true
@@ -894,6 +917,7 @@
     {
       "visited_on": "2026-09-10",
       "gender": "female",
+      "prefecture_code": "45",
       "rating": 4,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -901,6 +925,7 @@
     {
       "visited_on": "2026-09-10",
       "gender": "male",
+      "prefecture_code": "44",
       "rating": 4,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -908,6 +933,7 @@
     {
       "visited_on": "2026-09-10",
       "gender": "female",
+      "prefecture_code": "23",
       "rating": 4,
       "comment": "また入りに来たいです",
       "is_simulated": true
@@ -915,6 +941,7 @@
     {
       "visited_on": "2026-09-11",
       "gender": "male",
+      "prefecture_code": "43",
       "rating": 4,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -922,6 +949,7 @@
     {
       "visited_on": "2026-09-11",
       "gender": "male",
+      "prefecture_code": "28",
       "rating": 5,
       "comment": "湯上がりもぽかぽかしていました",
       "is_simulated": true
@@ -929,6 +957,7 @@
     {
       "visited_on": "2026-09-11",
       "gender": "male",
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "",
       "is_simulated": true
@@ -936,6 +965,7 @@
     {
       "visited_on": "2026-09-11",
       "gender": "male",
+      "prefecture_code": "26",
       "rating": 4,
       "comment": "湯の香りがよかったです",
       "is_simulated": true
@@ -943,6 +973,7 @@
     {
       "visited_on": "2026-09-11",
       "gender": "female",
+      "prefecture_code": null,
       "rating": 4,
       "comment": "湯の香りがよかったです",
       "is_simulated": true
@@ -950,6 +981,7 @@
     {
       "visited_on": "2026-09-12",
       "gender": "female",
+      "prefecture_code": "45",
       "rating": 5,
       "comment": "湯の香りがよかったです",
       "is_simulated": true
@@ -957,6 +989,7 @@
     {
       "visited_on": "2026-09-12",
       "gender": "female",
+      "prefecture_code": "44",
       "rating": 4,
       "comment": "湯上がりもぽかぽかしていました",
       "is_simulated": true
@@ -964,6 +997,7 @@
     {
       "visited_on": "2026-09-12",
       "gender": "male",
+      "prefecture_code": "34",
       "rating": 4,
       "comment": "",
       "is_simulated": true
@@ -971,6 +1005,7 @@
     {
       "visited_on": "2026-09-12",
       "gender": "female",
+      "prefecture_code": "46",
       "rating": 4,
       "comment": "熱めの湯が好みなのでうれしいです",
       "is_simulated": true
@@ -978,6 +1013,7 @@
     {
       "visited_on": "2026-09-13",
       "gender": "male",
+      "prefecture_code": "27",
       "rating": 3,
       "comment": "少しぬるめでしたが気持ちよかったです",
       "is_simulated": true
@@ -985,6 +1021,7 @@
     {
       "visited_on": "2026-09-13",
       "gender": "male",
+      "prefecture_code": "43",
       "rating": 3,
       "comment": "ちょうどいい温度でした",
       "is_simulated": true
@@ -992,6 +1029,7 @@
     {
       "visited_on": "2026-09-13",
       "gender": "male",
+      "prefecture_code": "45",
       "rating": 4,
       "comment": "少しぬるめでしたが気持ちよかったです",
       "is_simulated": true
@@ -999,6 +1037,7 @@
     {
       "visited_on": "2026-09-13",
       "gender": "female",
+      "prefecture_code": "43",
       "rating": 4,
       "comment": "また入りに来たいです",
       "is_simulated": true
@@ -1006,6 +1045,7 @@
     {
       "visited_on": "2026-09-13",
       "gender": "female",
+      "prefecture_code": "13",
       "rating": 5,
       "comment": "また入りに来たいです",
       "is_simulated": true
@@ -1013,6 +1053,7 @@
     {
       "visited_on": "2026-09-14",
       "gender": "female",
+      "prefecture_code": "43",
       "rating": 4,
       "comment": "湯の香りがよかったです",
       "is_simulated": true
@@ -1020,6 +1061,7 @@
     {
       "visited_on": "2026-09-14",
       "gender": "male",
+      "prefecture_code": "43",
       "rating": 5,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1027,6 +1069,7 @@
     {
       "visited_on": "2026-09-15",
       "gender": "male",
+      "prefecture_code": "43",
       "rating": 4,
       "comment": "熱めの湯が好みなのでうれしいです",
       "is_simulated": true
@@ -1034,6 +1077,7 @@
     {
       "visited_on": "2026-09-15",
       "gender": "male",
+      "prefecture_code": "43",
       "rating": 5,
       "comment": "",
       "is_simulated": true
@@ -1041,6 +1085,7 @@
     {
       "visited_on": "2026-09-15",
       "gender": "female",
+      "prefecture_code": "11",
       "rating": 4,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1048,6 +1093,7 @@
     {
       "visited_on": "2026-09-15",
       "gender": "female",
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "熱めの湯が好みなのでうれしいです",
       "is_simulated": true
@@ -1055,6 +1101,7 @@
     {
       "visited_on": "2026-09-17",
       "gender": "other",
+      "prefecture_code": "43",
       "rating": 5,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -1062,6 +1109,7 @@
     {
       "visited_on": "2026-09-17",
       "gender": null,
+      "prefecture_code": "14",
       "rating": 4,
       "comment": "湯上がりもぽかぽかしていました",
       "is_simulated": true
@@ -1069,6 +1117,7 @@
     {
       "visited_on": "2026-09-17",
       "gender": "female",
+      "prefecture_code": "41",
       "rating": 4,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -1076,6 +1125,7 @@
     {
       "visited_on": "2026-09-17",
       "gender": "other",
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -1083,6 +1133,7 @@
     {
       "visited_on": "2026-09-17",
       "gender": "other",
+      "prefecture_code": "43",
       "rating": 4,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -1090,6 +1141,7 @@
     {
       "visited_on": "2026-09-17",
       "gender": "female",
+      "prefecture_code": "44",
       "rating": 5,
       "comment": "",
       "is_simulated": true
@@ -1097,6 +1149,7 @@
     {
       "visited_on": "2026-09-19",
       "gender": "male",
+      "prefecture_code": "46",
       "rating": 4,
       "comment": "熱めの湯が好みなのでうれしいです",
       "is_simulated": true
@@ -1104,6 +1157,7 @@
     {
       "visited_on": "2026-09-19",
       "gender": "female",
+      "prefecture_code": "27",
       "rating": 4,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -1111,6 +1165,7 @@
     {
       "visited_on": "2026-09-19",
       "gender": null,
+      "prefecture_code": null,
       "rating": 4,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -1118,6 +1173,7 @@
     {
       "visited_on": "2026-09-20",
       "gender": "female",
+      "prefecture_code": "13",
       "rating": 4,
       "comment": "熱めの湯が好みなのでうれしいです",
       "is_simulated": true
@@ -1125,6 +1181,7 @@
     {
       "visited_on": "2026-09-20",
       "gender": "male",
+      "prefecture_code": "43",
       "rating": 4,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1132,6 +1189,7 @@
     {
       "visited_on": "2026-09-20",
       "gender": "female",
+      "prefecture_code": "43",
       "rating": 5,
       "comment": "また入りに来たいです",
       "is_simulated": true
@@ -1139,6 +1197,7 @@
     {
       "visited_on": "2026-09-20",
       "gender": null,
+      "prefecture_code": "34",
       "rating": 5,
       "comment": "熱めの湯が好みなのでうれしいです",
       "is_simulated": true
@@ -1146,6 +1205,7 @@
     {
       "visited_on": "2026-09-20",
       "gender": "male",
+      "prefecture_code": "43",
       "rating": 4,
       "comment": "",
       "is_simulated": true
@@ -1153,6 +1213,7 @@
     {
       "visited_on": "2026-09-20",
       "gender": "female",
+      "prefecture_code": "42",
       "rating": 5,
       "comment": "湯の香りがよかったです",
       "is_simulated": true
@@ -1160,6 +1221,7 @@
     {
       "visited_on": "2026-09-21",
       "gender": "male",
+      "prefecture_code": "14",
       "rating": 5,
       "comment": "熱めの湯が好みなのでうれしいです",
       "is_simulated": true
@@ -1167,6 +1229,7 @@
     {
       "visited_on": "2026-09-21",
       "gender": "male",
+      "prefecture_code": "41",
       "rating": 5,
       "comment": "また入りに来たいです",
       "is_simulated": true
@@ -1174,6 +1237,7 @@
     {
       "visited_on": "2026-09-21",
       "gender": "male",
+      "prefecture_code": "13",
       "rating": 5,
       "comment": "また入りに来たいです",
       "is_simulated": true
@@ -1181,6 +1245,7 @@
     {
       "visited_on": "2026-09-21",
       "gender": null,
+      "prefecture_code": "43",
       "rating": 4,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1188,6 +1253,7 @@
     {
       "visited_on": "2026-09-21",
       "gender": "male",
+      "prefecture_code": null,
       "rating": 4,
       "comment": "",
       "is_simulated": true
@@ -1195,6 +1261,7 @@
     {
       "visited_on": "2026-09-21",
       "gender": "male",
+      "prefecture_code": "44",
       "rating": 4,
       "comment": "湯上がりもぽかぽかしていました",
       "is_simulated": true
@@ -1202,6 +1269,7 @@
     {
       "visited_on": "2026-09-22",
       "gender": "male",
+      "prefecture_code": "13",
       "rating": 4,
       "comment": "湯上がりもぽかぽかしていました",
       "is_simulated": true
@@ -1209,6 +1277,7 @@
     {
       "visited_on": "2026-09-22",
       "gender": "female",
+      "prefecture_code": "12",
       "rating": 3,
       "comment": "ぬるめで長く入れましたが、もう少し熱いほうが好みです",
       "is_simulated": true
@@ -1216,6 +1285,7 @@
     {
       "visited_on": "2026-09-22",
       "gender": "male",
+      "prefecture_code": "40",
       "rating": 3,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -1223,6 +1293,7 @@
     {
       "visited_on": "2026-09-22",
       "gender": "female",
+      "prefecture_code": "44",
       "rating": 3,
       "comment": "",
       "is_simulated": true
@@ -1230,6 +1301,7 @@
     {
       "visited_on": "2026-09-22",
       "gender": "male",
+      "prefecture_code": "44",
       "rating": 5,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -1237,6 +1309,7 @@
     {
       "visited_on": "2026-09-23",
       "gender": "male",
+      "prefecture_code": "43",
       "rating": 5,
       "comment": "",
       "is_simulated": true
@@ -1244,6 +1317,7 @@
     {
       "visited_on": "2026-09-23",
       "gender": "female",
+      "prefecture_code": "01",
       "rating": 4,
       "comment": "熱めの湯が好みなのでうれしいです",
       "is_simulated": true
@@ -1251,6 +1325,7 @@
     {
       "visited_on": "2026-09-23",
       "gender": null,
+      "prefecture_code": "42",
       "rating": 5,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -1258,6 +1333,7 @@
     {
       "visited_on": "2026-09-23",
       "gender": "female",
+      "prefecture_code": "43",
       "rating": 5,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1265,6 +1341,7 @@
     {
       "visited_on": "2026-09-23",
       "gender": "female",
+      "prefecture_code": "43",
       "rating": 3,
       "comment": "湯の香りがよかったです",
       "is_simulated": true
@@ -1272,6 +1349,7 @@
     {
       "visited_on": "2026-09-24",
       "gender": "female",
+      "prefecture_code": "13",
       "rating": 5,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1279,6 +1357,7 @@
     {
       "visited_on": "2026-09-24",
       "gender": "female",
+      "prefecture_code": null,
       "rating": 4,
       "comment": "また入りに来たいです",
       "is_simulated": true
@@ -1286,6 +1365,7 @@
     {
       "visited_on": "2026-09-25",
       "gender": "female",
+      "prefecture_code": null,
       "rating": 5,
       "comment": "また入りに来たいです",
       "is_simulated": true
@@ -1293,6 +1373,7 @@
     {
       "visited_on": "2026-09-25",
       "gender": "male",
+      "prefecture_code": "27",
       "rating": 4,
       "comment": "湯上がりもぽかぽかしていました",
       "is_simulated": true
@@ -1300,6 +1381,7 @@
     {
       "visited_on": "2026-09-26",
       "gender": "other",
+      "prefecture_code": "27",
       "rating": 5,
       "comment": "",
       "is_simulated": true
@@ -1307,6 +1389,7 @@
     {
       "visited_on": "2026-09-26",
       "gender": "male",
+      "prefecture_code": "13",
       "rating": 4,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -1314,6 +1397,7 @@
     {
       "visited_on": "2026-09-26",
       "gender": "male",
+      "prefecture_code": "41",
       "rating": 4,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1321,6 +1405,7 @@
     {
       "visited_on": "2026-09-26",
       "gender": "other",
+      "prefecture_code": "13",
       "rating": 4,
       "comment": "湯上がりもぽかぽかしていました",
       "is_simulated": true
@@ -1328,6 +1413,7 @@
     {
       "visited_on": "2026-09-27",
       "gender": "female",
+      "prefecture_code": "43",
       "rating": 4,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -1335,6 +1421,7 @@
     {
       "visited_on": "2026-09-27",
       "gender": "female",
+      "prefecture_code": "27",
       "rating": 4,
       "comment": "熱めの湯が好みなのでうれしいです",
       "is_simulated": true
@@ -1342,6 +1429,7 @@
     {
       "visited_on": "2026-09-27",
       "gender": "female",
+      "prefecture_code": "26",
       "rating": 4,
       "comment": "湯の香りがよかったです",
       "is_simulated": true
@@ -1349,6 +1437,7 @@
     {
       "visited_on": "2026-09-27",
       "gender": "male",
+      "prefecture_code": "43",
       "rating": 5,
       "comment": "湯上がりもぽかぽかしていました",
       "is_simulated": true
@@ -1356,6 +1445,7 @@
     {
       "visited_on": "2026-09-27",
       "gender": null,
+      "prefecture_code": "43",
       "rating": 4,
       "comment": "また入りに来たいです",
       "is_simulated": true
@@ -1363,6 +1453,7 @@
     {
       "visited_on": "2026-09-29",
       "gender": "male",
+      "prefecture_code": "44",
       "rating": 4,
       "comment": "湯上がりもぽかぽかしていました",
       "is_simulated": true
@@ -1370,6 +1461,7 @@
     {
       "visited_on": "2026-09-30",
       "gender": "female",
+      "prefecture_code": "43",
       "rating": 4,
       "comment": "",
       "is_simulated": true
@@ -1377,6 +1469,7 @@
     {
       "visited_on": "2026-09-30",
       "gender": "female",
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -1384,6 +1477,7 @@
     {
       "visited_on": "2026-10-01",
       "gender": "female",
+      "prefecture_code": null,
       "rating": 4,
       "comment": "また入りに来たいです",
       "is_simulated": true
@@ -1391,6 +1485,7 @@
     {
       "visited_on": "2026-10-01",
       "gender": "female",
+      "prefecture_code": "41",
       "rating": 4,
       "comment": "",
       "is_simulated": true
@@ -1398,6 +1493,7 @@
     {
       "visited_on": "2026-10-01",
       "gender": "female",
+      "prefecture_code": "47",
       "rating": 4,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1405,6 +1501,7 @@
     {
       "visited_on": "2026-10-03",
       "gender": "female",
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1412,6 +1509,7 @@
     {
       "visited_on": "2026-10-03",
       "gender": "other",
+      "prefecture_code": "12",
       "rating": 4,
       "comment": "熱めの湯が好みなのでうれしいです",
       "is_simulated": true
@@ -1419,6 +1517,7 @@
     {
       "visited_on": "2026-10-03",
       "gender": "male",
+      "prefecture_code": "45",
       "rating": 5,
       "comment": "熱めの湯が好みなのでうれしいです",
       "is_simulated": true
@@ -1426,6 +1525,7 @@
     {
       "visited_on": "2026-10-03",
       "gender": "male",
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "",
       "is_simulated": true
@@ -1433,6 +1533,7 @@
     {
       "visited_on": "2026-10-04",
       "gender": "male",
+      "prefecture_code": null,
       "rating": 3,
       "comment": "また入りに来たいです",
       "is_simulated": true
@@ -1440,6 +1541,7 @@
     {
       "visited_on": "2026-10-04",
       "gender": "female",
+      "prefecture_code": "41",
       "rating": 5,
       "comment": "湯上がりもぽかぽかしていました",
       "is_simulated": true
@@ -1447,6 +1549,7 @@
     {
       "visited_on": "2026-10-04",
       "gender": "female",
+      "prefecture_code": "43",
       "rating": 5,
       "comment": "湯の香りがよかったです",
       "is_simulated": true
@@ -1454,6 +1557,7 @@
     {
       "visited_on": "2026-10-04",
       "gender": "other",
+      "prefecture_code": "43",
       "rating": 4,
       "comment": "湯上がりもぽかぽかしていました",
       "is_simulated": true
@@ -1461,6 +1565,7 @@
     {
       "visited_on": "2026-10-04",
       "gender": "female",
+      "prefecture_code": "34",
       "rating": 4,
       "comment": "熱めの湯が好みなのでうれしいです",
       "is_simulated": true
@@ -1468,6 +1573,7 @@
     {
       "visited_on": "2026-10-05",
       "gender": "male",
+      "prefecture_code": "40",
       "rating": 5,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -1475,6 +1581,7 @@
     {
       "visited_on": "2026-10-05",
       "gender": "male",
+      "prefecture_code": "43",
       "rating": 5,
       "comment": "",
       "is_simulated": true
@@ -1482,6 +1589,7 @@
     {
       "visited_on": "2026-10-06",
       "gender": "male",
+      "prefecture_code": "41",
       "rating": 4,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1489,6 +1597,7 @@
     {
       "visited_on": "2026-10-06",
       "gender": null,
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "",
       "is_simulated": true
@@ -1496,6 +1605,7 @@
     {
       "visited_on": "2026-10-06",
       "gender": "male",
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1503,6 +1613,7 @@
     {
       "visited_on": "2026-10-06",
       "gender": "female",
+      "prefecture_code": "46",
       "rating": 3,
       "comment": "",
       "is_simulated": true
@@ -1510,6 +1621,7 @@
     {
       "visited_on": "2026-10-07",
       "gender": "female",
+      "prefecture_code": "40",
       "rating": 2,
       "comment": "",
       "is_simulated": true
@@ -1517,6 +1629,7 @@
     {
       "visited_on": "2026-10-08",
       "gender": "female",
+      "prefecture_code": "43",
       "rating": 5,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1524,6 +1637,7 @@
     {
       "visited_on": "2026-10-08",
       "gender": null,
+      "prefecture_code": null,
       "rating": 4,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1531,6 +1645,7 @@
     {
       "visited_on": "2026-10-09",
       "gender": "female",
+      "prefecture_code": "27",
       "rating": 4,
       "comment": "湯の香りがよかったです",
       "is_simulated": true
@@ -1538,6 +1653,7 @@
     {
       "visited_on": "2026-10-09",
       "gender": "female",
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "",
       "is_simulated": true
@@ -1545,6 +1661,7 @@
     {
       "visited_on": "2026-10-09",
       "gender": "male",
+      "prefecture_code": "12",
       "rating": 4,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -1552,6 +1669,7 @@
     {
       "visited_on": "2026-10-10",
       "gender": "female",
+      "prefecture_code": "27",
       "rating": 3,
       "comment": "",
       "is_simulated": true
@@ -1559,6 +1677,7 @@
     {
       "visited_on": "2026-10-10",
       "gender": "male",
+      "prefecture_code": "43",
       "rating": 4,
       "comment": "湯上がりもぽかぽかしていました",
       "is_simulated": true
@@ -1566,6 +1685,7 @@
     {
       "visited_on": "2026-10-12",
       "gender": "male",
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "",
       "is_simulated": true
@@ -1573,6 +1693,7 @@
     {
       "visited_on": "2026-10-12",
       "gender": null,
+      "prefecture_code": null,
       "rating": 5,
       "comment": "湯上がりもぽかぽかしていました",
       "is_simulated": true
@@ -1580,6 +1701,7 @@
     {
       "visited_on": "2026-10-12",
       "gender": "female",
+      "prefecture_code": "40",
       "rating": 5,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1587,6 +1709,7 @@
     {
       "visited_on": "2026-10-12",
       "gender": "male",
+      "prefecture_code": "12",
       "rating": 4,
       "comment": "また入りに来たいです",
       "is_simulated": true
@@ -1594,6 +1717,7 @@
     {
       "visited_on": "2026-10-12",
       "gender": "male",
+      "prefecture_code": "12",
       "rating": 4,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1601,6 +1725,7 @@
     {
       "visited_on": "2026-10-13",
       "gender": "female",
+      "prefecture_code": "43",
       "rating": 4,
       "comment": "",
       "is_simulated": true
@@ -1608,6 +1733,7 @@
     {
       "visited_on": "2026-10-13",
       "gender": "male",
+      "prefecture_code": "43",
       "rating": 4,
       "comment": "",
       "is_simulated": true
@@ -1615,6 +1741,7 @@
     {
       "visited_on": "2026-10-13",
       "gender": "male",
+      "prefecture_code": "44",
       "rating": 5,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -1622,6 +1749,7 @@
     {
       "visited_on": "2026-10-13",
       "gender": "female",
+      "prefecture_code": "11",
       "rating": 5,
       "comment": "",
       "is_simulated": true
@@ -1629,6 +1757,7 @@
     {
       "visited_on": "2026-10-14",
       "gender": null,
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1636,6 +1765,7 @@
     {
       "visited_on": "2026-10-14",
       "gender": "female",
+      "prefecture_code": "42",
       "rating": 4,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1643,6 +1773,7 @@
     {
       "visited_on": "2026-10-14",
       "gender": null,
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "湯の香りがよかったです",
       "is_simulated": true
@@ -1650,6 +1781,7 @@
     {
       "visited_on": "2026-10-14",
       "gender": "other",
+      "prefecture_code": "44",
       "rating": 4,
       "comment": "また入りに来たいです",
       "is_simulated": true
@@ -1657,6 +1789,7 @@
     {
       "visited_on": "2026-10-14",
       "gender": "male",
+      "prefecture_code": "41",
       "rating": 4,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -1664,6 +1797,7 @@
     {
       "visited_on": "2026-10-16",
       "gender": "male",
+      "prefecture_code": "43",
       "rating": 3,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -1671,6 +1805,7 @@
     {
       "visited_on": "2026-10-16",
       "gender": "female",
+      "prefecture_code": "13",
       "rating": 5,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -1678,6 +1813,7 @@
     {
       "visited_on": "2026-10-16",
       "gender": "male",
+      "prefecture_code": "27",
       "rating": 4,
       "comment": "また入りに来たいです",
       "is_simulated": true
@@ -1685,6 +1821,7 @@
     {
       "visited_on": "2026-10-17",
       "gender": "female",
+      "prefecture_code": "40",
       "rating": 5,
       "comment": "熱めの湯が好みなのでうれしいです",
       "is_simulated": true
@@ -1692,6 +1829,7 @@
     {
       "visited_on": "2026-10-17",
       "gender": "female",
+      "prefecture_code": "43",
       "rating": 4,
       "comment": "また入りに来たいです",
       "is_simulated": true
@@ -1699,6 +1837,7 @@
     {
       "visited_on": "2026-10-17",
       "gender": "female",
+      "prefecture_code": "43",
       "rating": 4,
       "comment": "熱めの湯が好みなのでうれしいです",
       "is_simulated": true
@@ -1706,6 +1845,7 @@
     {
       "visited_on": "2026-10-17",
       "gender": "male",
+      "prefecture_code": null,
       "rating": 4,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -1713,6 +1853,7 @@
     {
       "visited_on": "2026-10-17",
       "gender": "male",
+      "prefecture_code": "34",
       "rating": 4,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1720,6 +1861,7 @@
     {
       "visited_on": "2026-10-17",
       "gender": "female",
+      "prefecture_code": "43",
       "rating": 4,
       "comment": "湯上がりもぽかぽかしていました",
       "is_simulated": true
@@ -1727,6 +1869,7 @@
     {
       "visited_on": "2026-10-18",
       "gender": "male",
+      "prefecture_code": "01",
       "rating": 4,
       "comment": "湯上がりもぽかぽかしていました",
       "is_simulated": true
@@ -1734,6 +1877,7 @@
     {
       "visited_on": "2026-10-18",
       "gender": "male",
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "湯の香りがよかったです",
       "is_simulated": true
@@ -1741,6 +1885,7 @@
     {
       "visited_on": "2026-10-18",
       "gender": "other",
+      "prefecture_code": "26",
       "rating": 5,
       "comment": "",
       "is_simulated": true
@@ -1748,6 +1893,7 @@
     {
       "visited_on": "2026-10-18",
       "gender": "male",
+      "prefecture_code": "28",
       "rating": 5,
       "comment": "熱めの湯が好みなのでうれしいです",
       "is_simulated": true
@@ -1755,6 +1901,7 @@
     {
       "visited_on": "2026-10-18",
       "gender": "male",
+      "prefecture_code": "27",
       "rating": 4,
       "comment": "湯の香りがよかったです",
       "is_simulated": true
@@ -1762,6 +1909,7 @@
     {
       "visited_on": "2026-10-18",
       "gender": "male",
+      "prefecture_code": "44",
       "rating": 4,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -1769,6 +1917,7 @@
     {
       "visited_on": "2026-10-19",
       "gender": "female",
+      "prefecture_code": "43",
       "rating": 5,
       "comment": "熱めの湯が好みなのでうれしいです",
       "is_simulated": true
@@ -1776,6 +1925,7 @@
     {
       "visited_on": "2026-10-19",
       "gender": null,
+      "prefecture_code": null,
       "rating": 4,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1783,6 +1933,7 @@
     {
       "visited_on": "2026-10-20",
       "gender": "male",
+      "prefecture_code": "45",
       "rating": 4,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -1790,6 +1941,7 @@
     {
       "visited_on": "2026-10-20",
       "gender": "male",
+      "prefecture_code": "41",
       "rating": 4,
       "comment": "湯の香りがよかったです",
       "is_simulated": true
@@ -1797,6 +1949,7 @@
     {
       "visited_on": "2026-10-20",
       "gender": "male",
+      "prefecture_code": "43",
       "rating": 4,
       "comment": "",
       "is_simulated": true
@@ -1804,6 +1957,7 @@
     {
       "visited_on": "2026-10-21",
       "gender": "female",
+      "prefecture_code": null,
       "rating": 4,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -1811,6 +1965,7 @@
     {
       "visited_on": "2026-10-21",
       "gender": "male",
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1818,6 +1973,7 @@
     {
       "visited_on": "2026-10-21",
       "gender": "female",
+      "prefecture_code": "28",
       "rating": 4,
       "comment": "",
       "is_simulated": true
@@ -1825,6 +1981,7 @@
     {
       "visited_on": "2026-10-21",
       "gender": "female",
+      "prefecture_code": "11",
       "rating": 5,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1832,6 +1989,7 @@
     {
       "visited_on": "2026-10-21",
       "gender": "female",
+      "prefecture_code": "44",
       "rating": 4,
       "comment": "",
       "is_simulated": true
@@ -1839,6 +1997,7 @@
     {
       "visited_on": "2026-10-22",
       "gender": "male",
+      "prefecture_code": "27",
       "rating": 2,
       "comment": "今日は湯がぬるめでした",
       "is_simulated": true
@@ -1846,6 +2005,7 @@
     {
       "visited_on": "2026-10-23",
       "gender": "female",
+      "prefecture_code": "01",
       "rating": 3,
       "comment": "肩まで浸かっても少し物足りない温度でした",
       "is_simulated": true
@@ -1853,6 +2013,7 @@
     {
       "visited_on": "2026-10-24",
       "gender": "male",
+      "prefecture_code": "42",
       "rating": 5,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1860,6 +2021,7 @@
     {
       "visited_on": "2026-10-24",
       "gender": "male",
+      "prefecture_code": "28",
       "rating": 5,
       "comment": "",
       "is_simulated": true
@@ -1867,6 +2029,7 @@
     {
       "visited_on": "2026-10-24",
       "gender": "male",
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "湯上がりもぽかぽかしていました",
       "is_simulated": true
@@ -1874,6 +2037,7 @@
     {
       "visited_on": "2026-10-24",
       "gender": "female",
+      "prefecture_code": "43",
       "rating": 3,
       "comment": "湯の香りがよかったです",
       "is_simulated": true
@@ -1881,6 +2045,7 @@
     {
       "visited_on": "2026-10-25",
       "gender": "male",
+      "prefecture_code": "23",
       "rating": 5,
       "comment": "熱めの湯が好みなのでうれしいです",
       "is_simulated": true
@@ -1888,6 +2053,7 @@
     {
       "visited_on": "2026-10-25",
       "gender": "male",
+      "prefecture_code": "14",
       "rating": 4,
       "comment": "湯上がりもぽかぽかしていました",
       "is_simulated": true
@@ -1895,6 +2061,7 @@
     {
       "visited_on": "2026-10-25",
       "gender": null,
+      "prefecture_code": "27",
       "rating": 5,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1902,6 +2069,7 @@
     {
       "visited_on": "2026-10-25",
       "gender": "female",
+      "prefecture_code": "45",
       "rating": 4,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -1909,6 +2077,7 @@
     {
       "visited_on": "2026-10-25",
       "gender": "female",
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "また入りに来たいです",
       "is_simulated": true
@@ -1916,6 +2085,7 @@
     {
       "visited_on": "2026-10-26",
       "gender": "male",
+      "prefecture_code": "40",
       "rating": 3,
       "comment": "",
       "is_simulated": true
@@ -1923,6 +2093,7 @@
     {
       "visited_on": "2026-10-26",
       "gender": "male",
+      "prefecture_code": "43",
       "rating": 5,
       "comment": "今日は湯がぬるめでした",
       "is_simulated": true
@@ -1930,6 +2101,7 @@
     {
       "visited_on": "2026-10-26",
       "gender": "female",
+      "prefecture_code": "40",
       "rating": 2,
       "comment": "少しぬるく感じました",
       "is_simulated": true
@@ -1937,6 +2109,7 @@
     {
       "visited_on": "2026-10-26",
       "gender": null,
+      "prefecture_code": "47",
       "rating": 4,
       "comment": "",
       "is_simulated": true
@@ -1944,6 +2117,7 @@
     {
       "visited_on": "2026-10-26",
       "gender": "other",
+      "prefecture_code": "28",
       "rating": 4,
       "comment": "",
       "is_simulated": true
@@ -1951,6 +2125,7 @@
     {
       "visited_on": "2026-10-26",
       "gender": "male",
+      "prefecture_code": "14",
       "rating": 3,
       "comment": "",
       "is_simulated": true
@@ -1958,6 +2133,7 @@
     {
       "visited_on": "2026-10-27",
       "gender": "male",
+      "prefecture_code": "23",
       "rating": 5,
       "comment": "また入りに来たいです",
       "is_simulated": true
@@ -1965,6 +2141,7 @@
     {
       "visited_on": "2026-10-27",
       "gender": "male",
+      "prefecture_code": "44",
       "rating": 3,
       "comment": "",
       "is_simulated": true
@@ -1972,6 +2149,7 @@
     {
       "visited_on": "2026-10-27",
       "gender": "female",
+      "prefecture_code": "40",
       "rating": 5,
       "comment": "湯の香りがよかったです",
       "is_simulated": true
@@ -1979,6 +2157,7 @@
     {
       "visited_on": "2026-10-27",
       "gender": "female",
+      "prefecture_code": "41",
       "rating": 4,
       "comment": "熱めの湯が好みなのでうれしいです",
       "is_simulated": true
@@ -1986,6 +2165,7 @@
     {
       "visited_on": "2026-10-28",
       "gender": "male",
+      "prefecture_code": "40",
       "rating": 5,
       "comment": "また入りに来たいです",
       "is_simulated": true
@@ -1993,6 +2173,7 @@
     {
       "visited_on": "2026-10-29",
       "gender": "female",
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -2000,6 +2181,7 @@
     {
       "visited_on": "2026-10-29",
       "gender": "male",
+      "prefecture_code": "45",
       "rating": 5,
       "comment": "湯の香りがよかったです",
       "is_simulated": true
@@ -2007,6 +2189,7 @@
     {
       "visited_on": "2026-10-29",
       "gender": "female",
+      "prefecture_code": "26",
       "rating": 4,
       "comment": "湯上がりもぽかぽかしていました",
       "is_simulated": true
@@ -2014,6 +2197,7 @@
     {
       "visited_on": "2026-10-29",
       "gender": null,
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -2021,6 +2205,7 @@
     {
       "visited_on": "2026-10-31",
       "gender": null,
+      "prefecture_code": "44",
       "rating": 3,
       "comment": "湯けむりがきれいでした",
       "is_simulated": true
@@ -2028,6 +2213,7 @@
     {
       "visited_on": "2026-10-31",
       "gender": "male",
+      "prefecture_code": "13",
       "rating": 4,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -2035,6 +2221,7 @@
     {
       "visited_on": "2026-11-01",
       "gender": "other",
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -2042,6 +2229,7 @@
     {
       "visited_on": "2026-11-01",
       "gender": "female",
+      "prefecture_code": "28",
       "rating": 5,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -2049,6 +2237,7 @@
     {
       "visited_on": "2026-11-01",
       "gender": "male",
+      "prefecture_code": "40",
       "rating": 4,
       "comment": "湯上がりもぽかぽかしていました",
       "is_simulated": true
@@ -2056,6 +2245,7 @@
     {
       "visited_on": "2026-11-01",
       "gender": "male",
+      "prefecture_code": "40",
       "rating": 5,
       "comment": "",
       "is_simulated": true
@@ -2063,6 +2253,7 @@
     {
       "visited_on": "2026-11-01",
       "gender": "female",
+      "prefecture_code": "42",
       "rating": 4,
       "comment": "",
       "is_simulated": true
@@ -2070,6 +2261,7 @@
     {
       "visited_on": "2026-11-01",
       "gender": null,
+      "prefecture_code": "41",
       "rating": 3,
       "comment": "熱めの湯が好みなのでうれしいです",
       "is_simulated": true
@@ -2077,6 +2269,7 @@
     {
       "visited_on": "2026-11-02",
       "gender": "male",
+      "prefecture_code": "41",
       "rating": 5,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -2084,6 +2277,7 @@
     {
       "visited_on": "2026-11-02",
       "gender": "male",
+      "prefecture_code": "43",
       "rating": 5,
       "comment": "",
       "is_simulated": true
@@ -2091,6 +2285,7 @@
     {
       "visited_on": "2026-11-02",
       "gender": "male",
+      "prefecture_code": "42",
       "rating": 5,
       "comment": "また入りに来たいです",
       "is_simulated": true
@@ -2098,6 +2293,7 @@
     {
       "visited_on": "2026-11-03",
       "gender": "male",
+      "prefecture_code": "13",
       "rating": 4,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -2105,6 +2301,7 @@
     {
       "visited_on": "2026-11-03",
       "gender": "male",
+      "prefecture_code": "14",
       "rating": 5,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -2112,6 +2309,7 @@
     {
       "visited_on": "2026-11-03",
       "gender": "male",
+      "prefecture_code": "46",
       "rating": 5,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -2119,6 +2317,7 @@
     {
       "visited_on": "2026-11-03",
       "gender": "female",
+      "prefecture_code": "43",
       "rating": 5,
       "comment": "しっかり熱めで気持ちよかったです",
       "is_simulated": true
@@ -2126,6 +2325,7 @@
     {
       "visited_on": "2026-11-04",
       "gender": "male",
+      "prefecture_code": "13",
       "rating": 4,
       "comment": "",
       "is_simulated": true
@@ -2133,6 +2333,7 @@
     {
       "visited_on": "2026-11-04",
       "gender": "male",
+      "prefecture_code": "43",
       "rating": 4,
       "comment": "また入りに来たいです",
       "is_simulated": true

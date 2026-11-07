@@ -1,7 +1,8 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { FORBIDDEN_TERMS } from "./detection";
-import { COMMENTS, GENDER_TO_BATH, dailyBathTemps, generateVoiceSim, ratingCenter } from "./voiceSim";
+import { COMMENTS, GENDER_TO_BATH, PREF_WEIGHTS, dailyBathTemps, generateVoiceSim, ratingCenter } from "./voiceSim";
+import { TILES } from "./tileMap";
 
 const logs = JSON.parse(readFileSync("data/maruso_daily_sim.json", "utf8")).logs;
 
@@ -49,6 +50,16 @@ describe("generateVoiceSim", () => {
     const warm = sim.voices.filter((v) => (felt(v) ?? 0) >= 41.5).map((v) => v.rating);
     expect(cool.length).toBeGreaterThan(0);
     expect(avg(cool)).toBeLessThan(avg(warm));
+  });
+  it("都道府県：コードはタイル地図にある47のどれか。九州が過半、関東・関西もあり、未回答もある", () => {
+    const codes = new Set(TILES.map((t) => t.code));
+    expect(sim.voices.every((v) => v.prefecture_code === null || codes.has(v.prefecture_code))).toBe(true);
+    const share = (xs: string[]) => sim.voices.filter((v) => v.prefecture_code && xs.includes(v.prefecture_code)).length / sim.voices.length;
+    expect(share(["40", "41", "42", "43", "44", "45", "46"])).toBeGreaterThan(0.5);
+    expect(share(["11", "12", "13", "14"])).toBeGreaterThan(0.05);
+    expect(share(["26", "27", "28"])).toBeGreaterThan(0.03);
+    expect(sim.voices.some((v) => v.prefecture_code === null)).toBe(true);
+    expect(PREF_WEIGHTS.reduce((a, [, w]) => a + w, 0)).toBe(100);
   });
   it("性別の未回答・その他も含む", () => {
     expect(sim.voices.some((v) => v.gender === null)).toBe(true);

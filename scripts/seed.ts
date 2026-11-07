@@ -134,7 +134,7 @@ function seedBaths(facilityId: number) {
 
 type VoicesSim = {
   bath_temps: { day: string; bath: string; temp_c: number }[];
-  voices: { visited_on: string; gender: "male" | "female" | "other" | null; rating: number; comment: string }[];
+  voices: { visited_on: string; gender: "male" | "female" | "other" | null; prefecture_code?: string | null; rating: number; comment: string }[];
 };
 
 /** 湯の声と浴槽別の温度（どちらも模擬データ）。模擬データだけを入れ替え、is_simulated=false の行は消さない */
@@ -150,7 +150,7 @@ function seedVoices(facilityId: number, bathIds: Record<string, number>) {
     db.insert(schema.bathTempDaily).values({ facilityId, day: b.day, bathId, tempC: b.temp_c, isSimulated: true }).run();
   }
   for (const v of sim.voices) {
-    db.insert(schema.bathVoice).values({ facilityId, visitedOn: v.visited_on, gender: v.gender, rating: v.rating, comment: v.comment, isSimulated: true }).run();
+    db.insert(schema.bathVoice).values({ facilityId, visitedOn: v.visited_on, gender: v.gender, prefectureCode: v.prefecture_code ?? null, rating: v.rating, comment: v.comment, isSimulated: true }).run();
   }
   return { temps: sim.bath_temps.length, voices: sim.voices.length };
 }

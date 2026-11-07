@@ -71,6 +71,13 @@
       "when": 1793981522458,
       "tag": "0009_bath_voice",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "6",
+      "when": 1794020661209,
+      "tag": "0010_visit_prefecture",
+      "breakpoints": true
     }
   ]
 }

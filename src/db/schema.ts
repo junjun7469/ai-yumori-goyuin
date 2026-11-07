@@ -184,12 +184,13 @@ export const bathTempDaily = sqliteTable("bath_temp_daily", {
   ...timestamps,
 }, (t) => [uniqueIndex("bath_temp_daily_day_bath").on(t.facilityId, t.day, t.bathId)]);
 
-/** 湯の声：1訪問1件。浴槽は聞かない。性別は任意（null＝未回答）。御湯印から集める構想で、今は模擬データのみ */
+/** 湯の声：1訪問1件（来客と売上のページも、この表を訪問データとして数える）。浴槽は聞かない。性別・都道府県は任意（null＝未回答）。御湯印から集める構想で、今は模擬データのみ */
 export const bathVoice = sqliteTable("bath_voice", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   facilityId: integer("facility_id").notNull().references(() => facility.id),
   visitedOn: text("visited_on").notNull(), // 入浴日 YYYY-MM-DD（JST）
   gender: text("gender", { enum: VOICE_GENDERS }),
+  prefectureCode: text("prefecture_code"), // 来客の都道府県（任意）。JIS コード "01"〜"47"（src/lib/tileMap.ts と同じ）。null＝未回答
   rating: integer("rating").notNull(), // 1〜5
   comment: text("comment").notNull().default(""), // ひとこと（個人を特定できる情報は入れない）
   isSimulated: integer("is_simulated", { mode: "boolean" }).notNull().default(false),

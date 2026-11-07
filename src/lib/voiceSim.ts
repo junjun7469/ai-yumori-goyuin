@@ -4,19 +4,37 @@
 //  - 湯の声：1日 0〜6 件。性別は 男性45%・女性40%・その他5%・未回答10%。
 //    評価は、その人に対応する浴槽の温度（対応がなければ湯日誌の温度）で上下させる。41℃未満は低めの評価と「ぬるい」系のひとことが増える
 //  - ひとことは下の文の一覧から選ぶ（LLM に書かせない）。個人を特定できる情報・効能・安全の表現を含めない
+//  - 都道府県（来客と売上のページ用。任意）：熊本・福岡など九州が多め、関東・関西もある程度、未回答あり（PREF_WEIGHTS）。
+//    都道府県は別の乱数列（seed + 1）で決めるので、足しても評価・ひとこと・性別は変わらない
 // 同じ入力と seed なら同じ結果になる。
 import { mulberry32 } from "./simulate";
 
 export type BathCode = "otoko" | "onna";
 export type SimGender = "male" | "female" | "other" | null;
 export type SimBathTemp = { day: string; bath: BathCode; temp_c: number; is_simulated: true };
-export type SimVoice = { visited_on: string; gender: SimGender; rating: number; comment: string; is_simulated: true };
+export type SimVoice = { visited_on: string; gender: SimGender; prefecture_code: string | null; rating: number; comment: string; is_simulated: true };
 
 /** 丸正旅館の性別→浴槽（seed の対応表と同じ） */
 export const GENDER_TO_BATH: Partial<Record<Exclude<SimGender, null>, BathCode>> = { male: "otoko", female: "onna" };
 
 export const COOL_LINE = 41; // 湯守が決めた浴槽温度の線（41℃未満は要確認。devlog「湯守の判断」）に合わせた
 const ONNA_LOW_RATE = 8 / 60;
+
+/** 来客の都道府県の重み（JIS コード。null＝未回答）。合計 100 */
+export const PREF_WEIGHTS: [string | null, number][] = [
+  ["43", 28], ["40", 18], ["44", 6], ["41", 4], ["42", 4], ["45", 3], ["46", 3], // 九州 66
+  ["13", 6], ["14", 3], ["11", 2], ["12", 2], // 関東 13
+  ["27", 5], ["28", 3], ["26", 2], // 関西 10
+  ["34", 2], ["35", 1], ["23", 2], ["47", 1], ["01", 1], // その他 7
+  [null, 4], // 未回答
+];
+
+function pickWeighted<T>(rnd: () => number, items: [T, number][]): T {
+  const total = items.reduce((a, [, w]) => a + w, 0);
+  let r = rnd() * total;
+  for (const [v, w] of items) if ((r -= w) < 0) return v;
+  return items[items.length - 1][0];
+}
 
 export const COMMENTS = {
   cool: [
@@ -68,6 +86,7 @@ export function ratingCenter(tempC: number): number {
 
 export function generateVoiceSim(logs: { logged_at: string; temp_bath_c: number | null }[], seed = 20261107) {
   const rnd = mulberry32(seed);
+  const rndPref = mulberry32(seed + 1); // 都道府県だけの乱数列（既存の声を変えないため）
   const between = (lo: number, hi: number) => lo + rnd() * (hi - lo);
   const pick = <T,>(xs: readonly T[]) => xs[Math.floor(rnd() * xs.length)];
 
@@ -95,7 +114,7 @@ export function generateVoiceSim(logs: { logged_at: string; temp_bath_c: number 
         const band = felt < COOL_LINE ? (rating >= 4 ? "mild" : "cool") : felt < 41.5 ? (rnd() < 0.5 ? "cool" : "mild") : "warm";
         comment = pick(COMMENTS[band]);
       }
-      voices.push({ visited_on: day, gender, rating, comment, is_simulated: true });
+      voices.push({ visited_on: day, gender, prefecture_code: pickWeighted(rndPref, PREF_WEIGHTS), rating, comment, is_simulated: true });
     }
   }
   return { bathTemps, voices };
