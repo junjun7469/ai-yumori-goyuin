@@ -207,7 +207,7 @@ export function VisitsClient({ initial, overall }: { initial: VisitStats; overal
       {error && <p role="alert" className="rounded-lg border border-red-300 bg-red-50 p-3 text-sm text-red-800">{error}</p>}
 
       <section className="yumori-card space-y-2 p-4">
-        <h2 className="font-bold tracking-wider">来客数と売上</h2>
+        <h2 className="text-xl font-bold tracking-wider">来客数と売上</h2>
         <p className="text-sm text-[var(--ink-soft)]">{cur.level === "month" ? "棒を押すと週ごとへ" : cur.level === "week" ? "棒を押すと日ごとへ" : "棒を押すとその日の都道府県を地図に"}</p>
         <div className="flex flex-wrap gap-3 text-sm">
           {[...new Set(stats.bars.map((b) => monthOf(b.start)))].map((m) => (
@@ -222,7 +222,7 @@ export function VisitsClient({ initial, overall }: { initial: VisitStats; overal
       <section className="yumori-card p-4">
         <TileMap stats={mapStats} title={
           <div>
-            <h2 className="font-bold tracking-wider">どこから来たか（都道府県）</h2>
+            <h2 className="text-xl font-bold tracking-wider">どこから来たか（都道府県）</h2>
             <p className="text-sm">{mapLabel}{pickedDay && <button type="button" className="ml-2 text-xs underline" onClick={() => setPickedDay(null)}>期間全体に戻す</button>}</p>
           </div>
         } />
