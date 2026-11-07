@@ -30,7 +30,8 @@ const COLORS = { chamber: "#2f4a6b", bath: "#1f7a6d", flow: "#8a5a2b", watch: "#
 
 type Level = "watch" | "check";
 
-export function TrendChart({ trend }: { trend: Trend }) {
+/** onCursor：グラフの上でカーソル（指）を当てている記録を親に知らせる（右上の「参照している日付」用）。外れたら null */
+export function TrendChart({ trend, onCursor }: { trend: Trend; onCursor?: (p: TrendPoint | null) => void }) {
   const { points, detections, baseline } = trend;
   const [show, setShow] = useState<Record<Level, boolean>>({ watch: true, check: true });
   const visible = useMemo(() => detections.filter((d) => show[d.level]), [detections, show]);
@@ -38,6 +39,8 @@ export function TrendChart({ trend }: { trend: Trend }) {
   const initial = useMemo(() => [...detections].reverse().find((d) => d.level === "check") ?? detections[detections.length - 1] ?? null, [detections]);
   const [selectedId, setSelectedId] = useState<number | null>(initial?.logId ?? null);
   const detailRef = useRef<HTMLDivElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
+  const [cursorT, setCursorT] = useState<number | null>(null);
   const selected = detections.find((d) => d.logId === selectedId) ?? null;
 
   const x = linearScale([trend.from, trend.to], [M.left, W - M.right]);
@@ -137,7 +140,18 @@ export function TrendChart({ trend }: { trend: Trend }) {
 
       <div className="overflow-x-auto rounded-lg border bg-white p-2">
         <svg viewBox={`0 0 ${W} ${H}`} className="min-w-[640px]" role="img"
-          aria-label="直近60日のチャンバー温度・浴槽温度・湯量の推移と、検知結果（様子見・要確認）の印">
+          aria-label="直近60日のチャンバー温度・浴槽温度・湯量の推移と、検知結果（様子見・要確認）の印"
+          ref={svgRef}
+          onMouseMove={(e) => {
+            const r = svgRef.current?.getBoundingClientRect();
+            if (!r || points.length === 0) return;
+            const sx = ((e.clientX - r.left) / r.width) * W;
+            const t = trend.from + ((sx - M.left) / (W - M.left - M.right)) * (trend.to - trend.from);
+            const near = points.reduce((a, b) => (Math.abs(b.t - t) < Math.abs(a.t - t) ? b : a));
+            setCursorT(near.t);
+            onCursor?.(near);
+          }}
+          onMouseLeave={() => { setCursorT(null); onCursor?.(null); }}>
           {/* 検知レーン */}
           <rect x={M.left} y={LANE.top} width={W - M.left - M.right} height={LANE.h} fill="#faf8f5" stroke="#d6d3d1" />
           <text x={M.left + 6} y={LANE.top + 13} fontSize={11} fontWeight={700} fill="#44403c">検知（印を押すと理由）</text>
@@ -155,6 +169,9 @@ export function TrendChart({ trend }: { trend: Trend }) {
           {refLine(pb, 38, "38℃ 未満は危険信号（R3）", "#b91c1c", undefined, 1.8)}
           {refLine(pf, baseline.flow, `基準 ${baseline.flow}`, "#78716c", "5 4")}
           {refLine(pf, baseline.flow * 0.92, `−8% ${(baseline.flow * 0.92).toFixed(1)}`, "#b45309", "6 4", 1.4)}
+
+          {/* カーソルを当てている記録の縦線 */}
+          {cursorT !== null && <line x1={x(cursorT)} x2={x(cursorT)} y1={LANE.top} y2={PANELS.flow.top + PANELS.flow.h} stroke="#b5543a" strokeWidth={1.2} pointerEvents="none" />}
 
           {/* 選んだ検知の縦線 */}
           {selX !== null && <line x1={selX} x2={selX} y1={LANE.top} y2={PANELS.flow.top + PANELS.flow.h} stroke="#44403c" strokeDasharray="3 3" />}
