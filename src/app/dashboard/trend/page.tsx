@@ -5,20 +5,34 @@ import { getTrend } from "@/lib/trendData";
 export const dynamic = "force-dynamic";
 
 /** D3 推移と変化検知：直近60日のチャンバー温度・浴槽温度・湯量と、検知（様子見・要確認）の印 */
+const dayFmt = new Intl.DateTimeFormat("ja-JP", { timeZone: "Asia/Tokyo", month: "numeric", day: "numeric", weekday: "short" });
+const mdhm = new Intl.DateTimeFormat("ja-JP", { timeZone: "Asia/Tokyo", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" });
+
 export default function TrendPage() {
   const trend = getTrend(60);
+  const latest = trend && trend.points.length ? trend.points[trend.points.length - 1].t : null;
   return (
     <YumoriShell back wide current="/dashboard/trend">
-      <header className="space-y-1">
-        <PageTitle>湯の状態</PageTitle>
-        {trend ? (
-          <p className="text-sm text-stone-600">
-            丸正旅館・直近60日　記録 {trend.counts.logs} 件（模擬データ {trend.counts.simulated}・入力した記録 {trend.counts.real}）　
-            平常 {trend.counts.normal}・様子見 {trend.counts.watch}・要確認 {trend.counts.check}
-            {trend.counts.none > 0 && `・検知なし ${trend.counts.none}`}
-          </p>
-        ) : (
-          <p className="text-sm text-stone-600">施設が未登録です。npm run seed を実行してください。</p>
+      <header className="flex flex-wrap items-start justify-between gap-4">
+        <div className="space-y-1">
+          <PageTitle>湯の状態</PageTitle>
+          {trend ? (
+            <p className="text-sm text-stone-600">
+              記録 {trend.counts.logs} 件（模擬データ {trend.counts.simulated}・入力した記録 {trend.counts.real}）　
+              平常 {trend.counts.normal}・様子見 {trend.counts.watch}・要確認 {trend.counts.check}
+              {trend.counts.none > 0 && `・検知なし ${trend.counts.none}`}
+            </p>
+          ) : (
+            <p className="text-sm text-stone-600">施設が未登録です。npm run seed を実行してください。</p>
+          )}
+        </div>
+        {/* 参照している期間（右上に大きく） */}
+        {trend && (
+          <div className="yumori-card px-5 py-3 text-right">
+            <p className="text-sm text-stone-600">表示している期間（直近60日）</p>
+            <p className="text-2xl font-bold tabular-nums tracking-wide">{dayFmt.format(new Date(trend.from))} 〜 {dayFmt.format(new Date(trend.to))}</p>
+            {latest !== null && <p className="text-sm">最新の記録 {mdhm.format(new Date(latest))}</p>}
+          </div>
         )}
       </header>
 

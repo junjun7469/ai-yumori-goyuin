@@ -11,13 +11,15 @@ import type { Trend, TrendDetection, TrendPoint } from "@/lib/trendData";
 const W = 900;
 const M = { left: 58, right: 20 };
 const LANE = { top: 8, h: 40 };
+// 各グラフの上に、グラフの外の見出し（チャンバー温度など）を置く余白（TITLE_H）をあける
+const TITLE_H = 30;
 const PANELS = {
-  chamber: { top: 64, h: 128 },
-  bath: { top: 212, h: 172 },
-  flow: { top: 404, h: 128 },
+  chamber: { top: 64 + TITLE_H, h: 128 },
+  bath: { top: 212 + TITLE_H * 2, h: 172 },
+  flow: { top: 404 + TITLE_H * 3, h: 128 },
 } as const;
-const AXIS_Y = 548;
-const H = 580;
+const AXIS_Y = 548 + TITLE_H * 3;
+const H = 580 + TITLE_H * 3;
 
 const DAY = 24 * 3600 * 1000;
 const JST = 9 * 3600 * 1000;
@@ -102,7 +104,7 @@ export function TrendChart({ trend }: { trend: Trend }) {
         </g>
       ))}
       {xTicks.map((t) => <line key={t} x1={x(t)} x2={x(t)} y1={p.top} y2={p.top + p.h} stroke="#f1efec" />)}
-      <text x={M.left + 6} y={p.top + 14} fontSize={12} fontWeight={700} fill="#44403c">{title}（{unit}）</text>
+      <text x={M.left} y={p.top - 9} fontSize={18} fontWeight={700} fill="#4a3a2c">{title}<tspan fontSize={13} fontWeight={400} fill="#8a7867">（{unit}）</tspan></text>
     </g>
   );
 
