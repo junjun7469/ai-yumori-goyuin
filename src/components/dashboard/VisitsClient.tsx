@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { niceAxis } from "@/lib/chartScale";
 import { TILES, TILE_COLS, TILE_ROW_HEIGHTS } from "@/lib/tileMap";
 import { PREF_NAME, type Bar, type Level, type Range, type VisitStats } from "@/lib/visitStats";
 
@@ -25,45 +26,53 @@ function barTitle(b: Bar, level: Level): string {
 
 type Crumb = { label: string; level: Level; range: Range };
 
-// ---- 棒グラフ（来客と売上で同じ区切り・同じ横位置） ----
+// ---- 棒グラフ：棒の高さ＝来客数、棒の上に人数、棒の中に金額（御湯印の売上） ----
 const W = 900;
-const ML = 56;
+const ML = 48;
 const MR = 12;
+const BAR_COLOR = "#b5543a";
 
-function Bars({ bars, level, value, unit, height, color, onPick, picked, showLabels }: {
-  bars: Bar[]; level: Level; value: (b: Bar) => number; unit: (v: number) => string; height: number; color: string;
-  onPick?: (b: Bar) => void; picked?: string | null; showLabels: boolean;
+function Bars({ bars, level, height, onPick, picked }: {
+  bars: Bar[]; level: Level; height: number; onPick: (b: Bar) => void; picked: string | null;
 }) {
-  const max = Math.max(1, ...bars.map(value));
-  const top = 18;
-  const bottom = height - (showLabels ? 22 : 6);
+  // 縦軸：上限は来客数の最大より大きいきりのいい数、目盛りはきりのいい間隔（chartScale.niceAxis）
+  const axis = niceAxis(Math.max(0, ...bars.map((b) => b.visitors)));
+  const top = 14;
+  const bottom = height - 24;
   const bw = (W - ML - MR) / Math.max(1, bars.length);
-  const y = (v: number) => bottom - (v / max) * (bottom - top);
+  const y = (v: number) => bottom - (v / axis.max) * (bottom - top);
   const every = bars.length > 40 ? 7 : bars.length > 16 ? 2 : 1;
-  const ticks = [0, max / 2, max].map((v) => Math.round(v));
+  const barW = bw * 0.72;
   return (
-    <svg viewBox={`0 0 ${W} ${height}`} className="w-full min-w-[560px]" role="img">
-      {ticks.map((t, i) => (
-        <g key={i}>
+    <svg viewBox={`0 0 ${W} ${height}`} className="w-full min-w-[560px]" role="img" aria-label="来客数（棒）と御湯印の売上（棒の中の金額）。サンプル（模擬データ）">
+      {axis.ticks.map((t) => (
+        <g key={t}>
           <line x1={ML} x2={W - MR} y1={y(t)} y2={y(t)} stroke="var(--line)" />
-          <text x={ML - 6} y={y(t) + 4} textAnchor="end" fontSize={11} fill="var(--ink-soft)">{unit(t)}</text>
+          <text x={ML - 6} y={y(t) + 4} textAnchor="end" fontSize={12} fill="var(--ink-soft)">{t}</text>
         </g>
       ))}
+      <text x={ML - 6} y={top - 4} textAnchor="end" fontSize={11} fill="var(--ink-soft)">人</text>
       {bars.map((b, i) => {
-        const v = value(b);
+        const v = b.visitors;
         const x = ML + i * bw;
+        const h = Math.max(0, bottom - y(v));
         const active = picked === b.bucket;
+        const amount = yen(b.sales_yen);
+        // 金額は、棒の幅と高さに収まるときだけ棒の中に書く（入らないときはマウスを乗せると出る）
+        const fs = Math.min(14, Math.max(10, barW / (amount.length * 0.62)));
+        const fits = barW >= amount.length * fs * 0.6 && h >= fs + 8;
         return (
-          <g key={b.bucket} className={onPick ? "cursor-pointer" : undefined} onClick={onPick ? () => onPick(b) : undefined}>
+          <g key={b.bucket} className="cursor-pointer" onClick={() => onPick(b)}>
             <rect x={x} y={top} width={bw} height={bottom - top} fill="transparent" />
-            <rect x={x + bw * 0.14} y={y(v)} width={bw * 0.72} height={Math.max(0, bottom - y(v))} rx={Math.min(4, bw * 0.15)}
-              fill={color} fillOpacity={active ? 1 : 0.82} stroke={active ? "var(--ink)" : "none"} strokeWidth={1.5} />
-            {v === 0 && <line x1={x + bw * 0.2} x2={x + bw * 0.8} y1={bottom} y2={bottom} stroke={color} strokeWidth={2} />}
-            {bars.length <= 31 && <text x={x + bw / 2} y={y(v) - 4} textAnchor="middle" fontSize={11} fill="var(--ink)">{unit(v)}</text>}
-            {showLabels && i % every === 0 && (
-              <text x={x + bw / 2} y={height - 6} textAnchor="middle" fontSize={11} fill="var(--ink-soft)">{barLabel(b, level)}</text>
+            <rect x={x + bw * 0.14} y={y(v)} width={barW} height={h} rx={Math.min(4, bw * 0.15)}
+              fill={BAR_COLOR} fillOpacity={active ? 1 : 0.85} stroke={active ? "var(--ink)" : "none"} strokeWidth={2} />
+            {v === 0 && <line x1={x + bw * 0.2} x2={x + bw * 0.8} y1={bottom} y2={bottom} stroke={BAR_COLOR} strokeWidth={2} />}
+            {bars.length <= 31 && <text x={x + bw / 2} y={y(v) - 5} textAnchor="middle" fontSize={12} fontWeight={700} fill="var(--ink)">{v}人</text>}
+            {fits && <text x={x + bw / 2} y={y(v) + fs + 4} textAnchor="middle" fontSize={fs} fontWeight={700} fill="#fff">{amount}</text>}
+            {i % every === 0 && (
+              <text x={x + bw / 2} y={height - 6} textAnchor="middle" fontSize={12} fill="var(--ink-soft)">{barLabel(b, level)}</text>
             )}
-            <title>{`${barTitle(b, level)}　来客 ${b.visitors}人・売上 ${yen(b.sales_yen)}（サンプル）`}</title>
+            <title>{`${barTitle(b, level)}　来客 ${v}人・売上 ${amount}（サンプル）`}</title>
           </g>
         );
       })}
@@ -164,7 +173,7 @@ export function VisitsClient({ initial, overall }: { initial: VisitStats; overal
 
   const mapStats = pickedDay && dayStats ? dayStats : stats;
   const mapLabel = pickedDay ? rangeLabel({ from: pickedDay.start, to: pickedDay.end }) : rangeLabel(cur.range);
-  const hint = useMemo(() => (cur.level === "month" ? "棒をクリックすると、その月の週ごとへ" : cur.level === "week" ? "棒をクリックすると、その週の日ごとへ" : "棒をクリックすると、その日の都道府県を地図に出します"), [cur.level]);
+  const hint = useMemo(() => (cur.level === "month" ? "棒を押すと週ごとへ" : cur.level === "week" ? "棒を押すと日ごとへ" : "棒を押すとその日の都道府県を地図に"), [cur.level]);
 
   return (
     <div className="space-y-5">
@@ -190,27 +199,18 @@ export function VisitsClient({ initial, overall }: { initial: VisitStats; overal
       </div>
       {error && <p role="alert" className="rounded-lg border border-red-300 bg-red-50 p-3 text-sm text-red-800">{error}</p>}
 
-      <section className="yumori-card space-y-1 p-4">
+      <section className="yumori-card space-y-2 p-4">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <h2 className="font-bold tracking-wider">来客数</h2>
-          <p className="text-sm">合計 <span className="text-xl font-bold tabular-nums">{stats.totals.visitors}</span> 人
-            <span className="ml-2 rounded-full border border-[var(--line)] px-2 py-0.5 text-[11px] text-[var(--ink-soft)]">サンプル（模擬データ）</span></p>
+          <h2 className="font-bold tracking-wider">来客数と売上</h2>
+          <p className="text-base">
+            <span className="text-xl font-bold tabular-nums">{stats.totals.visitors}</span> 人・
+            <span className="text-xl font-bold tabular-nums">{yen(stats.totals.sales_yen)}</span>
+            <span className="ml-2 rounded-full border border-[var(--line)] px-2 py-0.5 align-middle text-xs text-[var(--ink-soft)]">サンプル（模擬データ）</span>
+          </p>
         </div>
-        <p className="text-xs text-[var(--ink-soft)]">{hint}。0人の{LEVEL_JA[cur.level]}は短い線で示します。週は月曜始まり。</p>
+        <p className="text-sm text-[var(--ink-soft)]">棒の中の金額＝来客数 × 御湯印 {yen(stats.priceYen)}。{hint}</p>
         <div className="overflow-x-auto">
-          <Bars bars={stats.bars} level={cur.level} value={(b) => b.visitors} unit={(v) => `${v}`} height={230} color="#b5543a"
-            onPick={pick} picked={pickedDay?.bucket ?? null} showLabels />
-        </div>
-      </section>
-
-      <section className="yumori-card space-y-1 p-4">
-        <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <h2 className="font-bold tracking-wider">御湯印の売上</h2>
-          <p className="text-sm">合計 <span className="text-xl font-bold tabular-nums">{yen(stats.totals.sales_yen)}</span></p>
-        </div>
-        <p className="text-xs text-[var(--ink-soft)]">来客数 × 御湯印1枚 {yen(stats.priceYen)}（上と同じ区切り）。実際の売上ではなく、サンプルの来客数からの計算です。</p>
-        <div className="overflow-x-auto">
-          <Bars bars={stats.bars} level={cur.level} value={(b) => b.sales_yen} unit={(v) => (v >= 10000 ? `${(v / 10000).toFixed(1)}万` : `${v}`)} height={150} color="#b58a4a" showLabels />
+          <Bars bars={stats.bars} level={cur.level} height={300} onPick={pick} picked={pickedDay?.bucket ?? null} />
         </div>
       </section>
 

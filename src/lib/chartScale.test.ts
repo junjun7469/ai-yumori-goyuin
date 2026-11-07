@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { linearScale, niceTicks, paddedDomain, segments } from "./chartScale";
+import { linearScale, niceAxis, niceTicks, paddedDomain, segments } from "./chartScale";
 
 describe("linearScale", () => {
   it("domain を range に写す（y 軸のように反転も可）", () => {
@@ -51,5 +51,20 @@ describe("paddedDomain", () => {
     const [lo, hi] = paddedDomain([5, 5]);
     expect(lo).toBeLessThan(5);
     expect(hi).toBeGreaterThan(5);
+  });
+});
+
+describe("niceAxis（0 から始まる棒グラフの縦軸）", () => {
+  it("上限はデータより大きいきりのいい数、目盛りは等間隔", () => {
+    expect(niceAxis(91)).toEqual({ max: 100, step: 20, ticks: [0, 20, 40, 60, 80, 100] });
+    expect(niceAxis(29)).toEqual({ max: 30, step: 10, ticks: [0, 10, 20, 30] });
+    expect(niceAxis(4)).toEqual({ max: 5, step: 1, ticks: [0, 1, 2, 3, 4, 5] });
+  });
+  it("最大がちょうど目盛りに乗るときは1目盛り上げる", () => {
+    expect(niceAxis(100).max).toBe(120);
+    expect(niceAxis(5).max).toBe(6);
+  });
+  it("0人でも軸が作れる", () => {
+    expect(niceAxis(0)).toEqual({ max: 1, step: 1, ticks: [0, 1] });
   });
 });

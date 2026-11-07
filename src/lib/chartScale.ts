@@ -46,3 +46,21 @@ export function paddedDomain(values: number[], include: number[] = [], pad = 0.0
   const p = (hi - lo) * pad;
   return [lo - p, hi + p];
 }
+
+/**
+ * 0 から始まる棒グラフの縦軸：上限を「データの最大より大きい、きりのいい数」にし、目盛りを同じ間隔で置く。
+ * 間隔は 1・2・5 × 10^n から、目盛りがおよそ count 本になるものを選ぶ（例：最大 91 → 上限 100、目盛り 0,20,…,100）。
+ * 最大がちょうど目盛りに乗るときは、もう1目盛り上げる（棒が上限に張り付かないように）。整数の目盛りだけを返す。
+ */
+export function niceAxis(dataMax: number, count = 5): { max: number; step: number; ticks: number[] } {
+  const m = Math.max(0, dataMax);
+  const raw = Math.max(1, m) / Math.max(1, count);
+  const pow = 10 ** Math.floor(Math.log10(raw));
+  const f = raw / pow;
+  const step = Math.max(1, (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * pow);
+  let max = Math.ceil(m / step) * step;
+  if (max <= m) max += step;
+  const ticks: number[] = [];
+  for (let v = 0; v <= max; v += step) ticks.push(v);
+  return { max, step, ticks };
+}
