@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { niceAxis } from "@/lib/chartScale";
 import { TILES, TILE_COLS, TILE_ROW_HEIGHTS } from "@/lib/tileMap";
 import { PREF_NAME, type Bar, type Level, type Range, type VisitStats } from "@/lib/visitStats";
@@ -178,7 +178,6 @@ export function VisitsClient({ initial, overall }: { initial: VisitStats; overal
 
   const mapStats = pickedDay && dayStats ? dayStats : stats;
   const mapLabel = pickedDay ? rangeLabel({ from: pickedDay.start, to: pickedDay.end }) : rangeLabel(cur.range);
-  const hint = useMemo(() => (cur.level === "month" ? "棒を押すと週ごとへ" : cur.level === "week" ? "棒を押すと日ごとへ" : "棒を押すとその日の都道府県を地図に"), [cur.level]);
 
   return (
     <div className="space-y-5">
@@ -213,7 +212,6 @@ export function VisitsClient({ initial, overall }: { initial: VisitStats; overal
             <span className="ml-2 rounded-full border border-[var(--line)] px-2 py-0.5 align-middle text-xs text-[var(--ink-soft)]">サンプル（模擬データ）</span>
           </p>
         </div>
-        <p className="text-sm text-[var(--ink-soft)]">棒の中の金額＝来客数 × 御湯印 {yen(stats.priceYen)}。{hint}</p>
         <div className="flex flex-wrap gap-3 text-sm">
           {[...new Set(stats.bars.map((b) => monthOf(b.start)))].map((m) => (
             <span key={m} className="flex items-center gap-1.5"><span className="inline-block h-3 w-4 rounded-sm" style={{ background: colorOfMonth(m) }} />{m}月</span>
