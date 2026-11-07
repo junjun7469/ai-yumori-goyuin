@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { DetectionCard } from "@/app/dashboard/log/DetectionCard";
 import { linearScale, niceTicks, paddedDomain, segments } from "@/lib/chartScale";
 import { LEVEL_LABEL, LEVEL_STYLE } from "@/lib/levelLabels";
@@ -30,8 +30,11 @@ const COLORS = { chamber: "#2f4a6b", bath: "#1f7a6d", flow: "#8a5a2b", watch: "#
 
 type Level = "watch" | "check";
 
-/** onCursor：グラフの上でカーソル（指）を当てている記録を親に知らせる（右上の「参照している日付」用）。外れたら null */
-export function TrendChart({ trend, onCursor }: { trend: Trend; onCursor?: (p: TrendPoint | null) => void }) {
+/**
+ * onSelect：クリックで選んだ記録（点線の位置）を親に知らせる（右上の「参照している記録」用）。
+ * 参照はクリックで決める（検知の印・グラフのどこでも・下の一覧）。カーソルを動かしても参照は変わらず、目安の線が動くだけ
+ */
+export function TrendChart({ trend, onSelect }: { trend: Trend; onSelect?: (p: TrendPoint | null) => void }) {
   const { points, detections, baseline } = trend;
   const [show, setShow] = useState<Record<Level, boolean>>({ watch: true, check: true });
   const visible = useMemo(() => detections.filter((d) => show[d.level]), [detections, show]);
@@ -41,7 +44,17 @@ export function TrendChart({ trend, onCursor }: { trend: Trend; onCursor?: (p: T
   const detailRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const [cursorT, setCursorT] = useState<number | null>(null);
-  const selected = detections.find((d) => d.logId === selectedId) ?? null;
+  const selected = detections.find((d) => d.logId === selectedId) ?? null; // 選んだ記録に付いた検知（様子見・要確認）
+  const selectedPoint = points.find((p) => p.id === selectedId) ?? null;
+  useEffect(() => { onSelect?.(selectedPoint); }, [selectedPoint]); // eslint-disable-line react-hooks/exhaustive-deps
+  /** 画面上の横位置に最も近い記録 */
+  function nearestAt(clientX: number): TrendPoint | null {
+    const r = svgRef.current?.getBoundingClientRect();
+    if (!r || points.length === 0) return null;
+    const sx = ((clientX - r.left) / r.width) * W;
+    const t = trend.from + ((sx - M.left) / (W - M.left - M.right)) * (trend.to - trend.from);
+    return points.reduce((a, b) => (Math.abs(b.t - t) < Math.abs(a.t - t) ? b : a));
+  }
 
   const x = linearScale([trend.from, trend.to], [M.left, W - M.right]);
   const levelOf = new Map(detections.map((d) => [d.logId, d.level]));
@@ -118,7 +131,7 @@ export function TrendChart({ trend, onCursor }: { trend: Trend; onCursor?: (p: T
     </g>
   );
 
-  const selX = selected ? x(selected.t) : null;
+  const selX = selectedPoint ? x(selectedPoint.t) : selected ? x(selected.t) : null;
 
   return (
     <div className="space-y-5">
@@ -142,16 +155,10 @@ export function TrendChart({ trend, onCursor }: { trend: Trend; onCursor?: (p: T
         <svg viewBox={`0 0 ${W} ${H}`} className="min-w-[640px]" role="img"
           aria-label="直近60日のチャンバー温度・浴槽温度・湯量の推移と、検知結果（様子見・要確認）の印"
           ref={svgRef}
-          onMouseMove={(e) => {
-            const r = svgRef.current?.getBoundingClientRect();
-            if (!r || points.length === 0) return;
-            const sx = ((e.clientX - r.left) / r.width) * W;
-            const t = trend.from + ((sx - M.left) / (W - M.left - M.right)) * (trend.to - trend.from);
-            const near = points.reduce((a, b) => (Math.abs(b.t - t) < Math.abs(a.t - t) ? b : a));
-            setCursorT(near.t);
-            onCursor?.(near);
-          }}
-          onMouseLeave={() => { setCursorT(null); onCursor?.(null); }}>
+          cursor="pointer"
+          onMouseMove={(e) => setCursorT(nearestAt(e.clientX)?.t ?? null)}
+          onMouseLeave={() => setCursorT(null)}
+          onClick={(e) => { const near = nearestAt(e.clientX); if (near) select(near.id); }}>
           {/* 検知レーン */}
           <rect x={M.left} y={LANE.top} width={W - M.left - M.right} height={LANE.h} fill="#faf8f5" stroke="#d6d3d1" />
           <text x={M.left + 6} y={LANE.top + 13} fontSize={11} fontWeight={700} fill="#44403c">検知（印を押すと理由）</text>
@@ -170,11 +177,11 @@ export function TrendChart({ trend, onCursor }: { trend: Trend; onCursor?: (p: T
           {refLine(pf, baseline.flow, `基準 ${baseline.flow}`, "#78716c", "5 4")}
           {refLine(pf, baseline.flow * 0.92, `−8% ${(baseline.flow * 0.92).toFixed(1)}`, "#b45309", "6 4", 1.4)}
 
-          {/* カーソルを当てている記録の縦線 */}
-          {cursorT !== null && <line x1={x(cursorT)} x2={x(cursorT)} y1={LANE.top} y2={PANELS.flow.top + PANELS.flow.h} stroke="#b5543a" strokeWidth={1.2} pointerEvents="none" />}
+          {/* カーソルの位置の目安の線（薄く。押すとここが参照になる） */}
+          {cursorT !== null && <line x1={x(cursorT)} x2={x(cursorT)} y1={LANE.top} y2={PANELS.flow.top + PANELS.flow.h} stroke="#a8a29e" strokeWidth={1} pointerEvents="none" />}
 
-          {/* 選んだ検知の縦線 */}
-          {selX !== null && <line x1={selX} x2={selX} y1={LANE.top} y2={PANELS.flow.top + PANELS.flow.h} stroke="#44403c" strokeDasharray="3 3" />}
+          {/* 参照している記録（クリックで選んだ）の縦線 */}
+          {selX !== null && <line x1={selX} x2={selX} y1={LANE.top} y2={PANELS.flow.top + PANELS.flow.h} stroke="#44403c" strokeWidth={1.4} strokeDasharray="3 3" pointerEvents="none" />}
 
           {series(pc, COLORS.chamber, (p) => p.chamber, "℃")}
           {series(pb, COLORS.bath, (p) => p.bath, "℃")}
@@ -189,7 +196,7 @@ export function TrendChart({ trend, onCursor }: { trend: Trend; onCursor?: (p: T
             return (
               <g key={d.logId} role="button" tabIndex={0} cursor="pointer"
                 aria-label={`${mdhm.format(new Date(d.t))} ${LEVEL_LABEL[d.level]}。押すと理由を表示`}
-                onClick={() => select(d.logId)}
+                onClick={(e) => { e.stopPropagation(); select(d.logId); }}
                 onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(d.logId); } }}>
                 <circle cx={cx} cy={cy} r={11} fill="transparent" />
                 {d.level === "check"
@@ -211,7 +218,9 @@ export function TrendChart({ trend, onCursor }: { trend: Trend; onCursor?: (p: T
       <div ref={detailRef} className="scroll-mt-4">
         {selected ? <Detail d={selected} /> : (
           <p className="rounded-lg border bg-white p-4 text-sm text-stone-600">
-            {detections.length === 0 ? "この期間に、様子見・要確認の検知はありません。" : "グラフの印、または下の一覧から検知を選んでください。"}
+            {selectedPoint
+              ? `${mdhm.format(new Date(selectedPoint.t))} の記録に、様子見・要確認の検知はありません。`
+              : detections.length === 0 ? "この期間に、様子見・要確認の検知はありません。" : "グラフを押すか、下の一覧から記録を選んでください。"}
           </p>
         )}
       </div>

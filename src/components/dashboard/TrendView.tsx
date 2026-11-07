@@ -27,11 +27,11 @@ function LevelBadge({ level }: { level: TrendPoint["level"] }) {
   );
 }
 
-/** 湯の状態：見出し（左）と、グラフでカーソルを当てている記録の日付（右上）、グラフ本体 */
+/** 湯の状態：見出し（左）と、グラフで選んだ（クリックした）記録（右上）、グラフ本体 */
 export function TrendView({ trend, summary }: { trend: Trend; summary: React.ReactNode }) {
-  const [cursor, setCursor] = useState<TrendPoint | null>(null);
+  const [picked, setPicked] = useState<TrendPoint | null>(null); // クリックで選んだ記録（点線の位置）
   const latest = trend.points.length ? trend.points[trend.points.length - 1] : null;
-  const p = cursor ?? latest;
+  const p = picked ?? latest;
   return (
     <>
       <header className="flex flex-wrap items-start justify-between gap-4">
@@ -43,7 +43,7 @@ export function TrendView({ trend, summary }: { trend: Trend; summary: React.Rea
           // 日によって幅や高さが変わらないよう、枠の大きさを固定し、文字は折り返さない
           <div className="yumori-card w-full shrink-0 px-4 py-2 sm:w-[24rem]" aria-live="polite">
             <div className="flex items-center justify-between gap-2">
-              <p className="whitespace-nowrap text-sm text-stone-600">{cursor ? "参照している記録" : "最新の記録"}{p.isSimulated && "（模擬データ）"}</p>
+              <p className="whitespace-nowrap text-sm text-stone-600">{picked ? "参照している記録" : "最新の記録"}{p.isSimulated && "（模擬データ）"}</p>
               <LevelBadge level={p.level} />
             </div>
             <p className="whitespace-nowrap text-lg font-bold tabular-nums">{dayFmt.format(new Date(p.t))}</p>
@@ -52,7 +52,7 @@ export function TrendView({ trend, summary }: { trend: Trend; summary: React.Rea
         )}
       </header>
       {trend.points.length > 0
-        ? <TrendChart trend={trend} onCursor={setCursor} />
+        ? <TrendChart trend={trend} onSelect={setPicked} />
         : <p className="rounded-lg border bg-white p-4 text-sm text-stone-600">この期間の記録がありません。</p>}
     </>
   );
