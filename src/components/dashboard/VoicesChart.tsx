@@ -126,7 +126,7 @@ export function VoicesChart({ series, voices, period }: { series: Series[]; voic
           })}
         </svg>
       </div>
-      <p className="text-xs text-stone-500">点の大きさは声の件数。点にマウスを乗せる（スマホではタップ）と、その日のひとことが下に出ます。</p>
+      <p className="text-sm text-stone-600">点に触れると、その日のひとこと</p>
 
       <section className="rounded-lg border bg-white p-4 text-sm" aria-live="polite">
         {!active || !activePoint ? (
@@ -136,7 +136,6 @@ export function VoicesChart({ series, voices, period }: { series: Series[]; voic
             <p className="font-bold">
               {md(active.day)}　{activeSeries?.name}　評価平均 {activePoint.rating_avg ?? "—"}（{activePoint.voice_count}件）
               <span className="ml-2 font-normal text-stone-600">浴槽温度 {activePoint.temp_c ?? "記録なし"}{activePoint.temp_c !== null && "℃"}</span>
-              <span className="ml-2 rounded bg-amber-100 px-1.5 py-0.5 text-xs font-bold text-amber-900">サンプル（模擬データ）</span>
             </p>
             {active.code === "all" && activePoint.unassigned_count > 0 && (
               <p className="text-xs text-stone-500">うち {activePoint.unassigned_count} 件は性別が未回答・その他のため、浴槽別には入れていません。</p>

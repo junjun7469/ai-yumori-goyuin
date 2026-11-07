@@ -14,27 +14,11 @@ export default function VoicesPage() {
         <PageTitle>
           お客様の声 <span className="ml-1 align-middle rounded-full border border-[var(--line)] px-2 py-0.5 text-xs font-normal tracking-normal text-[var(--ink-soft)]">サンプル（模擬データ）</span>
         </PageTitle>
-        <p className="text-sm text-stone-600">
-          御湯印で集める「湯への評価（1〜5）とひとこと」を、その日の浴槽温度と並べて見る画面です。
-          予約サイトのレビューは宿泊全体への評価ですが、ここでは湯だけの声を見ます。
-        </p>
         {v && (
-          <p className="text-sm text-stone-600">
-            {v.facility}・直近60日（{v.period.from}〜{v.period.to}）　声 {v.totals.voices} 件（{v.totals.days} 日）
-            評価平均 {v.totals.ratingAvg ?? "—"}　うち浴槽別に入らない声 {v.totals.unassigned} 件
-          </p>
+          <p className="text-base">直近60日　声 {v.totals.voices}件・評価平均 {v.totals.ratingAvg ?? "—"}</p>
         )}
+        <p className="text-sm text-stone-600">男湯・女湯の温度は将来の運用案（浴槽ごとには未計測）</p>
       </header>
-
-      <section className="rounded-xl border border-amber-300 bg-amber-50 p-3 text-xs leading-relaxed text-amber-950">
-        <p className="font-bold">この画面はサンプル（模擬データ）と将来の運用案です</p>
-        <ul className="mt-1 list-disc space-y-0.5 pl-5">
-          <li>お客様の声（評価とひとこと）は、実際の利用者の声ではありません。御湯印から声を集める機能は構想段階です。</li>
-          <li>男湯・女湯の浴槽温度は<strong>将来の運用案</strong>です。今は浴槽ごとに測っていないため、湯日誌の浴槽温度（これも模擬データ）を基準に作った値です。</li>
-          <li>浴槽は利用者に聞かず、性別と浴槽の対応表（男性→男湯、女性→女湯）で決めます。性別が未回答・その他の声は、全体にだけ入れます。</li>
-          <li>温度と評価を並べていますが、両者の関係を確かめたものではありません。</li>
-        </ul>
-      </section>
 
       {!v ? (
         <p className="rounded-lg border bg-white p-4 text-sm text-stone-600">施設が未登録です。npm run seed を実行してください。</p>

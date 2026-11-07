@@ -10,7 +10,6 @@ type Out = {
   check_items?: string[];
 };
 
-const fmt = new Intl.DateTimeFormat("ja-JP", { timeZone: "Asia/Tokyo", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" });
 
 /** Claude のコメント（湯の声と湯の状態の突き合わせ）。ボタンで作る。結果は保存され、最新のものを出す */
 export function VoiceCommentPanel({ latest }: { latest: VoiceCommentView | null }) {
@@ -71,10 +70,7 @@ export function VoiceCommentPanel({ latest }: { latest: VoiceCommentView | null 
               <ul className="list-disc pl-5">{o.check_items.map((c, i) => <li key={i}>{c}</li>)}</ul>
             </div>
           )}
-          <p className="text-xs text-stone-500">
-            AI（Claude）が、SQL で集計した結果とひとことだけを読んで書いた参考情報です。サンプル（模擬データ）にもとづき、温度と声の関係を確かめたものではありません。判断は湯守・管理者が行います。
-            作成 {fmt.format(new Date(latest.createdAt))}・{latest.model}・対象 {latest.periodFrom}〜{latest.periodTo}（入力と出力は記録しています）
-          </p>
+          <p className="text-sm text-stone-600">AI（Claude）の参考情報です。判断は湯守が行います</p>
         </div>
       )}
     </section>
