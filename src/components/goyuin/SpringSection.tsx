@@ -4,7 +4,7 @@ import type { AnalysisProfile, Component, SpringProfile } from "@/lib/springAnal
 
 const mgFmt = (n: number) => (Number.isInteger(n) ? String(n) : n.toFixed(1));
 export const ANALYSIS_NOTE = "成分の数値は温泉分析書（法定分析）に基づくもので、AI湯守の計測値とは別です。";
-const VERIFY_NOTE = "分析書の読み取りは原本未照合です。pH など一部に要確認の項目があります（再分析の時期も施設に確認を）。";
+const VERIFY_NOTE = "分析書の読み取りは原本未照合です。pH など一部に要確認の項目があります（pH の読み取り値は、指針の区分では「酸性」（pH 3 未満）にあたる値です。原本で確認します。再分析の時期も施設に確認を）。";
 
 function VerifyBadge() {
   return <span className="ml-1.5 rounded border border-amber-400 bg-amber-100 px-1.5 py-0.5 text-[10px] font-bold text-amber-900">要確認</span>;
