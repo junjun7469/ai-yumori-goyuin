@@ -21,16 +21,23 @@ const LEVEL_MARK = {
 
 const SimTag = () => <span className="ml-2 rounded-full border border-[var(--line)] px-2 py-0.5 align-middle text-xs text-[var(--ink-soft)]">模擬</span>;
 
-const GROUPS: { title: string; items: { href: string; title: string }[] }[] = [
+/** 「見る」の画面（トップの主役）。アイコンは自前の SVG（外部素材は使わない） */
+const VIEWS: { href: string; title: string; icon: React.ReactNode }[] = [
   {
-    title: "見る",
-    items: [
-      { href: "/dashboard/trend", title: "推移と変化検知" },
-      { href: "/dashboard/voices", title: "湯の声" },
-      { href: "/dashboard/visits", title: "来客と売上" },
-    ],
+    href: "/dashboard/trend",
+    title: "推移と変化検知",
+    icon: <><path d="M4 30 L13 20 L20 25 L30 12 L36 16" /><circle cx="30" cy="12" r="2.5" fill="currentColor" /><path d="M4 36 H36" /></>,
   },
-  { title: "基本情報", items: [{ href: "/dashboard/baseline", title: "温泉分析書" }] },
+  {
+    href: "/dashboard/voices",
+    title: "湯の声",
+    icon: <><path d="M6 9 H34 A3 3 0 0 1 37 12 V25 A3 3 0 0 1 34 28 H17 L10 34 V28 H6 A3 3 0 0 1 3 25 V12 A3 3 0 0 1 6 9 Z" /><path d="M11 16 H29 M11 21 H23" /></>,
+  },
+  {
+    href: "/dashboard/visits",
+    title: "来客と売上",
+    icon: <><path d="M4 36 H36" /><rect x="8" y="22" width="6" height="14" /><rect x="17" y="13" width="6" height="23" /><rect x="26" y="18" width="6" height="18" /></>,
+  },
 ];
 
 function TodayCard({ s }: { s: TodaySummary }) {
@@ -101,20 +108,29 @@ export default function DashboardHome() {
 
         {summary ? <TodayCard s={summary} /> : <p className="yumori-card p-5">施設が未登録です（npm run seed）</p>}
 
-        {GROUPS.map((g) => (
-          <section key={g.title} className="space-y-2">
-            <h2 className="text-base font-bold tracking-widest">{g.title}</h2>
-            <ul className={`grid gap-3 ${g.items.length > 1 ? "sm:grid-cols-3" : ""}`}>
-              {g.items.map((it) => (
-                <li key={it.href}>
-                  <Link href={it.href} className="yumori-card yumori-link-card flex items-center justify-between px-4 py-4 text-base font-bold tracking-wider no-underline" style={{ color: "inherit" }}>
-                    {it.title}<span aria-hidden className="text-[var(--vermilion)]">›</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))}
+        <section className="space-y-3">
+          <h2 className="text-xl font-bold tracking-widest">見る</h2>
+          <ul className="grid gap-4 sm:grid-cols-3">
+            {VIEWS.map((v) => (
+              <li key={v.href}>
+                <Link href={v.href}
+                  className="yumori-card yumori-link-card flex h-full flex-col items-center gap-3 border-t-4 px-4 py-7 text-center no-underline"
+                  style={{ color: "inherit", borderTopColor: "var(--vermilion)" }}>
+                  <svg width="52" height="52" viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"
+                    className="text-[var(--vermilion)]" aria-hidden>{v.icon}</svg>
+                  <span className="text-lg font-bold tracking-wider">{v.title}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="space-y-2">
+          <h2 className="text-base font-bold tracking-widest">基本情報</h2>
+          <Link href="/dashboard/baseline" className="yumori-card yumori-link-card flex items-center justify-between px-4 py-3 text-base font-bold tracking-wider no-underline" style={{ color: "inherit" }}>
+            温泉分析書<span aria-hidden className="text-[var(--vermilion)]">›</span>
+          </Link>
+        </section>
       </main>
     </div>
   );
