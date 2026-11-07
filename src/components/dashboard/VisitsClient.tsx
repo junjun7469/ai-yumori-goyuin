@@ -212,6 +212,7 @@ export function VisitsClient({ initial, overall }: { initial: VisitStats; overal
             <span className="ml-2 rounded-full border border-[var(--line)] px-2 py-0.5 align-middle text-xs text-[var(--ink-soft)]">サンプル（模擬データ）</span>
           </p>
         </div>
+        <p className="text-sm text-[var(--ink-soft)]">{cur.level === "month" ? "棒を押すと週ごとへ" : cur.level === "week" ? "棒を押すと日ごとへ" : "棒を押すとその日の都道府県を地図に"}</p>
         <div className="flex flex-wrap gap-3 text-sm">
           {[...new Set(stats.bars.map((b) => monthOf(b.start)))].map((m) => (
             <span key={m} className="flex items-center gap-1.5"><span className="inline-block h-3 w-4 rounded-sm" style={{ background: colorOfMonth(m) }} />{m}月</span>
