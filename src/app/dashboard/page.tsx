@@ -45,9 +45,20 @@ function TodayCard({ s }: { s: TodaySummary }) {
   const mark = det ? LEVEL_MARK[det.level] : null;
   return (
     <section className="yumori-card overflow-hidden" aria-label="今日の湯">
-      <h2 className="border-b border-[var(--line)] px-5 py-3 text-lg font-bold tracking-widest">今日の湯</h2>
+      {/* 見出しの横に、最新の変化検知の状態（色＋形）だけ */}
+      <div className="flex items-center gap-3 border-b border-[var(--line)] px-5 py-3">
+        <h2 className="text-lg font-bold tracking-widest">今日の湯</h2>
+        {det && mark && (
+          <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-base font-bold" style={{ color: mark.color, background: mark.bg }}
+            title={`最新の変化検知（${mdhm.format(new Date(det.loggedAt))}）`}>
+            <svg width="14" height="14" viewBox="0 0 16 16" fill={mark.color} aria-hidden>{mark.shape}</svg>
+            {LEVEL_LABEL[det.level]}
+          </span>
+        )}
+        {det?.isSimulated && <SimTag />}
+      </div>
 
-      {/* 1段目：湯日誌。未入力ならいちばん目立つボタン */}
+      {/* 湯日誌。未入力ならいちばん目立つボタン */}
       <div className="px-5 py-4">
         {s.log.count > 0 ? (
           <p className="flex items-center gap-2 text-base">
@@ -63,25 +74,6 @@ function TodayCard({ s }: { s: TodaySummary }) {
           </Link>
         )}
       </div>
-
-      {/* 2段目：最新の変化検知（1項目だけなので横いっぱいに、状態を大きく） */}
-      <Link href="/dashboard/trend" className="flex items-center gap-4 border-t border-[var(--line)] px-5 py-4 no-underline hover:bg-[var(--paper)]" style={{ color: "inherit" }}>
-        {det && mark ? (
-          <>
-            <span className="inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-lg font-bold" style={{ color: mark.color, background: mark.bg }}>
-              <svg width="18" height="18" viewBox="0 0 16 16" fill={mark.color} aria-hidden>{mark.shape}</svg>
-              {LEVEL_LABEL[det.level]}
-            </span>
-            <span className="min-w-0 text-base">
-              <span className="block">最新の変化検知（{mdhm.format(new Date(det.loggedAt))}）{det.isSimulated && <SimTag />}</span>
-              {det.reason && det.level !== "normal" && <span className="block truncate">{det.reason}</span>}
-            </span>
-          </>
-        ) : (
-          <span className="text-base">変化検知の記録はまだありません</span>
-        )}
-        <span aria-hidden className="ml-auto text-xl text-[var(--vermilion)]">›</span>
-      </Link>
     </section>
   );
 }
