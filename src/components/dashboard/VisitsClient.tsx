@@ -98,7 +98,7 @@ function TileMap({ stats, title }: { stats: VisitStats; title: React.ReactNode }
       <div className="space-y-2 pr-2 text-sm" style={{ gridColumn: "1 / 10", gridRow: "1 / 9" }}>
         {title}
         {top.length === 0 ? <p>この期間の来客はありません</p> : (
-          <ol className="grid max-w-xs grid-cols-[auto_1fr_auto] gap-x-3 gap-y-0.5">
+          <ol className="grid max-w-xs grid-cols-[auto_1fr_auto] gap-x-4 gap-y-1 pt-5 text-lg">
             {top.map(([code, n], i) => (
               <li key={code} className="contents">
                 <span className="tabular-nums text-[var(--ink-soft)]">{i + 1}</span>
