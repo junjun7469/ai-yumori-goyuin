@@ -541,3 +541,18 @@ html[data-theme="retro"] .goyuin-theme .gart-name, html[data-theme="retro"] .goy
 }
 .yumori-link-card { transition: transform 0.12s ease, box-shadow 0.12s ease; }
 .yumori-link-card:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(74, 58, 44, 0.14); }
+
+/* ダッシュボードの「見る」画面（湯の状態・お客様の声）の中で使っている Tailwind の白い枠・灰色の文字・青いリンクを、
+   和テーマの色に読み替える。部品（TrendChart・DetectionCard など）は湯日誌の画面とも共有しているので、
+   部品は書き換えず、.yumori-theme の中でだけ色を変える。 */
+.yumori-theme .bg-white { background-color: var(--paper-card); }
+.yumori-theme .rounded-lg.border { border-color: var(--line); border-radius: 16px; box-shadow: 0 2px 12px rgba(74, 58, 44, 0.08); }
+.yumori-theme .text-stone-400,
+.yumori-theme .text-stone-500,
+.yumori-theme .text-stone-600,
+.yumori-theme .text-stone-700 { color: var(--ink-soft); }
+.yumori-theme .border-stone-200 { border-color: var(--line); }
+.yumori-theme .bg-stone-50,
+.yumori-theme .bg-stone-100 { background-color: var(--paper); }
+.yumori-theme .text-sky-700 { color: var(--indigo); }
+.yumori-theme .bg-sky-700 { background-color: var(--vermilion); }

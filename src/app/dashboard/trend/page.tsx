@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { PageTitle, YumoriShell } from "@/components/dashboard/YumoriShell";
 import { TrendChart } from "@/components/dashboard/TrendChart";
 import { getTrend } from "@/lib/trendData";
 
@@ -8,10 +8,9 @@ export const dynamic = "force-dynamic";
 export default function TrendPage() {
   const trend = getTrend(60);
   return (
-    <main className="mx-auto max-w-5xl space-y-5 p-4 pb-16">
+    <YumoriShell back wide>
       <header className="space-y-1">
-        <Link href="/dashboard" className="text-xs text-sky-700 underline">← ダッシュボード</Link>
-        <h1 className="text-xl font-bold">湯の状態</h1>
+        <PageTitle>湯の状態</PageTitle>
         {trend ? (
           <p className="text-sm text-stone-600">
             丸正旅館・直近60日　記録 {trend.counts.logs} 件（模擬データ {trend.counts.simulated}・入力した記録 {trend.counts.real}）　
@@ -33,6 +32,6 @@ export default function TrendPage() {
         模擬データは分析書（2014年）を基準に生成したもので、実測値ではありません。検知は AI（Claude）による参考情報で、湯の管理は管理者の判断が前提です。
         点の印は、塗りつぶし＝模擬データ、白抜き＝入力した記録です。
       </p>
-    </main>
+    </YumoriShell>
   );
 }
