@@ -87,48 +87,46 @@ function Bars({ bars, level, height, onPick, picked }: {
 }
 
 // ---- タイル型の日本地図（47都道府県を同じ大きさの四角で） ----
-function TileMap({ stats }: { stats: VisitStats }) {
+function TileMap({ stats, title }: { stats: VisitStats; title: React.ReactNode }) {
   const counts = new Map(stats.prefectures.filter((p) => p.prefecture_code).map((p) => [p.prefecture_code!, p.visitors]));
   const max = Math.max(1, ...counts.values());
   const shade = (n: number) => (n === 0 ? "var(--paper-card)" : `rgba(181, 84, 58, ${(0.15 + 0.85 * Math.sqrt(n / max)).toFixed(2)})`);
   const top = [...counts].sort((a, b) => b[1] - a[1]).slice(0, 5);
   return (
-    <div className="grid gap-4 md:grid-cols-[1fr_180px]">
-      <div className="grid gap-[3px]" style={{ gridTemplateColumns: PREF_TILE_COL_TRACKS.map((w) => (w === "1fr" ? "minmax(0, 1fr)" : w)).join(" "), gridTemplateRows: PREF_TILE_ROW_TRACKS.join(" ") }}>
-        {PREF_TILES.map((t) => {
-          const n = counts.get(t.code) ?? 0;
-          const dark = n > 0 && Math.sqrt(n / max) > 0.45;
-          return (
-            <div key={t.code} title={`${t.pref}：${n}人（サンプル）`}
-              className="flex flex-col items-center justify-center rounded-md border text-center leading-tight"
-              style={{ gridColumn: t.col, gridRow: t.row, background: shade(n), borderColor: "var(--line)", color: dark ? "#fff" : "var(--ink)" }}>
-              <span className="text-[11px] sm:text-xs">{t.pref}</span>
-              {n > 0 && <span className="text-xs font-bold tabular-nums sm:text-sm">{n}</span>}
-            </div>
-          );
-        })}
-      </div>
-      <div className="space-y-3 text-sm">
-        <div>
-          <p className="text-xs text-[var(--ink-soft)]">多い都道府県</p>
-          {top.length === 0 ? <p>この期間の来客はありません</p> : (
-            <ol className="mt-1 space-y-0.5">
-              {top.map(([code, n], i) => (
-                <li key={code} className="flex justify-between"><span>{i + 1}. {PREF_NAME[code] ?? code}</span><span className="tabular-nums">{n}人</span></li>
-              ))}
-            </ol>
-          )}
+    <div className="grid gap-[3px]" style={{ gridTemplateColumns: PREF_TILE_COL_TRACKS.map((w) => (w === "1fr" ? "minmax(0, 1fr)" : w)).join(" "), gridTemplateRows: PREF_TILE_ROW_TRACKS.join(" ") }}>
+      {/* 地図の左上の空き（タイルのない 1〜9列 × 1〜8行）に、見出し・多い都道府県・凡例を置く */}
+      <div className="space-y-2 pr-2 text-sm" style={{ gridColumn: "1 / 10", gridRow: "1 / 9" }}>
+        {title}
+        {top.length === 0 ? <p>この期間の来客はありません</p> : (
+          <ol className="grid max-w-xs grid-cols-[auto_1fr_auto] gap-x-3 gap-y-0.5">
+            {top.map(([code, n], i) => (
+              <li key={code} className="contents">
+                <span className="tabular-nums text-[var(--ink-soft)]">{i + 1}</span>
+                <span className="font-bold">{PREF_NAME[code] ?? code}</span>
+                <span className="text-right tabular-nums">{n}人</span>
+              </li>
+            ))}
+          </ol>
+        )}
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-[var(--ink-soft)]">
+          <span className="flex items-center gap-1">
+            0{[0, 0.25, 0.5, 0.75, 1].map((r) => <span key={r} className="h-3 w-4 rounded-sm border border-[var(--line)]" style={{ background: r === 0 ? "var(--paper-card)" : `rgba(181, 84, 58, ${(0.15 + 0.85 * Math.sqrt(r)).toFixed(2)})` }} />)}{max}人
+          </span>
+          <span>未回答 {stats.totals.unanswered}人</span>
         </div>
-        <p className="text-xs text-[var(--ink-soft)]">都道府県の未回答 {stats.totals.unanswered}人（地図には入れていません）</p>
-        <div>
-          <p className="text-xs text-[var(--ink-soft)]">色の濃さ＝来客数</p>
-          <div className="mt-1 flex items-center gap-1 text-[11px]">
-            <span>0</span>
-            {[0, 0.25, 0.5, 0.75, 1].map((r) => <span key={r} className="h-3 w-5 rounded-sm border border-[var(--line)]" style={{ background: r === 0 ? "var(--paper-card)" : `rgba(181, 84, 58, ${(0.15 + 0.85 * Math.sqrt(r)).toFixed(2)})` }} />)}
-            <span>{max}人</span>
+      </div>
+      {PREF_TILES.map((t) => {
+        const n = counts.get(t.code) ?? 0;
+        const dark = n > 0 && Math.sqrt(n / max) > 0.45;
+        return (
+          <div key={t.code} title={`${t.pref}：${n}人（サンプル）`}
+            className="flex flex-col items-center justify-center rounded-md border text-center leading-tight"
+            style={{ gridColumn: t.col, gridRow: t.row, background: shade(n), borderColor: "var(--line)", color: dark ? "#fff" : "var(--ink)" }}>
+            <span className="text-[11px] sm:text-xs">{t.pref}</span>
+            {n > 0 && <span className="text-xs font-bold tabular-nums sm:text-sm">{n}</span>}
           </div>
-        </div>
-      </div>
+        );
+      })}
     </div>
   );
 }
@@ -195,23 +193,21 @@ export function VisitsClient({ initial, overall }: { initial: VisitStats; overal
               {i > 0 && <span className="text-[var(--ink-soft)]">›</span>}
               {i < crumbs.length - 1 ? (
                 <button type="button" className="underline" onClick={() => { setPickedDay(null); setCrumbs(crumbs.slice(0, i + 1)); }}>{c.label}</button>
-              ) : <span className="font-bold">{c.label}（{LEVEL_JA[c.level]}ごと）</span>}
+              ) : <span className="font-bold">{c.label}</span>}
             </span>
           ))}
         </nav>
+        <p className="text-base">
+          <span className="text-xl font-bold tabular-nums">{stats.totals.visitors}</span> 人・
+          <span className="text-xl font-bold tabular-nums">{yen(stats.totals.sales_yen)}</span>
+          <span className="ml-2 rounded-full border border-[var(--line)] px-2 py-0.5 align-middle text-xs text-[var(--ink-soft)]">サンプル（模擬データ）</span>
+        </p>
         {loading && <span className="text-xs text-[var(--ink-soft)]">読み込み中…</span>}
       </div>
       {error && <p role="alert" className="rounded-lg border border-red-300 bg-red-50 p-3 text-sm text-red-800">{error}</p>}
 
       <section className="yumori-card space-y-2 p-4">
-        <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <h2 className="font-bold tracking-wider">来客数と売上</h2>
-          <p className="text-base">
-            <span className="text-xl font-bold tabular-nums">{stats.totals.visitors}</span> 人・
-            <span className="text-xl font-bold tabular-nums">{yen(stats.totals.sales_yen)}</span>
-            <span className="ml-2 rounded-full border border-[var(--line)] px-2 py-0.5 align-middle text-xs text-[var(--ink-soft)]">サンプル（模擬データ）</span>
-          </p>
-        </div>
+        <h2 className="font-bold tracking-wider">来客数と売上</h2>
         <p className="text-sm text-[var(--ink-soft)]">{cur.level === "month" ? "棒を押すと週ごとへ" : cur.level === "week" ? "棒を押すと日ごとへ" : "棒を押すとその日の都道府県を地図に"}</p>
         <div className="flex flex-wrap gap-3 text-sm">
           {[...new Set(stats.bars.map((b) => monthOf(b.start)))].map((m) => (
@@ -223,12 +219,13 @@ export function VisitsClient({ initial, overall }: { initial: VisitStats; overal
         </div>
       </section>
 
-      <section className="yumori-card space-y-3 p-4">
-        <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <h2 className="font-bold tracking-wider">どこから来たか（都道府県）</h2>
-          <p className="text-sm">{mapLabel}{pickedDay && <button type="button" className="ml-2 text-xs underline" onClick={() => setPickedDay(null)}>期間全体に戻す</button>}</p>
-        </div>
-        <TileMap stats={mapStats} />
+      <section className="yumori-card p-4">
+        <TileMap stats={mapStats} title={
+          <div>
+            <h2 className="font-bold tracking-wider">どこから来たか（都道府県）</h2>
+            <p className="text-sm">{mapLabel}{pickedDay && <button type="button" className="ml-2 text-xs underline" onClick={() => setPickedDay(null)}>期間全体に戻す</button>}</p>
+          </div>
+        } />
       </section>
     </div>
   );
