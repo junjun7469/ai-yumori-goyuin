@@ -25,7 +25,7 @@ export function YumoriShell({ children, back = false, wide = false, current }: {
             {back ? <Link href="/dashboard" className="text-sm underline">← ダッシュボード</Link> : <span />}
             {/* 「見る」の3画面を行き来するボタン（右上）。いまの画面は塗りつぶし */}
             {current && (
-              <nav aria-label="見る" className="flex overflow-hidden rounded-full border border-[var(--line)] bg-[var(--paper-card)] text-sm">
+              <nav aria-label="見る" className="flex divide-x divide-[var(--line)] overflow-hidden rounded-full border border-[var(--line)] bg-[var(--paper-card)] text-sm">
                 {VIEW_LINKS.map((v) => v.href === current ? (
                   <span key={v.href} aria-current="page" className="bg-[var(--ink)] px-4 py-1.5 font-bold text-white">{v.title}</span>
                 ) : (
