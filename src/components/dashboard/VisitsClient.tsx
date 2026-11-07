@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { niceAxis } from "@/lib/chartScale";
-import { TILES, TILE_COLS, TILE_ROW_HEIGHTS } from "@/lib/tileMap";
+import { PREF_TILES, PREF_TILE_COLS, PREF_TILE_ROW_HEIGHTS } from "@/lib/prefTileLayout";
 import { PREF_NAME, type Bar, type Level, type Range, type VisitStats } from "@/lib/visitStats";
 
 // ---- 表示用の小さな関数 ----
@@ -94,8 +94,8 @@ function TileMap({ stats }: { stats: VisitStats }) {
   const top = [...counts].sort((a, b) => b[1] - a[1]).slice(0, 5);
   return (
     <div className="grid gap-4 md:grid-cols-[1fr_200px]">
-      <div className="grid gap-[3px]" style={{ gridTemplateColumns: `repeat(${TILE_COLS}, minmax(0, 1fr))`, gridTemplateRows: TILE_ROW_HEIGHTS.map((h) => `${h}px`).join(" ") }}>
-        {TILES.map((t) => {
+      <div className="grid gap-[3px]" style={{ gridTemplateColumns: `repeat(${PREF_TILE_COLS}, minmax(0, 1fr))`, gridTemplateRows: PREF_TILE_ROW_HEIGHTS.map((h) => `${h}px`).join(" ") }}>
+        {PREF_TILES.map((t) => {
           const n = counts.get(t.code) ?? 0;
           const dark = n > 0 && Math.sqrt(n / max) > 0.45;
           return (
