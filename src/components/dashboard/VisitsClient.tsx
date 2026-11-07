@@ -16,7 +16,8 @@ const LEVEL_JA: Record<Level, string> = { month: "月", week: "週", day: "日" 
 function barLabel(b: Bar, level: Level): string {
   if (level === "month") return `${Number(b.bucket.slice(5, 7))}月`;
   if (level === "week") return `${md(b.start)}〜`;
-  return `${Number(b.start.slice(8, 10))}`;
+  return md(b.start); // 日ごとも「11/1」の形
+
 }
 function barTitle(b: Bar, level: Level): string {
   if (level === "month") return `${b.bucket.slice(0, 4)}年${Number(b.bucket.slice(5, 7))}月（${md(b.start)}〜${md(b.end)}）`;
@@ -30,7 +31,10 @@ type Crumb = { label: string; level: Level; range: Range };
 const W = 900;
 const ML = 48;
 const MR = 12;
-const BAR_COLOR = "#b5543a";
+/** 月ごとの棒の色（暦の月で決まるので、どの区切りでも同じ月は同じ色）。白い文字が読める濃さにしてある */
+const MONTH_COLORS = ["#b5543a", "#2f5d7c", "#7a6328", "#3f7a4f"] as const; // 湯の赤茶・藍・黄土・松葉
+const monthOf = (day: string) => Number(day.slice(5, 7));
+const colorOfMonth = (m: number) => MONTH_COLORS[(m - 1) % MONTH_COLORS.length];
 
 function Bars({ bars, level, height, onPick, picked }: {
   bars: Bar[]; level: Level; height: number; onPick: (b: Bar) => void; picked: string | null;
@@ -57,6 +61,7 @@ function Bars({ bars, level, height, onPick, picked }: {
         const x = ML + i * bw;
         const h = Math.max(0, bottom - y(v));
         const active = picked === b.bucket;
+        const color = colorOfMonth(monthOf(b.start));
         const amount = yen(b.sales_yen);
         // 金額は、棒の幅と高さに収まるときだけ棒の中に書く（入らないときはマウスを乗せると出る）
         const fs = Math.min(14, Math.max(10, barW / (amount.length * 0.62)));
@@ -65,8 +70,8 @@ function Bars({ bars, level, height, onPick, picked }: {
           <g key={b.bucket} className="cursor-pointer" onClick={() => onPick(b)}>
             <rect x={x} y={top} width={bw} height={bottom - top} fill="transparent" />
             <rect x={x + bw * 0.14} y={y(v)} width={barW} height={h} rx={Math.min(4, bw * 0.15)}
-              fill={BAR_COLOR} fillOpacity={active ? 1 : 0.85} stroke={active ? "var(--ink)" : "none"} strokeWidth={2} />
-            {v === 0 && <line x1={x + bw * 0.2} x2={x + bw * 0.8} y1={bottom} y2={bottom} stroke={BAR_COLOR} strokeWidth={2} />}
+              fill={color} fillOpacity={active ? 1 : 0.88} stroke={active ? "var(--ink)" : "none"} strokeWidth={2} />
+            {v === 0 && <line x1={x + bw * 0.2} x2={x + bw * 0.8} y1={bottom} y2={bottom} stroke={color} strokeWidth={2} />}
             {bars.length <= 31 && <text x={x + bw / 2} y={y(v) - 5} textAnchor="middle" fontSize={12} fontWeight={700} fill="var(--ink)">{v}人</text>}
             {fits && <text x={x + bw / 2} y={y(v) + fs + 4} textAnchor="middle" fontSize={fs} fontWeight={700} fill="#fff">{amount}</text>}
             {i % every === 0 && (
@@ -209,6 +214,11 @@ export function VisitsClient({ initial, overall }: { initial: VisitStats; overal
           </p>
         </div>
         <p className="text-sm text-[var(--ink-soft)]">棒の中の金額＝来客数 × 御湯印 {yen(stats.priceYen)}。{hint}</p>
+        <div className="flex flex-wrap gap-3 text-sm">
+          {[...new Set(stats.bars.map((b) => monthOf(b.start)))].map((m) => (
+            <span key={m} className="flex items-center gap-1.5"><span className="inline-block h-3 w-4 rounded-sm" style={{ background: colorOfMonth(m) }} />{m}月</span>
+          ))}
+        </div>
         <div className="overflow-x-auto">
           <Bars bars={stats.bars} level={cur.level} height={300} onPick={pick} picked={pickedDay?.bucket ?? null} />
         </div>
