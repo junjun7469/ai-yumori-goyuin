@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 export default function TrendPage() {
   const trend = getTrend(60);
   return (
-    <YumoriShell back wide>
+    <YumoriShell back wide current="/dashboard/trend">
       <header className="space-y-1">
         <PageTitle>湯の状態</PageTitle>
         {trend ? (

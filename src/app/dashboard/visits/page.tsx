@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 export default function VisitsPage() {
   const r = getVisitsFor("month", null);
   return (
-    <YumoriShell back wide>
+    <YumoriShell back wide current="/dashboard/visits">
       <header className="space-y-1">
         <PageTitle>ご来訪と売上</PageTitle>
         <p className="text-sm text-[var(--ink-soft)]">御湯印で記録された訪問（お客様の声と同じ記録。1訪問1件）を数えています。</p>

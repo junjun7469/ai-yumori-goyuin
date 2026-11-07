@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export default function VoicesPage() {
   const v = getVoicesPage();
   return (
-    <YumoriShell back wide>
+    <YumoriShell back wide current="/dashboard/voices">
       <header className="space-y-1">
         <PageTitle>
           お客様の声 <span className="ml-1 align-middle rounded-full border border-[var(--line)] px-2 py-0.5 text-xs font-normal tracking-normal text-[var(--ink-soft)]">サンプル（模擬データ）</span>
