@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { niceAxis } from "@/lib/chartScale";
-import { PREF_TILES, PREF_TILE_COLS, PREF_TILE_ROW_HEIGHTS } from "@/lib/prefTileLayout";
+import { PREF_TILES, PREF_TILE_COL_TRACKS, PREF_TILE_ROW_TRACKS } from "@/lib/prefTileLayout";
 import { PREF_NAME, type Bar, type Level, type Range, type VisitStats } from "@/lib/visitStats";
 
 // ---- 表示用の小さな関数 ----
@@ -93,8 +93,8 @@ function TileMap({ stats }: { stats: VisitStats }) {
   const shade = (n: number) => (n === 0 ? "var(--paper-card)" : `rgba(181, 84, 58, ${(0.15 + 0.85 * Math.sqrt(n / max)).toFixed(2)})`);
   const top = [...counts].sort((a, b) => b[1] - a[1]).slice(0, 5);
   return (
-    <div className="grid gap-4 md:grid-cols-[1fr_200px]">
-      <div className="grid gap-[3px]" style={{ gridTemplateColumns: `repeat(${PREF_TILE_COLS}, minmax(0, 1fr))`, gridTemplateRows: PREF_TILE_ROW_HEIGHTS.map((h) => `${h}px`).join(" ") }}>
+    <div className="grid gap-4 md:grid-cols-[1fr_180px]">
+      <div className="grid gap-[3px]" style={{ gridTemplateColumns: PREF_TILE_COL_TRACKS.map((w) => (w === "1fr" ? "minmax(0, 1fr)" : w)).join(" "), gridTemplateRows: PREF_TILE_ROW_TRACKS.join(" ") }}>
         {PREF_TILES.map((t) => {
           const n = counts.get(t.code) ?? 0;
           const dark = n > 0 && Math.sqrt(n / max) > 0.45;
@@ -102,8 +102,8 @@ function TileMap({ stats }: { stats: VisitStats }) {
             <div key={t.code} title={`${t.pref}：${n}人（サンプル）`}
               className="flex flex-col items-center justify-center rounded-md border text-center leading-tight"
               style={{ gridColumn: t.col, gridRow: t.row, background: shade(n), borderColor: "var(--line)", color: dark ? "#fff" : "var(--ink)" }}>
-              <span className="text-[10px] sm:text-[11px]">{t.pref}</span>
-              {n > 0 && <span className="text-[11px] font-bold tabular-nums">{n}</span>}
+              <span className="text-[11px] sm:text-xs">{t.pref}</span>
+              {n > 0 && <span className="text-xs font-bold tabular-nums sm:text-sm">{n}</span>}
             </div>
           );
         })}
