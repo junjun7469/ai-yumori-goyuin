@@ -45,6 +45,8 @@ export function VoicesChart({ series, voices, period }: { series: Series[]; voic
   const temps = shown.flatMap((s) => s.points.map((p) => p.temp_c)).filter((v): v is number => v !== null);
   const tDom = paddedDomain(temps, [COOL_LINE], 0.12);
   const yT = linearScale(tDom, [M.bottom, M.top]);
+  // 「全体」は浴槽が混ざるので温度を出さず、評価だけを見る（湯日誌の浴槽温度と並べても意味が読み取れないため）
+  const showTemp = view === "baths";
   const yR = linearScale([0.6, 5.4], [M.bottom, M.top]);
   const xi = (day: string) => x(idx.get(day) ?? 0);
 
@@ -68,7 +70,7 @@ export function VoicesChart({ series, voices, period }: { series: Series[]; voic
         {shown.map((s) => (
           <span key={s.code} className="flex items-center gap-1.5">
             <svg width="26" height="12" aria-hidden><line x1="0" x2="16" y1="6" y2="6" stroke={colorOf(s.code)} strokeWidth="2" /><circle cx="21" cy="6" r="4" fill={colorOf(s.code)} /></svg>
-            {s.name}（線＝浴槽温度・点＝評価平均）
+            {showTemp ? `${s.name}（線＝浴槽温度・点＝評価平均）` : `${s.name}（点＝評価平均）`}
           </span>
         ))}
         <span className="rounded bg-amber-100 px-1.5 py-0.5 font-bold text-amber-900">サンプル（模擬データ）</span>
@@ -76,23 +78,25 @@ export function VoicesChart({ series, voices, period }: { series: Series[]; voic
 
       <div className="overflow-x-auto rounded-lg border bg-white">
         <svg viewBox={`0 0 ${W} ${H}`} className="min-w-[640px]" role="img"
-          aria-label="日付ごとの浴槽温度（線）とお客様の声の評価平均（点）。サンプル（模擬データ）">
+          aria-label={showTemp ? "日付ごとの浴槽温度（線）とお客様の声の評価平均（点）。サンプル（模擬データ）" : "日付ごとのお客様の声の評価平均（点）。サンプル（模擬データ）"}>
           {/* 左軸：温度 */}
-          {niceTicks(tDom[0], tDom[1], 5).map((t) => (
+          {showTemp && niceTicks(tDom[0], tDom[1], 5).map((t) => (
             <g key={`t${t}`}>
               <line x1={M.left} x2={W - M.right} y1={yT(t)} y2={yT(t)} stroke="#eceae7" />
               <text x={M.left - 6} y={yT(t) + 4} textAnchor="end" fontSize={11} fill="#78716c">{t}</text>
             </g>
           ))}
-          <text x={M.left - 6} y={M.top - 4} textAnchor="end" fontSize={11} fontWeight={700} fill="#44403c">℃</text>
+          {showTemp && <text x={M.left - 6} y={M.top - 4} textAnchor="end" fontSize={11} fontWeight={700} fill="#44403c">℃</text>}
+          {/* 全体（評価だけ）のときは、評価 1〜5 の横線を引く */}
+          {!showTemp && [1, 2, 3, 4, 5].map((r) => <line key={`g${r}`} x1={M.left} x2={W - M.right} y1={yR(r)} y2={yR(r)} stroke="#eceae7" />)}
           {/* 右軸：評価 1〜5 */}
           {[1, 2, 3, 4, 5].map((r) => (
             <text key={`r${r}`} x={W - M.right + 8} y={yR(r) + 4} fontSize={11} fill="#78716c">{r}</text>
           ))}
           <text x={W - M.right + 8} y={M.top - 4} fontSize={11} fontWeight={700} fill="#44403c">評価</text>
           {/* 41℃の線 */}
-          <line x1={M.left} x2={W - M.right} y1={yT(COOL_LINE)} y2={yT(COOL_LINE)} stroke="#c62828" strokeDasharray="5 4" strokeWidth={1.2} />
-          <text x={M.left + 4} y={yT(COOL_LINE) - 4} fontSize={11} fontWeight={700} fill="#c62828">41℃（湯守の要確認の線）</text>
+          {showTemp && <line x1={M.left} x2={W - M.right} y1={yT(COOL_LINE)} y2={yT(COOL_LINE)} stroke="#c62828" strokeDasharray="5 4" strokeWidth={1.2} />}
+          {showTemp && <text x={M.left + 4} y={yT(COOL_LINE) - 4} fontSize={11} fontWeight={700} fill="#c62828">41℃（湯守の要確認の線）</text>}
           {/* 横軸：週ごと */}
           {days.map((d, i) => (i % 7 === 0 ? (
             <g key={d}>
@@ -108,7 +112,7 @@ export function VoicesChart({ series, voices, period }: { series: Series[]; voic
             const pts = [...s.points].sort((a, b) => a.day.localeCompare(b.day));
             return (
               <g key={s.code}>
-                {segments(pts, (p) => p.temp_c).map((seg, i) => (
+                {showTemp && segments(pts, (p) => p.temp_c).map((seg, i) => (
                   <polyline key={i} fill="none" stroke={c} strokeWidth={1.8} strokeLinejoin="round"
                     points={seg.map((p) => `${xi(p.day).toFixed(1)},${yT(p.temp_c!).toFixed(1)}`).join(" ")} />
                 ))}
@@ -118,7 +122,7 @@ export function VoicesChart({ series, voices, period }: { series: Series[]; voic
                     <circle cx={xi(p.day)} cy={yR(p.rating_avg)} r={10} fill="transparent" />
                     <circle cx={xi(p.day)} cy={yR(p.rating_avg)} r={3 + Math.min(p.voice_count, 6) * 0.5}
                       fill={c} fillOpacity={0.85} stroke={active?.day === p.day && active.code === s.code ? "#1c1917" : "#fff"} strokeWidth={1.5} />
-                    <title>{`${md(p.day)} ${s.name}　評価平均 ${p.rating_avg}（${p.voice_count}件）　浴槽温度 ${p.temp_c ?? "記録なし"}℃（サンプル）`}</title>
+                    <title>{`${md(p.day)} ${s.name}　評価平均 ${p.rating_avg}（${p.voice_count}件）${showTemp ? `　浴槽温度 ${p.temp_c ?? "記録なし"}℃` : ""}（サンプル）`}</title>
                   </g>
                 ))}
               </g>
@@ -135,7 +139,7 @@ export function VoicesChart({ series, voices, period }: { series: Series[]; voic
           <>
             <p className="font-bold">
               {md(active.day)}　{activeSeries?.name}　評価平均 {activePoint.rating_avg ?? "—"}（{activePoint.voice_count}件）
-              <span className="ml-2 font-normal text-stone-600">浴槽温度 {activePoint.temp_c ?? "記録なし"}{activePoint.temp_c !== null && "℃"}</span>
+              {showTemp && <span className="ml-2 font-normal text-stone-600">浴槽温度 {activePoint.temp_c ?? "記録なし"}{activePoint.temp_c !== null && "℃"}</span>}
             </p>
             {active.code === "all" && activePoint.unassigned_count > 0 && (
               <p className="text-xs text-stone-500">うち {activePoint.unassigned_count} 件は性別が未回答・その他のため、浴槽別には入れていません。</p>
