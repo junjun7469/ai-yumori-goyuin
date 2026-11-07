@@ -515,3 +515,29 @@ html[data-theme="retro"] .goyuin-theme .stamp-card a { text-decoration: none; }
 html[data-theme="retro"] .goyuin-theme .flip-face { background: transparent; }
 html[data-theme="retro"] .goyuin-theme .gart-name, html[data-theme="retro"] .goyuin-theme .gart-hoto, html[data-theme="retro"] .goyuin-theme .gart-date { font-family: "Yuji Syuku", "Hiragino Mincho ProN", serif; }
 .flip-front > .char-wrap { height: 100%; aspect-ratio: auto; }
+
+/* ===== AI湯守ダッシュボード（/dashboard のトップ・来客と売上）：御湯印図鑑の「和」テーマと同じ配色と書体 =====
+   御湯印図鑑の既定のレトロ（ドット書体）は data-theme で切り替わるが、宿の業務画面は毎日読むので「和」に固定する。 */
+.yumori-theme {
+  --paper: #f6f1e7; /* 生成り */
+  --paper-card: #fffdf8;
+  --ink: #4a3a2c; /* 焦げ茶 */
+  --ink-soft: #8a7867;
+  --vermilion: #b5543a; /* 湯の赤茶 */
+  --indigo: #1f2a44;
+  --gold: #b58a4a;
+  --line: #e6dccb;
+  --track: #ece3d2;
+  color: var(--ink);
+  font-family: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Hiragino Sans", "Yu Gothic", sans-serif;
+  background-color: var(--paper);
+  min-height: 100vh;
+}
+.yumori-card {
+  background: var(--paper-card);
+  border: 1px solid var(--line);
+  box-shadow: 0 2px 12px rgba(74, 58, 44, 0.08);
+  border-radius: 16px;
+}
+.yumori-link-card { transition: transform 0.12s ease, box-shadow 0.12s ease; }
+.yumori-link-card:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(74, 58, 44, 0.14); }
