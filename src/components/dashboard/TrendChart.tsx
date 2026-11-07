@@ -25,6 +25,8 @@ const DAY = 24 * 3600 * 1000;
 const JST = 9 * 3600 * 1000;
 const md = new Intl.DateTimeFormat("ja-JP", { timeZone: "Asia/Tokyo", month: "numeric", day: "numeric" });
 const mdhm = new Intl.DateTimeFormat("ja-JP", { timeZone: "Asia/Tokyo", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" });
+const mdwhm = new Intl.DateTimeFormat("ja-JP", { timeZone: "Asia/Tokyo", month: "numeric", day: "numeric", weekday: "short", hour: "2-digit", minute: "2-digit" });
+const CHIP_W = 132; // カーソルの日付の札の幅
 
 const COLORS = { chamber: "#2f4a6b", bath: "#1f7a6d", flow: "#8a5a2b", watch: "#d98a00", check: "#c62828" } as const;
 
@@ -211,6 +213,18 @@ export function TrendChart({ trend, onSelect }: { trend: Trend; onSelect?: (p: T
           {xTicks.map((t) => (
             <text key={t} x={x(t)} y={AXIS_Y} textAnchor="middle" fontSize={11} fill="#78716c">{md.format(new Date(t))}</text>
           ))}
+
+          {/* カーソルの日付の札：日付の軸の上をカーソルと一緒に動く（参照中の記録は右上の欄と点線。こちらは目安） */}
+          {cursorT !== null && (() => {
+            const cx = Math.min(Math.max(x(cursorT), M.left + CHIP_W / 2), W - M.right - CHIP_W / 2);
+            return (
+              <g pointerEvents="none">
+                <line x1={x(cursorT)} x2={x(cursorT)} y1={PANELS.flow.top + PANELS.flow.h} y2={AXIS_Y - 15} stroke="#a8a29e" strokeWidth={1} />
+                <rect x={cx - CHIP_W / 2} y={AXIS_Y - 15} width={CHIP_W} height={22} rx={11} fill="#4a3a2c" />
+                <text x={cx} y={AXIS_Y + 1} textAnchor="middle" fontSize={12} fill="#fff">{mdwhm.format(new Date(cursorT))}</text>
+              </g>
+            );
+          })()}
         </svg>
       </div>
 
